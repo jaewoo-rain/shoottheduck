@@ -62,7 +62,7 @@ public class Duck {
      */
     private BufferedImage duckImg;
     
-    
+    public int hitPoint;
     /**
      * Creates new duck.
      * 
@@ -81,9 +81,10 @@ public class Duck {
         
         this.score = score;
         
-        this.duckImg = duckImg;        
+        this.duckImg = duckImg;
+
     }
-    
+
     
     /**
      * Move the duck.
