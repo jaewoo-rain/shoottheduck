@@ -9,8 +9,5 @@
         <module name="shoottheduck" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="shoottheduck" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

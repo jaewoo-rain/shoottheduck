@@ -5,20 +5,12 @@ import java.awt.image.BufferedImage;
 
 /**
  * The duck class.
-<<<<<<< HEAD
- * 
-=======
  *
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
  * @author www.gametutorial.net
  */
 
 public class Duck {
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * How much time must pass in order to create a new duck?
      */
@@ -27,11 +19,7 @@ public class Duck {
      * Last time when the duck was created.
      */
     public static long lastDuckTime = 0;
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * kr.jbnu.se.std.Duck lines.
      * Where is starting location for the duck?
@@ -39,30 +27,17 @@ public class Duck {
      * How many points is a duck worth?
      */
     public static int[][] duckLines = {
-<<<<<<< HEAD
-                                       {Framework.frameWidth, (int)(Framework.frameHeight * 0.60), -2, 20},
-                                       {Framework.frameWidth, (int)(Framework.frameHeight * 0.65), -3, 30},
-                                       {Framework.frameWidth, (int)(Framework.frameHeight * 0.70), -4, 40},
-                                       {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -5, 50}
-                                      };
-=======
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.60), -2, 20},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.65), -3, 30},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.70), -4, 40},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -5, 50}
     };
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * Indicate which is next duck line.
      */
     public static int nextDuckLines = 0;
-<<<<<<< HEAD
-    
-    
-=======
 
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * X coordinate of the duck.
      */
@@ -71,46 +46,26 @@ public class Duck {
      * Y coordinate of the duck.
      */
     public int y;
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * How fast the duck should move? And to which direction?
      */
     private int speed;
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * How many points this duck is worth?
      */
     public int score;
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * kr.jbnu.se.std.Duck image.
      */
     private BufferedImage duckImg;
-<<<<<<< HEAD
-    
-    public int hitPoint;
-    /**
-     * Creates new duck.
-     * 
-=======
 
 
     /**
      * Creates new duck.
      *
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
      * @param x Starting x coordinate.
      * @param y Starting y coordinate.
      * @param speed The speed of this duck.
@@ -121,18 +76,6 @@ public class Duck {
     {
         this.x = x;
         this.y = y;
-<<<<<<< HEAD
-        
-        this.speed = speed;
-        
-        this.score = score;
-        
-        this.duckImg = duckImg;
-
-    }
-
-    
-=======
 
         this.speed = speed;
 
@@ -142,7 +85,6 @@ public class Duck {
     }
 
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * Move the duck.
      */
@@ -150,11 +92,7 @@ public class Duck {
     {
         x += speed;
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     /**
      * Draw the duck to the screen.
      * @param g2d Graphics2D
@@ -163,8 +101,4 @@ public class Duck {
     {
         g2d.drawImage(duckImg, x, y, null);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
