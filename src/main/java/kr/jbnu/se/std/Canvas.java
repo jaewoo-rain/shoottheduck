@@ -18,6 +18,7 @@ import javax.swing.JPanel;
  *
  * @author www.gametutorial.net
  */
+// jaewoo
 
 public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 
