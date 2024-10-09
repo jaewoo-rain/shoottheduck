@@ -1,5 +1,8 @@
 package kr.jbnu.se.std;
+<<<<<<< HEAD
 // 이 클래스는 'kr.jbnu.se.std' 패키지에 포함됩니다. 패키지는 클래스의 위치를 정의합니다.
+=======
+>>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -13,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+<<<<<<< HEAD
 // 필요한 여러 Java 라이브러리와 클래스를 가져옵니다.
 // Color: 색상을 정의합니다.
 // Cursor: 커서를 정의합니다.
@@ -54,10 +58,40 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
         // If you will draw your own mouse cursor or if you just want that mouse cursor disapear
         // insert "true" into if condition and mouse cursor will be removed.
         if(true) {
+=======
+
+/**
+ * Create a JPanel on which we draw and listen for keyboard and mouse events.
+ *
+ * @author www.gametutorial.net
+ */
+
+public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
+
+    // Keyboard states - Here are stored states for keyboard keys - is it down or not.
+    private static boolean[] keyboardState = new boolean[525];
+
+    // Mouse states - Here are stored states for mouse keys - is it down or not.
+    private static boolean[] mouseState = new boolean[3];
+
+
+    public Canvas()
+    {
+        // We use double buffer to draw on the screen.
+        this.setDoubleBuffered(true);
+        this.setFocusable(true);
+        this.setBackground(Color.black);
+
+        // If you will draw your own mouse cursor or if you just want that mouse cursor disapear, 
+        // insert "true" into if condition and mouse cursor will be removed.
+        if(true)
+        {
+>>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
             BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
             Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(blankCursorImg, new Point(0, 0), null);
             this.setCursor(blankCursor);
         }
+<<<<<<< HEAD
         // 이 조건문은 마우스 커서를 숨기거나 사용자 정의 커서를 사용할 때 사용됩니다.
         // BufferedImage를 이용해 빈 이미지를 생성하여 커서를 빈 상태로 설정하고, Toolkit을 통해 커서를 빈 이미지로 변경합니다.
         // `this.setCursor(blankCursor)`로 마우스 커서를 빈 커서로 설정합니다.
@@ -84,6 +118,27 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     // Graphics2D는 Graphics를 상속받음
     // paintComponent는 이전의 그림을 지우고 다시 그리는 기본적인 방법
     // -> 크기가 변동되는등의 변화시 이전의 그림을 지우고 다시 그리도록 구성된 방법
+=======
+
+        // Adds the keyboard listener to JPanel to receive key events from this component.
+        this.addKeyListener(this);
+        // Adds the mouse listener to JPanel to receive mouse events from this component.
+        this.addMouseListener(this);
+    }
+
+
+    // This method is overridden in kr.jbnu.se.std.Framework.java and is used for drawing to the screen.
+    public abstract void Draw(Graphics2D g2d);
+
+    @Override
+    public void paintComponent(Graphics g)
+    {
+        Graphics2D g2d = (Graphics2D)g;
+        super.paintComponent(g2d);
+        Draw(g2d);
+    }
+
+>>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
 
     // Keyboard
     /**
@@ -92,6 +147,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
      * @param key Number of key for which you want to check the state.
      * @return true if the key is down, false if the key is not down.
      */
+<<<<<<< HEAD
     public static boolean keyboardKeyState(int key) {
         return keyboardState[key];
     }
@@ -125,6 +181,32 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     public abstract void keyReleasedFramework(KeyEvent e);
     // 상속받은 클래스에서 구현해야 하는 추상 메소드로, 키가 놓였을 때 추가 동작을 정의할 수 있습니다.
     // keyReleased에서 수행하지 않은 처리들을 하기위해 작성, 유연성을 높이기 위해서
+=======
+    public static boolean keyboardKeyState(int key)
+    {
+        return keyboardState[key];
+    }
+
+    // Methods of the keyboard listener.
+    @Override
+    public void keyPressed(KeyEvent e)
+    {
+        keyboardState[e.getKeyCode()] = true;
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+        keyboardState[e.getKeyCode()] = false;
+        keyReleasedFramework(e);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) { }
+
+    public abstract void keyReleasedFramework(KeyEvent e);
+
+>>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
 
     // Mouse
     /**
@@ -135,6 +217,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
      * @param button Number of mouse button for which you want to check the state.
      * @return true if the button is down, false if the button is not down.
      */
+<<<<<<< HEAD
     // 키 상태 조회
     public static boolean mouseButtonState(int button) {
         return mouseState[button - 1];
@@ -196,3 +279,44 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     }
     // 마우스가 컴포넌트 밖으로 나갔을 때 호출되지만, 여기서는 빈 상태로 남겨져 있습니다.
 }
+=======
+    public static boolean mouseButtonState(int button)
+    {
+        return mouseState[button - 1];
+    }
+
+    // Sets mouse key status.
+    private void mouseKeyStatus(MouseEvent e, boolean status)
+    {
+        if(e.getButton() == MouseEvent.BUTTON1)
+            mouseState[0] = status;
+        else if(e.getButton() == MouseEvent.BUTTON2)
+            mouseState[1] = status;
+        else if(e.getButton() == MouseEvent.BUTTON3)
+            mouseState[2] = status;
+    }
+
+    // Methods of the mouse listener.
+    @Override
+    public void mousePressed(MouseEvent e)
+    {
+        mouseKeyStatus(e, true);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e)
+    {
+        mouseKeyStatus(e, false);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) { }
+
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+
+    @Override
+    public void mouseExited(MouseEvent e) { }
+
+}
+>>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
