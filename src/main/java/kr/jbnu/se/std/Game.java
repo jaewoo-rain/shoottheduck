@@ -41,8 +41,6 @@ public class Game {
     /**
      * How many ducks leave the screen alive?
      */
-    private int runawayDucks;
-
     /**
      * How many ducks the player killed?
      */
@@ -131,8 +129,6 @@ public class Game {
         font = new Font("monospaced", Font.BOLD, 18);
 
         ducks = new ArrayList<Duck>();
-
-        runawayDucks = 0;
         killedDucks = 0;
         score = 0;
         shoots = 0;
@@ -181,8 +177,6 @@ public class Game {
 
         // We set last duckt time to zero.
         Duck.lastDuckTime = 0;
-
-        runawayDucks = 0;
         killedDucks = 0;
         score = 0;
         shoots = 0;
@@ -226,7 +220,6 @@ public class Game {
             if(ducks.get(i).x < 0 - duckImg.getWidth())
             {
                 ducks.remove(i);
-                runawayDucks++;
                 playerhp--;
                 consecutivekills=0;
             }
