@@ -5,29 +5,17 @@ import javax.swing.SwingUtilities;
 
 /**
  * Creates frame and set its properties.
-<<<<<<< HEAD
- * 
-=======
  *
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
  * @author www.gametutorial.net
  */
 
 public class Window extends JFrame{
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
     private Window()
     {
         // Sets the title for this frame.
         this.setTitle("Shoot the duck");
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
         // Sets size of the frame.
         if(false) // Full screen mode
         {
@@ -45,21 +33,12 @@ public class Window extends JFrame{
             // So that frame cannot be resizable by the user.
             this.setResizable(false);
         }
-<<<<<<< HEAD
-        
-        // Exit the application when user close frame.
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        this.setContentPane(new Framework());
-        
-=======
 
         // Exit the application when user close frame.
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setContentPane(new Framework());
 
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
         this.setVisible(true);
     }
 
@@ -73,8 +52,4 @@ public class Window extends JFrame{
             }
         });
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a369ebdd66c2b3e8ce0c24290fcdb907423b67dd
