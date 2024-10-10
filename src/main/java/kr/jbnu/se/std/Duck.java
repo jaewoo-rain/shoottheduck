@@ -27,7 +27,7 @@ public class Duck {
      * How many points is a duck worth?
      */
     public static int[][] duckLines = {
-            {0, (int)(Framework.frameHeight * 0.60), 2, 20},
+            {Framework.frameWidth, (int)(Framework.frameHeight * 0.60), -2, 20},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.65), -3, 30},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.70), -4, 40},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -5, 50}

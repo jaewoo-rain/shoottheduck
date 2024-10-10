@@ -9,9 +9,6 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 
 
@@ -22,7 +19,7 @@ import javax.sound.sampled.Clip;
  */
 // jaewoo
 
-public abstract class Canvas extends JPanel implements KeyListener, MouseListener, ActionListener {
+public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 
     // Keyboard states - Here are stored states for keyboard keys - is it down or not.
     private static boolean[] keyboardState = new boolean[525];
