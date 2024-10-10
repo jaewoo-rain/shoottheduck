@@ -6,12 +6,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
+
 
 /**
  * Create a JPanel on which we draw and listen for keyboard and mouse events.
@@ -20,13 +22,14 @@ import javax.swing.JPanel;
  */
 // jaewoo
 
-public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
+public abstract class Canvas extends JPanel implements KeyListener, MouseListener, ActionListener {
 
     // Keyboard states - Here are stored states for keyboard keys - is it down or not.
     private static boolean[] keyboardState = new boolean[525];
 
     // Mouse states - Here are stored states for mouse keys - is it down or not.
     private static boolean[] mouseState = new boolean[3];
+
 
 
     public Canvas()

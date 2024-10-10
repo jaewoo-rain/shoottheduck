@@ -96,8 +96,13 @@ public class Game {
 
     private int playerhp=200;
 
+    /**
+     * 10 consecutivekills, heal
+     */
     private int consecutivekills;
-
+    /**
+     * check hill is true?
+     */
     private boolean hpadd =false;
 
 
