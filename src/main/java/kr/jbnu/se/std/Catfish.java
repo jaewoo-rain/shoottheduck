@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
  * @author www.gametutorial.net
  */
 
+/**
+ *  plan : add to catfish img
+ */
 public class Catfish {
 
     /**
