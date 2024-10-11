@@ -76,6 +76,8 @@ public class Framework extends Canvas {
      */
     private BufferedImage shootTheDuckMenuImg;
 
+    private Audio backgroundMusic;
+
 
     public Framework ()
     {
@@ -87,6 +89,7 @@ public class Framework extends Canvas {
         Thread gameThread = new Thread() {
             @Override
             public void run(){
+                backgroundMusic = new Audio("src/main/resources/audio/GameSound.wav", true);
                 GameLoop();
             }
         };
@@ -113,6 +116,7 @@ public class Framework extends Canvas {
         {
             URL shootTheDuckMenuImgUrl = this.getClass().getResource("/images/menu.jpg");
             shootTheDuckMenuImg = ImageIO.read(shootTheDuckMenuImgUrl);
+            backgroundMusic.start();
         }
         catch (IOException ex) {
             Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +144,7 @@ public class Framework extends Canvas {
                     gameTime += System.nanoTime() - lastTime;
 
                     game.UpdateGame(gameTime, mousePosition());
-
+                    backgroundMusic.stop();
                     lastTime = System.nanoTime();
                     break;
                 case GAMEOVER:

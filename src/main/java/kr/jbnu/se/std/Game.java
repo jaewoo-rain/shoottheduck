@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
+
 /**
  * Actual game.
  *
@@ -96,10 +97,17 @@ public class Game {
 
     private int playerhp=200;
 
+    /**
+     * 10 consecutivekills, heal
+     */
     private int consecutivekills;
-
+    /**
+     * check hill is true?
+     */
     private boolean hpadd =false;
 
+    private Audio hitSound;
+    private Audio background;
 
     public Game()
     {
@@ -108,6 +116,9 @@ public class Game {
         Thread threadForInitGame = new Thread() {
             @Override
             public void run(){
+                hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
+                background = new Audio("src/main/resources/audio/background.wav", true);
+
                 // Sets variables and objects for the game.
                 Initialize();
                 // Load game files (images, sounds, ...)
@@ -127,6 +138,7 @@ public class Game {
     {
         random = new Random();
         font = new Font("monospaced", Font.BOLD, 18);
+        background.start();
 
         ducks = new ArrayList<Duck>();
         killedDucks = 0;
@@ -160,6 +172,8 @@ public class Game {
             sightImg = ImageIO.read(sightImgUrl);
             sightImgMiddleWidth = sightImg.getWidth() / 2;
             sightImgMiddleHeight = sightImg.getHeight() / 2;
+
+
         }
         catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,6 +255,7 @@ public class Game {
                             new Rectangle(ducks.get(i).x + 30, ducks.get(i).y + 30, 88, 25).contains(mousePosition))
                     {
                         killedDucks++;
+                        hitSound.start();
                         score += ducks.get(i).score;
                         consecutivekills++;
 
