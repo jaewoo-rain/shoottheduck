@@ -235,19 +235,19 @@ public class Game {
         }
 
         // Update all of the ducks.
-//        for(int i = 0; i < ducks.size(); i++)
-//        {
-//            // Move the duck.
-//            ducks.get(i).Update();
-//
-//            // Checks if the duck leaves the screen and remove it if it does.
-//            if(ducks.get(i).x < 0 - duckImg.getWidth())
-//            {
-//                ducks.remove(i);
-//                playerhp--;
-//                consecutivekills=0;
-//            }
-//        }
+        for(int i = 0; i < ducks.size(); i++)
+        {
+            // Move the duck.
+            ducks.get(i).Update();
+
+            // Checks if the duck leaves the screen and remove it if it does.
+            if(ducks.get(i).x < 0 - duckImg.getWidth())
+            {
+                ducks.remove(i);
+                playerhp--;
+                consecutivekills=0;
+            }
+        }
 
         for(int i = 0; i < reverseDuck.size(); i++)
         {
