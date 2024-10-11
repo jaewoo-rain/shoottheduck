@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 
 /**
@@ -110,6 +111,10 @@ public class Game {
 
     private Audio hitSound;
     private Audio background;
+
+    private boolean isPaused;
+    private JButton startButton;
+    private JButton resetButton;
 
     public Game()
     {
@@ -217,6 +222,9 @@ public class Game {
      */
     public void UpdateGame(long gameTime, Point mousePosition)
     {
+        if (Framework.gameState == Framework.GameState.PAUSED)
+            return; // 일시정지상태
+
         // Creates a new duck, if it's the time, and add it to the array list.
         if(System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks)
         {
@@ -361,7 +369,6 @@ public class Game {
         g2d.drawString("SCORE: " + score, 440, 21);
 
     }
-
 
     /**
      * Draw the game over screen.

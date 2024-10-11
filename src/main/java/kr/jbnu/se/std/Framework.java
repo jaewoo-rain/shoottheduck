@@ -54,7 +54,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED}
     /**
      * Current state of the game
      */
@@ -213,6 +213,11 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+            case PAUSED:
+                game.Draw(g2d, mousePosition()); // 현재 게임 화면 보여줌
+                g2d.setColor(Color.RED);
+                g2d.drawString("PAUSED", frameWidth / 2, frameHeight / 2);
+                break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
                 break;
@@ -297,16 +302,27 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+            case PAUSED: // 일시정지
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    gameState = GameState.PLAYING;
+                }
+                break;
             case GAMEOVER:
+
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
-                else if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
+                if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
                     restartGame();
                 break;
             case PLAYING:
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    gameState = GameState.PAUSED; // 일시정지 들어가기
+                    System.out.println("멈춰");
+                }
+                break;
             case MAIN_MENU:
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-                    System.exit(0);
+//                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+//                    System.exit(0);
                 break;
         }
     }
