@@ -38,6 +38,7 @@ public class Game {
      * Array list of the ducks.
      */
     private ArrayList<Duck> ducks;
+    private ArrayList<Duck> reverseDuck;
 
     /**
      * How many ducks leave the screen alive?
@@ -80,6 +81,7 @@ public class Game {
      * kr.jbnu.se.std.Duck image.
      */
     private BufferedImage duckImg;
+    private BufferedImage reverseDuckImg;
 
     /**
      * Shotgun sight image.
@@ -141,6 +143,7 @@ public class Game {
         background.start();
 
         ducks = new ArrayList<Duck>();
+        reverseDuck = new ArrayList<Duck>();
         killedDucks = 0;
         score = 0;
         shoots = 0;
@@ -168,6 +171,9 @@ public class Game {
             URL duckImgUrl = this.getClass().getResource("/images/duck.png");
             duckImg = ImageIO.read(duckImgUrl);
 
+            URL reverseDuckUrl = this.getClass().getResource("/images/reverseDuck.png");
+            reverseDuckImg = ImageIO.read(reverseDuckUrl);
+
             URL sightImgUrl = this.getClass().getResource("/images/sight.png");
             sightImg = ImageIO.read(sightImgUrl);
             sightImgMiddleWidth = sightImg.getWidth() / 2;
@@ -188,6 +194,7 @@ public class Game {
     {
         // Removes all of the ducks from this list.
         ducks.clear();
+        reverseDuck.clear();
 
         // We set last duckt time to zero.
         Duck.lastDuckTime = 0;
@@ -215,25 +222,42 @@ public class Game {
         {
             // Here we create new duck and add it to the array list.
             ducks.add(new Duck(Duck.duckLines[Duck.nextDuckLines][0] + random.nextInt(200), Duck.duckLines[Duck.nextDuckLines][1], Duck.duckLines[Duck.nextDuckLines][2], Duck.duckLines[Duck.nextDuckLines][3], duckImg));
+            reverseDuck.add(new Duck(Duck.reverseDuckLines[Duck.nextDuckLines][0] - random.nextInt(200), Duck.reverseDuckLines[Duck.nextDuckLines][1], Duck.reverseDuckLines[Duck.nextDuckLines][2], Duck.reverseDuckLines[Duck.nextDuckLines][3], reverseDuckImg));
 
             // Here we increase nextDuckLines so that next duck will be created in next line.
             Duck.nextDuckLines++;
-            if(Duck.nextDuckLines >= Duck.duckLines.length)
+            if(Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length)
                 Duck.nextDuckLines = 0;
+
+
 
             Duck.lastDuckTime = System.nanoTime();
         }
 
         // Update all of the ducks.
-        for(int i = 0; i < ducks.size(); i++)
+//        for(int i = 0; i < ducks.size(); i++)
+//        {
+//            // Move the duck.
+//            ducks.get(i).Update();
+//
+//            // Checks if the duck leaves the screen and remove it if it does.
+//            if(ducks.get(i).x < 0 - duckImg.getWidth())
+//            {
+//                ducks.remove(i);
+//                playerhp--;
+//                consecutivekills=0;
+//            }
+//        }
+
+        for(int i = 0; i < reverseDuck.size(); i++)
         {
             // Move the duck.
-            ducks.get(i).Update();
+            reverseDuck.get(i).Update();
 
             // Checks if the duck leaves the screen and remove it if it does.
-            if(ducks.get(i).x < 0 - duckImg.getWidth())
+            if(reverseDuck.get(i).x > Framework.frameWidth + reverseDuckImg.getWidth())
             {
-                ducks.remove(i);
+                reverseDuck.remove(i);
                 playerhp--;
                 consecutivekills=0;
             }
@@ -267,14 +291,33 @@ public class Game {
                     }
                 }
 
+                for(int i = 0; i < reverseDuck.size(); i++)
+                {
+                    // We check, if the mouse was over ducks head or body, when player has shot.
+                    if(new Rectangle(reverseDuck.get(i).x + 18, reverseDuck.get(i).y     , 27, 30).contains(mousePosition) ||
+                            new Rectangle(reverseDuck.get(i).x + 30, reverseDuck.get(i).y + 30, 88, 25).contains(mousePosition))
+                    {
+                        killedDucks++;
+                        hitSound.start();
+                        score += reverseDuck.get(i).score;
+                        consecutivekills++;
+
+                        // Remove the duck from the array list.
+                        reverseDuck.remove(i);
+
+                        // We found the duck that player shoot so we can leave the for loop.
+                        break;
+                    }
+                }
+
                 lastTimeShoot = System.nanoTime();
             }
         }
-        if(consecutivekills %3==0&&consecutivekills != 0 && !hpadd) {
+        if(consecutivekills %5==0&&consecutivekills != 0 && !hpadd) {
             playerhp++;
             hpadd = true;
         }
-        if (consecutivekills % 3 != 0) {
+        if (consecutivekills % 5 != 0) {
             hpadd = false;
         }
         // When 200 ducks runaway, the game ends.
@@ -298,6 +341,11 @@ public class Game {
         for(int i = 0; i < ducks.size(); i++)
         {
             ducks.get(i).Draw(g2d);
+        }
+
+        for(int i = 0; i < reverseDuck.size(); i++)
+        {
+            reverseDuck.get(i).Draw(g2d);
         }
 
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
