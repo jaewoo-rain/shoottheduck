@@ -30,7 +30,12 @@ public class Duck {
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.60), -2, 20},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.65), -3, 30},
             {Framework.frameWidth, (int)(Framework.frameHeight * 0.70), -4, 40},
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -5, 50}
+            {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -5, 50},
+
+            {0, (int)(Framework.frameHeight * 0.60), 2, 20},
+            {0, (int)(Framework.frameHeight * 0.65), 3, 30},
+            {0, (int)(Framework.frameHeight * 0.70), 4, 40},
+            {0, (int)(Framework.frameHeight * 0.78), 5, 50}
     };
     /**
      * Indicate which is next duck line.
