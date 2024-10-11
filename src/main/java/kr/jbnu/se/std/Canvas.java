@@ -6,18 +6,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+
+
 
 /**
  * Create a JPanel on which we draw and listen for keyboard and mouse events.
  *
  * @author www.gametutorial.net
  */
+// jaewoo
 
 public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 
@@ -28,6 +28,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     private static boolean[] mouseState = new boolean[3];
 
 
+
     public Canvas()
     {
         // We use double buffer to draw on the screen.
@@ -35,7 +36,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
         this.setFocusable(true);
         this.setBackground(Color.black);
 
-        // If you will draw your own mouse cursor or if you just want that mouse cursor disapear, 
+        // If you will draw your own mouse cursor or if you just want that mouse cursor disapear,
         // insert "true" into if condition and mouse cursor will be removed.
         if(true)
         {

@@ -255,11 +255,11 @@ public class Game {
                 lastTimeShoot = System.nanoTime();
             }
         }
-        if(consecutivekills %3==0&&consecutivekills != 0 && !hpadd) {
+        if(consecutivekills %10==0&&consecutivekills != 0 && !hpadd) {
             playerhp++;
             hpadd = true;
         }
-        if (consecutivekills % 3 != 0) {
+        if (consecutivekills % 10 != 0) {
             hpadd = false;
         }
         // When 200 ducks runaway, the game ends.
