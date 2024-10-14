@@ -47,12 +47,12 @@ public class Game {
     /**
      * How many ducks the player killed?
      */
-    private int killedDucks;
+    private static int killedDucks;
 
     /**
      * For each killed duck, the player gets points.
      */
-    private int score;
+    private static int score;
 
     /**
      * How many times a player is shot?
@@ -98,12 +98,12 @@ public class Game {
      */
     private int sightImgMiddleHeight;
 
-    private int playerhp=200;
+    private static int playerhp=200;
 
     /**
      * 10 consecutivekills, heal
      */
-    private int consecutivekills;
+    private static int consecutivekills;
     /**
      * check hill is true?
      */
