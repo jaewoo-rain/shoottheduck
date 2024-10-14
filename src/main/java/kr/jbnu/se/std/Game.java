@@ -103,7 +103,7 @@ public class Game {
     /**
      * 10 consecutivekills, heal
      */
-    private static int consecutivekills;
+    private int consecutivekills;
     /**
      * check hill is true?
      */
@@ -223,8 +223,10 @@ public class Game {
      */
     public void UpdateGame(long gameTime, Point mousePosition)
     {
+
         if (Framework.gameState == Framework.GameState.PAUSED)
             return; // 일시정지상
+
 
         // Creates a new duck, if it's the time, and add it to the array list.
         if(System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks)
@@ -333,10 +335,14 @@ public class Game {
         if(playerhp<=0)
             Framework.gameState = Framework.GameState.GAMEOVER;
     }
-    public int getkillducks(){
+
+    /**
+     * return killedDucks score;
+     * @return
+     */
+    public int setkillducks(){
         return killedDucks;
     }
-
 
 
     /**
