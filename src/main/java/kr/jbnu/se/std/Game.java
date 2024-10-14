@@ -116,6 +116,7 @@ public class Game {
     private JButton startButton;
     private JButton resetButton;
 
+
     public Game()
     {
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
@@ -223,7 +224,7 @@ public class Game {
     public void UpdateGame(long gameTime, Point mousePosition)
     {
         if (Framework.gameState == Framework.GameState.PAUSED)
-            return; // 일시정지상태
+            return; // 일시정지상
 
         // Creates a new duck, if it's the time, and add it to the array list.
         if(System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks)
@@ -331,6 +332,9 @@ public class Game {
         // When 200 ducks runaway, the game ends.
         if(playerhp<=0)
             Framework.gameState = Framework.GameState.GAMEOVER;
+    }
+    public int getkillducks(){
+        return killedDucks;
     }
 
 

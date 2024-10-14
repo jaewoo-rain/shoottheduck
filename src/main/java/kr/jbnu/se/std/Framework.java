@@ -69,8 +69,12 @@ public class Framework extends Canvas {
 
     // The actual game
     private Game game;
+    private int killducks;
 
-
+    private void GetKillduck(int killducks){
+        game = new Game();
+        this.killducks = game.getkillducks();
+    }
     /**
      * Image for menu.
      */
@@ -220,6 +224,7 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
+
                 break;
             case GAMEOVER:
                 game.DrawGameOver(g2d, mousePosition());
@@ -343,4 +348,5 @@ public class Framework extends Canvas {
                 break;
         }
     }
+
 }
