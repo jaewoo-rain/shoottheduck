@@ -78,6 +78,11 @@ public class Framework extends Canvas {
 
     private Audio backgroundMusic;
 
+    public static enum Gamemode{normal, boss, timeattack}
+
+    public static Gamemode gamemode;
+
+
 
     public Framework ()
     {
@@ -228,7 +233,9 @@ public class Framework extends Canvas {
                 g2d.drawImage(shootTheDuckMenuImg, 0, 0, frameWidth, frameHeight, null);
                 g2d.drawString("Use left mouse button to shot the duck.", frameWidth / 2 - 83, (int)(frameHeight * 0.65));
                 g2d.drawString("Click with left mouse button to start the game.", frameWidth / 2 - 100, (int)(frameHeight * 0.67));
-                g2d.drawString("Press ESC any time to exit the game.", frameWidth / 2 - 75, (int)(frameHeight * 0.70));
+                g2d.drawString("Press 1 to select normal mode.", frameWidth / 2 - 75, (int)(frameHeight * 0.70));
+                g2d.drawString("Press 2 to select boss mode.", frameWidth / 2 - 75, (int)(frameHeight * 0.73));
+                g2d.drawString("Press 3 to select timeattack mode.", frameWidth / 2 - 75, (int)(frameHeight * 0.76));
                 g2d.setColor(Color.white);
                 g2d.drawString("WWW.GAMETUTORIAL.NET", 7, frameHeight - 5);
                 break;
@@ -251,7 +258,15 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game = new Game();
+        if (gamemode == Gamemode.normal) {
+            game = new Game();
+        } else if (gamemode == Gamemode.boss) {
+            game = new Boss();
+        } else if (gamemode == Gamemode.timeattack) {
+            game = new Timeattack();
+        }
+
+
     }
 
     /**
@@ -262,6 +277,14 @@ public class Framework extends Canvas {
         // We set gameTime to zero and lastTime to current time for later calculations.
         gameTime = 0;
         lastTime = System.nanoTime();
+
+        if (gamemode == Gamemode.normal) {
+            game = new Game();
+        } else if (gamemode == Gamemode.boss) {
+            game = new Boss();
+        } else if (gamemode == Gamemode.timeattack) {
+            game = new Timeattack();
+        }
 
         game.RestartGame();
 
@@ -321,8 +344,20 @@ public class Framework extends Canvas {
                 }
                 break;
             case MAIN_MENU:
-//                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-//                    System.exit(0);
+                if (e.getKeyCode() == KeyEvent.VK_1) {
+                    gamemode = Gamemode.normal;
+                    newGame();
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_2) {
+                    gamemode = Gamemode.boss;
+                    newGame();
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_3) {
+                    gamemode = Gamemode.timeattack;
+                    newGame();
+                }else if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                }
                 break;
         }
     }
