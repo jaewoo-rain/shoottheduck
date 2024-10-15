@@ -47,12 +47,12 @@ public class Game {
     /**
      * How many ducks the player killed?
      */
-    private int killedDucks;
+    private static int killedDucks;
 
     /**
      * For each killed duck, the player gets points.
      */
-    private int score;
+    private static int score;
 
     /**
      * How many times a player is shot?
@@ -98,7 +98,7 @@ public class Game {
      */
     private int sightImgMiddleHeight;
 
-    private int playerhp=200;
+    private static int playerhp=200;
 
     /**
      * 10 consecutivekills, heal
@@ -115,6 +115,7 @@ public class Game {
     private boolean isPaused;
     private JButton startButton;
     private JButton resetButton;
+
 
     public Game()
     {
@@ -222,8 +223,10 @@ public class Game {
      */
     public void UpdateGame(long gameTime, Point mousePosition)
     {
+
         if (Framework.gameState == Framework.GameState.PAUSED)
-            return; // 일시정지상태
+            return; // 일시정지상
+
 
         // Creates a new duck, if it's the time, and add it to the array list.
         if(System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks)
@@ -333,6 +336,13 @@ public class Game {
             Framework.gameState = Framework.GameState.GAMEOVER;
     }
 
+    /**
+     * return killedDucks score;
+     * @return
+     */
+    public int setkillducks(){
+        return killedDucks;
+    }
 
 
     /**
