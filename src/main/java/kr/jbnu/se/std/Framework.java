@@ -54,7 +54,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, STAGE}
     /**
      * Current state of the game
      */
@@ -69,12 +69,10 @@ public class Framework extends Canvas {
 
     // The actual game
     private Game game;
-    private int killducks;
 
-    private void GetKillduck(int killducks){
-        game = new Game();
-        this.killducks = game.getkillducks();
-    }
+    private int level;
+
+    private int killducks;
     /**
      * Image for menu.
      */
@@ -82,6 +80,16 @@ public class Framework extends Canvas {
 
     private Audio backgroundMusic;
 
+    /**
+     * getkillDucks get Game class's killduks score;
+     */
+    private void getkillDucks(){
+        if(game != null){
+            this.killducks = game.setkillducks();
+        }else {
+            System.out.println("Game is null!");
+        }
+    }
 
     public Framework ()
     {
@@ -145,11 +153,15 @@ public class Framework extends Canvas {
             switch (gameState)
             {
                 case PLAYING:
+                    getkillDucks();
                     gameTime += System.nanoTime() - lastTime;
 
                     game.UpdateGame(gameTime, mousePosition());
                     backgroundMusic.stop();
                     lastTime = System.nanoTime();
+                    if(killducks >= level *10){
+                        Levelup();
+                    }
                     break;
                 case GAMEOVER:
                     //...
@@ -224,7 +236,8 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
-
+                g2d.setColor(Color.GREEN);
+                g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
                 break;
             case GAMEOVER:
                 game.DrawGameOver(g2d, mousePosition());
@@ -253,6 +266,7 @@ public class Framework extends Canvas {
     private void newGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
+        level = 1;
         gameTime = 0;
         lastTime = System.nanoTime();
 
@@ -265,6 +279,7 @@ public class Framework extends Canvas {
     private void restartGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
+        level = 1;
         gameTime = 0;
         lastTime = System.nanoTime();
 
@@ -298,6 +313,17 @@ public class Framework extends Canvas {
     }
 
     /**
+     * Levelup is changing a game stage
+     */
+    private void Levelup(){
+        level++;
+
+        Duck.timeBetweenDucks = Duck.timeBetweenDucks - 100000000L;
+        Duck.lastDuckTime += 1;
+
+        backgroundMusic.start();
+    }
+    /**
      * This method is called when keyboard key is released.
      *
      * @param e KeyEvent
@@ -307,13 +333,13 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+
             case PAUSED: // 일시정지
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     gameState = GameState.PLAYING;
                 }
                 break;
             case GAMEOVER:
-
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
                 if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -326,8 +352,8 @@ public class Framework extends Canvas {
                 }
                 break;
             case MAIN_MENU:
-//                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-//                    System.exit(0);
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                    System.exit(0);
                 break;
         }
     }
@@ -348,5 +374,4 @@ public class Framework extends Canvas {
                 break;
         }
     }
-
 }
