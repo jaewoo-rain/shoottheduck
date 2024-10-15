@@ -25,6 +25,8 @@ public class Framework extends Canvas {
      * Width of the frame.
      */
     public static int frameWidth;
+
+    public static int previouslevel=1;
     /**
      * Height of the frame.
      */
@@ -55,7 +57,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, STAGE}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, BOSS, TIMEATTACK}
     /**
      * Current state of the game
      */
@@ -70,7 +72,7 @@ public class Framework extends Canvas {
 
     // The actual game
     private Game game;
-
+    private boolean normalmode = false;
     private int level;
 
     private int killducks;
@@ -161,8 +163,10 @@ public class Framework extends Canvas {
                     game.UpdateGame(gameTime, mousePosition());
                     backgroundMusic.stop();
                     lastTime = System.nanoTime();
-                    if(killducks >= level *10){
-                        Levelup();
+                    if(true == normalmode){
+                        if(killducks >= level *10){
+                            Levelup();
+                        }
                     }
                     break;
                 case GAMEOVER:
@@ -238,8 +242,11 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
-                g2d.setColor(Color.GREEN);
-                g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
+                if(normalmode == true){
+                    g2d.setColor(Color.GREEN);{
+                        g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
+                    }
+                }
                 break;
             case GAMEOVER:
                 game.DrawGameOver(g2d, mousePosition());
@@ -264,7 +271,17 @@ public class Framework extends Canvas {
 
     /**
      * Starts new game.
+     *
      */
+    private void continueGame()
+    {
+        // We set gameTime to zero and lastTime to current time for later calculations.
+        level = previouslevel;
+        gameTime = 0;
+        lastTime = System.nanoTime();
+
+        game = new Normal();
+    }
     private void newGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
@@ -272,7 +289,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game = new Game();
+        game = new Normal();
     }
     private void BossMode(){
         game=new Boss();
@@ -342,7 +359,6 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
-
             case PAUSED: // 일시정지
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     gameState = GameState.PLAYING;
@@ -361,14 +377,18 @@ public class Framework extends Canvas {
                 }
                 break;
             case MAIN_MENU:
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-                    System.exit(0);
-                else if(e.getKeyCode() == KeyEvent.VK_1)
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    System.exit(0);}
+                else if(e.getKeyCode() == KeyEvent.VK_0){
                     newGame();
-                else if(e.getKeyCode() == KeyEvent.VK_2)
-                    BossMode();
-                else if(e.getKeyCode() == KeyEvent.VK_3)
-                    Timeattack();
+                    normalmode = true;}
+                else if(e.getKeyCode() == KeyEvent.VK_1){
+                    continueGame();
+                    normalmode = true;}
+                else if(e.getKeyCode() == KeyEvent.VK_2){
+                    BossMode();}
+                else if(e.getKeyCode() == KeyEvent.VK_3){
+                    Timeattack();}
                 break;
         }
     }
