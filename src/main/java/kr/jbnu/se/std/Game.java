@@ -140,6 +140,7 @@ public class Game {
         background.start();
 
         ducks = new ArrayList<Duck>();
+        reverseDuck=new ArrayList<Duck>();
         killedDucks = 0;
         score = 0;
         shoots = 0;

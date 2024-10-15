@@ -367,15 +367,6 @@ public class Framework extends Canvas {
      *
      * @param e MouseEvent
      */
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
-        switch (gameState)
-        {
-            case MAIN_MENU:
-                if(e.getButton() == MouseEvent.BUTTON1)
-                    newGame();
-                break;
-        }
-    }
+
+
 }

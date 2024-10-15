@@ -19,14 +19,9 @@ public class Boss extends Game {
     private int x;
     private int speed;
 
-    @Override
-    protected void Initialize() {
-        super.Initialize();
-    }
 
     public Boss() {
         super();
-        Initialize();
         this.bossHp = 50;
         this.bossappearance = false;
         this.x=Framework.frameWidth-200;
@@ -42,6 +37,17 @@ public class Boss extends Game {
         }
 
     }
+    @Override
+    protected void Initialize() {
+        super.Initialize();
+        bossappearance = false;
+        bossHp = 50;
+        x=Framework.frameWidth-200;
+        speed= -2;
+
+    }
+
+    @Override
     public void RestartGame(){
         super.RestartGame();
         bossappearance = false;
@@ -54,6 +60,7 @@ public class Boss extends Game {
 
 
     public void UpdateGame(long gameTime, Point mousePosition) {
+        super.UpdateGame(gameTime, mousePosition);
         setBossappearance();
         {
 
@@ -65,9 +72,9 @@ public class Boss extends Game {
             }
             if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
                 if (System.nanoTime() - lastTimeShoot >= timeBetweenShots) {
-                    if (bossImg != null) {
-                        if(new Rectangle(x, Framework.frameHeight/2, bossImg.getWidth(),
-                                bossImg.getHeight()).contains(mousePosition)) {
+                    if (bossImg!=null || FlippedbossImg!=null) {
+                        if(new Rectangle(x, Framework.frameHeight/2, 200,
+                                188).contains(mousePosition)) {
                             bossHp --;
                             System.out.println(bossHp);
                         }
@@ -84,7 +91,6 @@ public class Boss extends Game {
             bossappearance = false;
             Framework.gameState = Framework.GameState.GAMEOVER;
         }
-        super.UpdateGame(gameTime, mousePosition);
 
     }
 
