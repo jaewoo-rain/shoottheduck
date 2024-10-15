@@ -110,7 +110,7 @@ public class Game {
     private boolean hpadd =false;
 
     private Audio hitSound;
-    private Audio background;
+    protected Audio background;
 
     private boolean isPaused;
     private JButton startButton;
@@ -212,6 +212,7 @@ public class Game {
         hpadd = false;
 
         lastTimeShoot = 0;
+        LoadContent();
     }
 
     /**
