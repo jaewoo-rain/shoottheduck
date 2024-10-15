@@ -14,6 +14,8 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.*;
+
 
 /**
  * Actual game.
@@ -37,6 +39,7 @@ public class Game {
      * Array list of the ducks.
      */
     private ArrayList<Duck> ducks;
+    private ArrayList<Duck> reverseDuck;
 
     /**
      * How many ducks leave the screen alive?
@@ -44,12 +47,12 @@ public class Game {
     /**
      * How many ducks the player killed?
      */
-    private int killedDucks;
+    private static int killedDucks;
 
     /**
      * For each killed duck, the player gets points.
      */
-    private int score;
+    private static int score;
 
     /**
      * How many times a player is shot?
@@ -79,6 +82,7 @@ public class Game {
      * kr.jbnu.se.std.Duck image.
      */
     private BufferedImage duckImg;
+    private BufferedImage reverseDuckImg;
 
     /**
      * Shotgun sight image.
@@ -94,11 +98,23 @@ public class Game {
      */
     private int sightImgMiddleHeight;
 
-    private int playerhp=200;
+    private static int playerhp=200;
 
-    private int consecutivekills;
-
+    /**
+     * 10 consecutivekills, heal
+     */
+    private static int consecutivekills;
+    /**
+     * check hill is true?
+     */
     private boolean hpadd =false;
+
+    private Audio hitSound;
+    private Audio background;
+
+    private boolean isPaused;
+    private JButton startButton;
+    private JButton resetButton;
 
 
     public Game()
@@ -108,6 +124,9 @@ public class Game {
         Thread threadForInitGame = new Thread() {
             @Override
             public void run(){
+                hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
+                background = new Audio("src/main/resources/audio/background.wav", true);
+
                 // Sets variables and objects for the game.
                 Initialize();
                 // Load game files (images, sounds, ...)
@@ -127,8 +146,10 @@ public class Game {
     {
         random = new Random();
         font = new Font("monospaced", Font.BOLD, 18);
+        background.start();
 
         ducks = new ArrayList<Duck>();
+        reverseDuck = new ArrayList<Duck>();
         killedDucks = 0;
         score = 0;
         shoots = 0;
@@ -156,10 +177,15 @@ public class Game {
             URL duckImgUrl = this.getClass().getResource("/images/duck.png");
             duckImg = ImageIO.read(duckImgUrl);
 
+            URL reverseDuckUrl = this.getClass().getResource("/images/reverseDuck.png");
+            reverseDuckImg = ImageIO.read(reverseDuckUrl);
+
             URL sightImgUrl = this.getClass().getResource("/images/sight.png");
             sightImg = ImageIO.read(sightImgUrl);
             sightImgMiddleWidth = sightImg.getWidth() / 2;
             sightImgMiddleHeight = sightImg.getHeight() / 2;
+
+
         }
         catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,6 +200,7 @@ public class Game {
     {
         // Removes all of the ducks from this list.
         ducks.clear();
+        reverseDuck.clear();
 
         // We set last duckt time to zero.
         Duck.lastDuckTime = 0;
@@ -196,16 +223,22 @@ public class Game {
      */
     public void UpdateGame(long gameTime, Point mousePosition)
     {
+        if (Framework.gameState == Framework.GameState.PAUSED)
+            return; // 일시정지상
+
         // Creates a new duck, if it's the time, and add it to the array list.
         if(System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks)
         {
             // Here we create new duck and add it to the array list.
             ducks.add(new Duck(Duck.duckLines[Duck.nextDuckLines][0] + random.nextInt(200), Duck.duckLines[Duck.nextDuckLines][1], Duck.duckLines[Duck.nextDuckLines][2], Duck.duckLines[Duck.nextDuckLines][3], duckImg));
+            reverseDuck.add(new Duck(Duck.reverseDuckLines[Duck.nextDuckLines][0] - random.nextInt(200), Duck.reverseDuckLines[Duck.nextDuckLines][1], Duck.reverseDuckLines[Duck.nextDuckLines][2], Duck.reverseDuckLines[Duck.nextDuckLines][3], reverseDuckImg));
 
             // Here we increase nextDuckLines so that next duck will be created in next line.
             Duck.nextDuckLines++;
-            if(Duck.nextDuckLines >= Duck.duckLines.length)
+            if(Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length)
                 Duck.nextDuckLines = 0;
+
+
 
             Duck.lastDuckTime = System.nanoTime();
         }
@@ -220,6 +253,20 @@ public class Game {
             if(ducks.get(i).x < 0 - duckImg.getWidth())
             {
                 ducks.remove(i);
+                playerhp--;
+                consecutivekills=0;
+            }
+        }
+
+        for(int i = 0; i < reverseDuck.size(); i++)
+        {
+            // Move the duck.
+            reverseDuck.get(i).Update();
+
+            // Checks if the duck leaves the screen and remove it if it does.
+            if(reverseDuck.get(i).x > Framework.frameWidth + reverseDuckImg.getWidth())
+            {
+                reverseDuck.remove(i);
                 playerhp--;
                 consecutivekills=0;
             }
@@ -241,6 +288,7 @@ public class Game {
                             new Rectangle(ducks.get(i).x + 30, ducks.get(i).y + 30, 88, 25).contains(mousePosition))
                     {
                         killedDucks++;
+                        hitSound.start();
                         score += ducks.get(i).score;
                         consecutivekills++;
 
@@ -252,19 +300,41 @@ public class Game {
                     }
                 }
 
+                for(int i = 0; i < reverseDuck.size(); i++)
+                {
+                    // We check, if the mouse was over ducks head or body, when player has shot.
+                    if(new Rectangle(reverseDuck.get(i).x + 18, reverseDuck.get(i).y     , 27, 30).contains(mousePosition) ||
+                            new Rectangle(reverseDuck.get(i).x + 30, reverseDuck.get(i).y + 30, 88, 25).contains(mousePosition))
+                    {
+                        killedDucks++;
+                        hitSound.start();
+                        score += reverseDuck.get(i).score;
+                        consecutivekills++;
+
+                        // Remove the duck from the array list.
+                        reverseDuck.remove(i);
+
+                        // We found the duck that player shoot so we can leave the for loop.
+                        break;
+                    }
+                }
+
                 lastTimeShoot = System.nanoTime();
             }
         }
-        if(consecutivekills %10==0&&consecutivekills != 0 && !hpadd) {
+        if(consecutivekills %5==0&&consecutivekills != 0 && !hpadd) {
             playerhp++;
             hpadd = true;
         }
-        if (consecutivekills % 10 != 0) {
+        if (consecutivekills % 5 != 0) {
             hpadd = false;
         }
         // When 200 ducks runaway, the game ends.
         if(playerhp<=0)
             Framework.gameState = Framework.GameState.GAMEOVER;
+    }
+    public int getkillducks(){
+        return killedDucks;
     }
 
 
@@ -285,6 +355,11 @@ public class Game {
             ducks.get(i).Draw(g2d);
         }
 
+        for(int i = 0; i < reverseDuck.size(); i++)
+        {
+            reverseDuck.get(i).Draw(g2d);
+        }
+
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
 
         g2d.drawImage(sightImg, mousePosition.x - sightImgMiddleWidth, mousePosition.y - sightImgMiddleHeight, null);
@@ -298,7 +373,6 @@ public class Game {
         g2d.drawString("SCORE: " + score, 440, 21);
 
     }
-
 
     /**
      * Draw the game over screen.

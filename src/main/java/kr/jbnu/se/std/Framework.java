@@ -54,7 +54,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED}
     /**
      * Current state of the game
      */
@@ -69,12 +69,18 @@ public class Framework extends Canvas {
 
     // The actual game
     private Game game;
+    private int killducks;
 
-
+    private void GetKillduck(int killducks){
+        game = new Game();
+        this.killducks = game.getkillducks();
+    }
     /**
      * Image for menu.
      */
     private BufferedImage shootTheDuckMenuImg;
+
+    private Audio backgroundMusic;
 
 
     public Framework ()
@@ -87,6 +93,7 @@ public class Framework extends Canvas {
         Thread gameThread = new Thread() {
             @Override
             public void run(){
+                backgroundMusic = new Audio("src/main/resources/audio/GameSound.wav", true);
                 GameLoop();
             }
         };
@@ -113,6 +120,7 @@ public class Framework extends Canvas {
         {
             URL shootTheDuckMenuImgUrl = this.getClass().getResource("/images/menu.jpg");
             shootTheDuckMenuImg = ImageIO.read(shootTheDuckMenuImgUrl);
+            backgroundMusic.start();
         }
         catch (IOException ex) {
             Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +148,7 @@ public class Framework extends Canvas {
                     gameTime += System.nanoTime() - lastTime;
 
                     game.UpdateGame(gameTime, mousePosition());
-
+                    backgroundMusic.stop();
                     lastTime = System.nanoTime();
                     break;
                 case GAMEOVER:
@@ -209,8 +217,14 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+            case PAUSED:
+                game.Draw(g2d, mousePosition()); // 현재 게임 화면 보여줌
+                g2d.setColor(Color.RED);
+                g2d.drawString("PAUSED", frameWidth / 2, frameHeight / 2);
+                break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
+
                 break;
             case GAMEOVER:
                 game.DrawGameOver(g2d, mousePosition());
@@ -293,16 +307,27 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+            case PAUSED: // 일시정지
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    gameState = GameState.PLAYING;
+                }
+                break;
             case GAMEOVER:
+
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
-                else if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
+                if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
                     restartGame();
                 break;
             case PLAYING:
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    gameState = GameState.PAUSED; // 일시정지 들어가기
+                    System.out.println("멈춰");
+                }
+                break;
             case MAIN_MENU:
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-                    System.exit(0);
+//                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+//                    System.exit(0);
                 break;
         }
     }
@@ -323,4 +348,5 @@ public class Framework extends Canvas {
                 break;
         }
     }
+
 }
