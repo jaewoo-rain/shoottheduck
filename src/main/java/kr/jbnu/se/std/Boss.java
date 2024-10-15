@@ -41,7 +41,7 @@ public class Boss extends Game {
     protected void Initialize() {
         super.Initialize();
         bossappearance = false;
-        bossHp = 50;
+        bossHp = 30;
         x=Framework.frameWidth-200;
         speed= -2;
 
@@ -51,7 +51,7 @@ public class Boss extends Game {
     public void RestartGame(){
         super.RestartGame();
         bossappearance = false;
-        bossHp = 50;
+        bossHp = 30;
         x=Framework.frameWidth-200;
         speed= -2;
         LoadContent();
@@ -60,9 +60,13 @@ public class Boss extends Game {
 
 
     public void UpdateGame(long gameTime, Point mousePosition) {
-        super.UpdateGame(gameTime, mousePosition);
         setBossappearance();
-        {
+        if(!bossappearance){
+            super.UpdateGame(gameTime,mousePosition);
+        }
+       else {
+            ducks.clear();
+            reverseDuck.clear();
 
         x += speed;
 
@@ -84,13 +88,17 @@ public class Boss extends Game {
 
             }
 
-        }
+
 
         if (bossHp <= 0) {
-            score=score+500;
+            score=score+1000;
+            Framework.gameState = Framework.GameState.GAMEOVER;
             bossappearance = false;
+        }
+        if(playerhp<=0){
             Framework.gameState = Framework.GameState.GAMEOVER;
         }
+       }
 
     }
 
@@ -108,7 +116,7 @@ public class Boss extends Game {
         }
     }
     public void setBossappearance() {
-        if(!bossappearance&&killedDucks>=20) {
+        if(!bossappearance&&setkillducks()>=20) {
         bossappearance = true;
     }
 }

@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+
 /**
  * Actual game.
  *
@@ -37,8 +38,8 @@ public class Game {
     /**
      * Array list of the ducks.
      */
-    private ArrayList<Duck> ducks;
-    private ArrayList<Duck> reverseDuck;
+    protected ArrayList<Duck> ducks;
+    protected ArrayList<Duck> reverseDuck;
 
     /**
      * How many ducks leave the screen alive?
@@ -46,17 +47,17 @@ public class Game {
     /**
      * How many ducks the player killed?
      */
-    protected int killedDucks;
+    private static int killedDucks;
 
     /**
      * For each killed duck, the player gets points.
      */
-    protected int score;
+    protected static int score;
 
     /**
      * How many times a player is shot?
      */
-    protected int shoots;
+    private int shoots;
 
     /**
      * Last time of the shoot.
@@ -97,13 +98,20 @@ public class Game {
      */
     private int sightImgMiddleHeight;
 
-    protected int playerhp=200;
+    protected static int playerhp=200;
 
-    protected int consecutivekills;
+    /**
+     * 10 consecutivekills, heal
+     */
+    private int consecutivekills;
+    /**
+     * check hill is true?
+     */
+    private boolean hpadd =false;
 
-    protected boolean hpadd =false;
     private Audio hitSound;
     private Audio background;
+
     private boolean isPaused;
     private JButton startButton;
     private JButton resetButton;
@@ -118,6 +126,7 @@ public class Game {
             public void run(){
                 hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
                 background = new Audio("src/main/resources/audio/background.wav", true);
+
                 // Sets variables and objects for the game.
                 Initialize();
                 // Load game files (images, sounds, ...)
@@ -140,7 +149,7 @@ public class Game {
         background.start();
 
         ducks = new ArrayList<Duck>();
-        reverseDuck=new ArrayList<Duck>();
+        reverseDuck = new ArrayList<Duck>();
         killedDucks = 0;
         score = 0;
         shoots = 0;
@@ -175,6 +184,8 @@ public class Game {
             sightImg = ImageIO.read(sightImgUrl);
             sightImgMiddleWidth = sightImg.getWidth() / 2;
             sightImgMiddleHeight = sightImg.getHeight() / 2;
+
+
         }
         catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -189,6 +200,7 @@ public class Game {
     {
         // Removes all of the ducks from this list.
         ducks.clear();
+        reverseDuck.clear();
 
         // We set last duckt time to zero.
         Duck.lastDuckTime = 0;
@@ -202,7 +214,6 @@ public class Game {
         lastTimeShoot = 0;
     }
 
-
     /**
      * Update game logic.
      *
@@ -211,22 +222,25 @@ public class Game {
      */
     public void UpdateGame(long gameTime, Point mousePosition)
     {
-        if (Framework.gameState == Framework.GameState.PAUSED)
-            return;
-        // Creates a new duck, if it's the time, and add it to the array list.
-        if(System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks)
-        {
+        if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
             // Here we create new duck and add it to the array list.
             ducks.add(new Duck(Duck.duckLines[Duck.nextDuckLines][0] + random.nextInt(200), Duck.duckLines[Duck.nextDuckLines][1], Duck.duckLines[Duck.nextDuckLines][2], Duck.duckLines[Duck.nextDuckLines][3], duckImg));
             reverseDuck.add(new Duck(Duck.reverseDuckLines[Duck.nextDuckLines][0] - random.nextInt(200), Duck.reverseDuckLines[Duck.nextDuckLines][1], Duck.reverseDuckLines[Duck.nextDuckLines][2], Duck.reverseDuckLines[Duck.nextDuckLines][3], reverseDuckImg));
 
             // Here we increase nextDuckLines so that next duck will be created in next line.
             Duck.nextDuckLines++;
-            if(Duck.nextDuckLines >= Duck.duckLines.length|| Duck.nextDuckLines >= Duck.reverseDuckLines.length)
+            if (Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length)
                 Duck.nextDuckLines = 0;
+
 
             Duck.lastDuckTime = System.nanoTime();
         }
+
+        if (Framework.gameState == Framework.GameState.PAUSED)
+            return; // 일시정지상
+
+
+        // Creates a new duck, if it's the time, and add it to the array list.
 
         // Update all of the ducks.
         for(int i = 0; i < ducks.size(); i++)
@@ -242,6 +256,7 @@ public class Game {
                 consecutivekills=0;
             }
         }
+
         for(int i = 0; i < reverseDuck.size(); i++)
         {
             // Move the duck.
@@ -283,6 +298,7 @@ public class Game {
                         break;
                     }
                 }
+
                 for(int i = 0; i < reverseDuck.size(); i++)
                 {
                     // We check, if the mouse was over ducks head or body, when player has shot.
@@ -302,16 +318,15 @@ public class Game {
                     }
                 }
 
-
                 lastTimeShoot = System.nanoTime();
             }
         }
-        if(consecutivekills ==5 && !hpadd && playerhp<200) {
+        if(consecutivekills ==10&& !hpadd&&playerhp<200) {
             playerhp++;
             hpadd = true;
-            consecutivekills = 0;
+            consecutivekills=0;
         }
-        if (consecutivekills != 5) {
+        if (consecutivekills !=10) {
             hpadd = false;
         }
         // When 200 ducks runaway, the game ends.
@@ -319,6 +334,13 @@ public class Game {
             Framework.gameState = Framework.GameState.GAMEOVER;
     }
 
+    /**
+     * return killedDucks score;
+     * @return
+     */
+    public int setkillducks(){
+        return killedDucks;
+    }
 
 
     /**
@@ -337,6 +359,11 @@ public class Game {
             ducks.get(i).Draw(g2d);
         }
 
+        for(int i = 0; i < reverseDuck.size(); i++)
+        {
+            reverseDuck.get(i).Draw(g2d);
+        }
+
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
 
         g2d.drawImage(sightImg, mousePosition.x - sightImgMiddleWidth, mousePosition.y - sightImgMiddleHeight, null);
@@ -350,7 +377,6 @@ public class Game {
         g2d.drawString("SCORE: " + score, 440, 21);
 
     }
-
 
     /**
      * Draw the game over screen.
