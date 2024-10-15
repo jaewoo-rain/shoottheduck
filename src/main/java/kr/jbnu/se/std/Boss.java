@@ -26,7 +26,6 @@ public class Boss extends Game {
         this.bossappearance = false;
         this.x=Framework.frameWidth-200;
         this.speed= -2;
-
         try {
             URL bossImgUrl = this.getClass().getResource("/images/catfish.png");
             bossImg = ImageIO.read(bossImgUrl);
@@ -37,6 +36,7 @@ public class Boss extends Game {
         }
 
     }
+
     @Override
     protected void Initialize() {
         super.Initialize();
