@@ -8,7 +8,7 @@ import kr.jbnu.se.std.firebase.FirebaseUtil;
 
 public class User {
     private  String id;
-    private static Long money, level, doubleItemNum, score, slowItemNum;
+    private  static Long money, level, doubleItemNum, score, slowItemNum;
     private  Firestore db;
 
     public User(String id) {
@@ -32,24 +32,48 @@ public class User {
 
     }
 
+    public static Long getLevel() {
+        return level;
+    }
 
-    public static int getMoney() {
-        return money.intValue();
+    public static void setLevel(Long level) {
+        User.level = level;
+    }
+
+    public static Long getDoubleItemNum() {
+        return doubleItemNum;
+    }
+
+    public static void setDoubleItemNum(Long doubleItemNum) {
+        User.doubleItemNum = doubleItemNum;
+    }
+
+    public static Long getScore() {
+        return score;
+    }
+
+    public static void setScore(Long score) {
+        User.score = score;
+    }
+
+    public static Long getSlowItemNum() {
+        return slowItemNum;
+    }
+
+    public static void setSlowItemNum(Long slowItemNum) {
+        User.slowItemNum = slowItemNum;
     }
 
 
-    public static int getLevel() {
-        return level.intValue();
+    public Long getMoney() {
+        return money;
     }
 
-    public static int getDoubleItemNum() {
-        return doubleItemNum.intValue();
-    }
-    public static int getScore() {
-        return score.intValue();
+    public void setMoney(Long money) {
+        User.money = money;
     }
 
-    public static int getSlowItemNum() {
-        return slowItemNum.intValue();
+    public String getId() {
+        return id;
     }
 }
