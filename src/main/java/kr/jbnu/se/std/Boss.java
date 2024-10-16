@@ -95,8 +95,8 @@ public class Boss extends Game {
 
         if (bossHp <= 0) {
             score=score+1000;
-            Framework.gameState = Framework.GameState.GAMEOVER;
             bossappearance = false;
+            Framework.gameState = Framework.GameState.GAMEOVER;
         }
         if(playerhp<=0){
             Framework.gameState = Framework.GameState.GAMEOVER;
