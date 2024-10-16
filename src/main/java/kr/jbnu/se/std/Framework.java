@@ -119,7 +119,6 @@ public class Framework extends Canvas {
      */
     private void Initialize()
     {
-        level=1;
 
     }
 
