@@ -56,7 +56,6 @@ public class Boss extends Game {
         bossHp = 30;
         x=Framework.frameWidth-200;
         speed= -2;
-        LoadContent();
 
     }
 
