@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
+
 public class Boss extends Game {
 
     private int bossHp;
@@ -22,6 +23,7 @@ public class Boss extends Game {
 
     public Boss() {
         super();
+
         this.bossHp = 50;
         this.bossappearance = false;
         this.x=Framework.frameWidth-200;
@@ -59,6 +61,7 @@ public class Boss extends Game {
 
 
     public void UpdateGame(long gameTime, Point mousePosition) {
+
         setBossappearance();
         if(!bossappearance){
             super.UpdateGame(gameTime,mousePosition);
@@ -104,6 +107,7 @@ public class Boss extends Game {
     @Override
     public void Draw(Graphics2D g2d, Point mousePosition) {
         super.Draw(g2d, mousePosition);
+
 
         if (bossappearance) {
             if(speed<0){
