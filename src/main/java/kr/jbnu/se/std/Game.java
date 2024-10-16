@@ -38,8 +38,8 @@ public class Game {
     /**
      * Array list of the ducks.
      */
-    private ArrayList<Duck> ducks;
-    private ArrayList<Duck> reverseDuck;
+    protected ArrayList<Duck> ducks;
+    protected ArrayList<Duck> reverseDuck;
 
     /**
      * How many ducks leave the screen alive?
@@ -52,7 +52,7 @@ public class Game {
     /**
      * For each killed duck, the player gets points.
      */
-    private static int score;
+    protected static int score;
 
     /**
      * How many times a player is shot?
@@ -62,11 +62,11 @@ public class Game {
     /**
      * Last time of the shoot.
      */
-    private long lastTimeShoot;
+    protected long lastTimeShoot;
     /**
      * The time which must elapse between shots.
      */
-    private long timeBetweenShots;
+    protected long timeBetweenShots;
 
     /**
      * kr.jbnu.se.std.Game background image.
@@ -98,7 +98,7 @@ public class Game {
      */
     private int sightImgMiddleHeight;
 
-    private static int playerhp=200;
+    protected static int playerhp=200;
 
     /**
      * 10 consecutivekills, heal
@@ -142,7 +142,7 @@ public class Game {
     /**
      * Set variables and objects for the game.
      */
-    private void Initialize()
+    protected void Initialize()
     {
         random = new Random();
         font = new Font("monospaced", Font.BOLD, 18);
@@ -164,7 +164,7 @@ public class Game {
     /**
      * Load game files - images, sounds, ...
      */
-    private void LoadContent()
+    protected void LoadContent()
     {
         try
         {
@@ -214,7 +214,6 @@ public class Game {
         lastTimeShoot = 0;
     }
 
-
     /**
      * Update game logic.
      *
@@ -223,27 +222,25 @@ public class Game {
      */
     public void UpdateGame(long gameTime, Point mousePosition)
     {
-
-        if (Framework.gameState == Framework.GameState.PAUSED)
-            return; // 일시정지상
-
-
-        // Creates a new duck, if it's the time, and add it to the array list.
-        if(System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks)
-        {
+        if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
             // Here we create new duck and add it to the array list.
             ducks.add(new Duck(Duck.duckLines[Duck.nextDuckLines][0] + random.nextInt(200), Duck.duckLines[Duck.nextDuckLines][1], Duck.duckLines[Duck.nextDuckLines][2], Duck.duckLines[Duck.nextDuckLines][3], duckImg));
             reverseDuck.add(new Duck(Duck.reverseDuckLines[Duck.nextDuckLines][0] - random.nextInt(200), Duck.reverseDuckLines[Duck.nextDuckLines][1], Duck.reverseDuckLines[Duck.nextDuckLines][2], Duck.reverseDuckLines[Duck.nextDuckLines][3], reverseDuckImg));
 
             // Here we increase nextDuckLines so that next duck will be created in next line.
             Duck.nextDuckLines++;
-            if(Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length)
+            if (Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length)
                 Duck.nextDuckLines = 0;
-
 
 
             Duck.lastDuckTime = System.nanoTime();
         }
+
+        if (Framework.gameState == Framework.GameState.PAUSED)
+            return; // 일시정지상
+
+
+        // Creates a new duck, if it's the time, and add it to the array list.
 
         // Update all of the ducks.
         for(int i = 0; i < ducks.size(); i++)
@@ -324,11 +321,12 @@ public class Game {
                 lastTimeShoot = System.nanoTime();
             }
         }
-        if(consecutivekills %5==0&&consecutivekills != 0 && !hpadd) {
+        if(consecutivekills ==10&& !hpadd&&playerhp<200) {
             playerhp++;
             hpadd = true;
+            consecutivekills=0;
         }
-        if (consecutivekills % 5 != 0) {
+        if (consecutivekills !=10) {
             hpadd = false;
         }
         // When 200 ducks runaway, the game ends.

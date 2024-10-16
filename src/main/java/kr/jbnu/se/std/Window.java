@@ -1,17 +1,17 @@
+//package kr.jbnu.se.std.firebase;
 package kr.jbnu.se.std;
+
+
+import kr.jbnu.se.std.Framework;
+import kr.jbnu.se.std.firebase.MainFrame;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-/**
- * Creates frame and set its properties.
- *
- * @author www.gametutorial.net
- */
 
 public class Window extends JFrame{
 
-    private Window()
+    public Window()
     {
         // Sets the title for this frame.
         this.setTitle("Shoot the duck");
@@ -42,14 +42,13 @@ public class Window extends JFrame{
         this.setVisible(true);
     }
 
-    public static void main(String[] args)
-    {
-        // Use the event dispatch thread to build the UI for thread-safety.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Window();
-            }
+    public static void main(String[] args) {
+
+        SwingUtilities.invokeLater(() -> {
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setVisible(true);
         });
+
+
     }
 }
