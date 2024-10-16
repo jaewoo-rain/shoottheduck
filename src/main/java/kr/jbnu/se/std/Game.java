@@ -291,6 +291,7 @@ public class Game {
                         score += ducks.get(i).score;
                         consecutivekills++;
 
+
                         // Remove the duck from the array list.
                         ducks.remove(i);
 
