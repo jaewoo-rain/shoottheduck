@@ -23,6 +23,7 @@ public class Boss extends Game {
 
     public Boss() {
         super();
+
         this.bossHp = 50;
         this.bossappearance = false;
         this.x=Framework.frameWidth-200;
