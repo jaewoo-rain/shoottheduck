@@ -1,20 +1,21 @@
 package kr.jbnu.se.std;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.*;
 import kr.jbnu.se.std.firebase.FirebaseUtil;
 
+import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
+
 public class User {
-    private  String id;
+    private  static String id;
     private  static Long money, level, doubleItemNum, score, slowItemNum;
-    private  Firestore db;
+    private static Firestore db = FirebaseUtil.getFirestore();
+
 
     public User(String id) {
-        db = FirebaseUtil.getFirestore();
         this.id = id;
-
         try{
             DocumentReference docRef = db.collection("users").document(id);
             ApiFuture<DocumentSnapshot> future = docRef.get();
@@ -36,9 +37,18 @@ public class User {
         return level;
     }
 
-    public static void setLevel(Long level) {
+
+    public void setLevel(Long level) {
         User.level = level;
+
+        DocumentReference docRef = db.collection("users").document(id);
+        Map<String, Object> user = new HashMap<>();
+        user.put("Level", level);
+
+       docRef.set(user, SetOptions.merge());
+
     }
+
 
     public static Long getDoubleItemNum() {
         return doubleItemNum;
@@ -46,6 +56,12 @@ public class User {
 
     public static void setDoubleItemNum(Long doubleItemNum) {
         User.doubleItemNum = doubleItemNum;
+
+        DocumentReference docRef = db.collection("users").document(id);
+        Map<String, Object> user = new HashMap<>();
+        user.put("SetDoubleItemNum", doubleItemNum);
+
+        docRef.set(user, SetOptions.merge());
     }
 
     public static Long getScore() {
@@ -54,6 +70,12 @@ public class User {
 
     public static void setScore(Long score) {
         User.score = score;
+
+        DocumentReference docRef = db.collection("users").document(id);
+        Map<String, Object> user = new HashMap<>();
+        user.put("Score", score);
+
+        docRef.set(user, SetOptions.merge());
     }
 
     public static Long getSlowItemNum() {
@@ -62,6 +84,12 @@ public class User {
 
     public static void setSlowItemNum(Long slowItemNum) {
         User.slowItemNum = slowItemNum;
+
+        DocumentReference docRef = db.collection("users").document(id);
+        Map<String, Object> user = new HashMap<>();
+        user.put("SlowItemNum", slowItemNum);
+
+        docRef.set(user, SetOptions.merge());
     }
 
 
@@ -71,6 +99,12 @@ public class User {
 
     public void setMoney(Long money) {
         User.money = money;
+
+        DocumentReference docRef = db.collection("users").document(id);
+        Map<String, Object> user = new HashMap<>();
+        user.put("Money", money);
+
+        docRef.set(user, SetOptions.merge());
     }
 
     public String getId() {
