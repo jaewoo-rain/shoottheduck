@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 
 public class Framework extends Canvas {
 
+
     /**
      * Width of the frame.
      */
@@ -54,7 +55,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, STAGE}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, BOSS, TIMEATTACK}
     /**
      * Current state of the game
      */
@@ -69,7 +70,7 @@ public class Framework extends Canvas {
 
     // The actual game
     private Game game;
-
+    private boolean gamemode = false;
     private int level;
 
     private int killducks;
@@ -107,6 +108,7 @@ public class Framework extends Canvas {
         };
         gameThread.start();
     }
+
 
 
     /**
@@ -159,8 +161,10 @@ public class Framework extends Canvas {
                     game.UpdateGame(gameTime, mousePosition());
                     backgroundMusic.stop();
                     lastTime = System.nanoTime();
-                    if(killducks >= level *10){
-                        Levelup();
+                    if(true == gamemode){
+                        if(killducks >= level *10){
+                            Levelup();
+                        }
                     }
                     break;
                 case GAMEOVER:
@@ -236,8 +240,11 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
-                g2d.setColor(Color.GREEN);
-                g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
+                if(gamemode == true){
+                    g2d.setColor(Color.GREEN);{
+                    g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
+                    }
+                }
                 break;
             case GAMEOVER:
                 game.DrawGameOver(g2d, mousePosition());
@@ -271,6 +278,13 @@ public class Framework extends Canvas {
         lastTime = System.nanoTime();
 
         game = new Game();
+    }
+    private void BossMode(){
+        game=new Boss();
+    }
+
+    private void Timeattack(){
+        game=new Timeattack();
     }
 
     /**
@@ -333,7 +347,6 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
-
             case PAUSED: // 일시정지
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     gameState = GameState.PLAYING;
@@ -352,8 +365,15 @@ public class Framework extends Canvas {
                 }
                 break;
             case MAIN_MENU:
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-                    System.exit(0);
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    System.exit(0);}
+                else if(e.getKeyCode() == KeyEvent.VK_1){
+                    newGame();
+                    gamemode = true;}
+                else if(e.getKeyCode() == KeyEvent.VK_2){
+                    BossMode();}
+                else if(e.getKeyCode() == KeyEvent.VK_3){
+                    Timeattack();}
                 break;
         }
     }
