@@ -92,7 +92,7 @@ public class LoginFrame extends JFrame {
                     JOptionPane.showMessageDialog(this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // 로그인 성공 후 다음 창 열기
                     SwingUtilities.invokeLater(() -> {
-                        Window window = new Window();
+                        Window window = new Window(id);
                         window.setVisible(true);
                     });
                     dispose();
