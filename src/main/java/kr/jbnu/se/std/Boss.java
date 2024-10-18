@@ -26,11 +26,13 @@ public class Boss extends Game {
         this.bossappearance = false;
         this.x=Framework.frameWidth-200;
         this.speed= -2;
+        Framework.gameState = Framework.gameState.PLAYING;
         try {
             URL bossImgUrl = this.getClass().getResource("/images/catfish.png");
             bossImg = ImageIO.read(bossImgUrl);
             URL FlippedbossImgUrl = this.getClass().getResource("/images/flipped.png");
             FlippedbossImg = ImageIO.read(FlippedbossImgUrl);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
