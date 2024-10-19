@@ -110,11 +110,12 @@ public class Game {
     private boolean hpadd =false;
 
     private Audio hitSound;
-    private Audio background;
+    protected Audio background;
 
     private boolean isPaused;
     private JButton startButton;
     private JButton resetButton;
+
 
 
     public Game()
@@ -212,6 +213,7 @@ public class Game {
         hpadd = false;
 
         lastTimeShoot = 0;
+        LoadContent();
     }
 
     /**
@@ -396,4 +398,5 @@ public class Game {
         g2d.drawString("kr.jbnu.se.std.Game Over", Framework.frameWidth / 2 - 40, (int)(Framework.frameHeight * 0.65));
         g2d.drawString("Press space or enter to restart.", Framework.frameWidth / 2 - 150, (int)(Framework.frameHeight * 0.70));
     }
+
 }
