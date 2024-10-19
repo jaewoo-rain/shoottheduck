@@ -310,6 +310,7 @@ public class Game {
                         score += reverseDuck.get(i).score;
                         consecutivekills++;
 
+
                         // Remove the duck from the array list.
                         reverseDuck.remove(i);
 
