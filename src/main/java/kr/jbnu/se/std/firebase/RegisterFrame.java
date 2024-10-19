@@ -110,6 +110,11 @@ public class RegisterFrame extends JFrame {
         DocumentReference docRef = db.collection("users").document(id);
         Map<String, Object> user = new HashMap<>();
         user.put("password", password);
+        user.put("DoubleItemNum", 0);
+        user.put("Level", 1);
+        user.put("Money", 0);
+        user.put("Score", 0);
+        user.put("SlowItemNum", 0);
 
         ApiFuture<WriteResult> future = docRef.set(user);
         future.addListener(() -> {

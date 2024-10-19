@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
+
 public class Boss extends Game {
 
     private int bossHp;
@@ -22,17 +23,16 @@ public class Boss extends Game {
 
     public Boss() {
         super();
+
         this.bossHp = 50;
         this.bossappearance = false;
         this.x=Framework.frameWidth-200;
         this.speed= -2;
-        Framework.gameState = Framework.gameState.PLAYING;
         try {
             URL bossImgUrl = this.getClass().getResource("/images/catfish.png");
             bossImg = ImageIO.read(bossImgUrl);
             URL FlippedbossImgUrl = this.getClass().getResource("/images/flipped.png");
             FlippedbossImg = ImageIO.read(FlippedbossImgUrl);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,12 +56,12 @@ public class Boss extends Game {
         bossHp = 30;
         x=Framework.frameWidth-200;
         speed= -2;
-        LoadContent();
 
     }
 
 
     public void UpdateGame(long gameTime, Point mousePosition) {
+
         setBossappearance();
         if(!bossappearance){
             super.UpdateGame(gameTime,mousePosition);
@@ -94,8 +94,8 @@ public class Boss extends Game {
 
         if (bossHp <= 0) {
             score=score+1000;
-            Framework.gameState = Framework.GameState.GAMEOVER;
             bossappearance = false;
+            Framework.gameState = Framework.GameState.GAMEOVER;
         }
         if(playerhp<=0){
             Framework.gameState = Framework.GameState.GAMEOVER;
@@ -107,6 +107,7 @@ public class Boss extends Game {
     @Override
     public void Draw(Graphics2D g2d, Point mousePosition) {
         super.Draw(g2d, mousePosition);
+
 
         if (bossappearance) {
             if(speed<0){
