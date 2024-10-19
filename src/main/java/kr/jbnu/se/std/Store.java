@@ -2,10 +2,10 @@ package kr.jbnu.se.std;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,13 +18,20 @@ public class Store  {
     private BufferedImage SightImg;
     private int sightImgMiddleWidth;
     private int sightImgMiddleHeight;
-    private static ArrayList<Integer> NumberOfItem1;
 
-    private Audio StoreAudio;
+    private long lastTimePurchase;
+    private long timeBetweenPurchase;
 
-    public static int StoreFrameWidth;
-    public static int StoreFrameHeight;
-    protected static ArrayList<Integer> NumberofItem;
+    protected Audio StoreAudio;
+
+    private Game game;
+    protected static int NumberofBlueItem;
+    protected static int NumberofRedItem;
+    protected static int Potionofnum;
+
+
+    private static int Coin = 0;
+
     public Store()
     {
         Framework.gameState = Framework.GameState.STORE_CONTENT_LOADING;
@@ -47,7 +54,15 @@ public class Store  {
     // 객체 세팅
     private void Initialize()
     {
+        Potionofnum = 0;
         StoreAudio.start();
+        lastTimePurchase = 0;
+        timeBetweenPurchase = Framework.secInNanosec / 3;
+
+    }
+
+    private void getCoin(){
+        Coin = game.setCoin();
     }
 
     //이미지나 음악 추가
@@ -82,10 +97,32 @@ public class Store  {
         }
     }
 
+    public void PurchaseItem(long storeTime, Point mousePosition){
+        if(System.nanoTime() - lastTimePurchase > timeBetweenPurchase){
+            if(Canvas.mouseButtonState(MouseEvent.BUTTON1)){
+                if(new Rectangle(Framework.frameWidth / 2 - 250, Framework.frameHeight / 2 -120, RedPotionImg.getWidth()/ 3 + 50, RedPotionImg.getHeight() / 3 + 50).contains(mousePosition)){
+                    NumberofRedItem += 1;
+                    Potionofnum += 1;
+
+                }
+                if(new Rectangle(Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50).contains(mousePosition)){
+                    NumberofBlueItem += 1;
+                    Potionofnum += 1;
+
+                }
+                lastTimePurchase = System.nanoTime();
+            }
+        }
+
+    }
+
     public void Draw(Graphics g2d, Point mousePosition){
         g2d.drawImage(StoreBackgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
-        g2d.drawImage(RedPotionImg, Framework.frameWidth /2 - 300, Framework.frameHeight / 2 - 120, RedPotionImg.getWidth() /3 + 50, RedPotionImg.getHeight() / 3 + 50, null);
-        g2d.drawImage(BluePotionImg, Framework.frameWidth /2 - 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50, null);
+        g2d.drawImage(RedPotionImg, Framework.frameWidth /2 - 250, Framework.frameHeight / 2 - 120, RedPotionImg.getWidth() /3 + 50, RedPotionImg.getHeight() / 3 + 50, null);
+        g2d.drawImage(BluePotionImg, Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50, null);
         g2d.drawImage(SightImg, mousePosition.x -sightImgMiddleWidth, mousePosition.y-sightImgMiddleHeight , null);
+        g2d.setColor(Color.GREEN);
+        g2d.drawString("Coin: " + Coin, 10, 21);;
+        g2d.drawString("Num of Potion: " + Potionofnum, 160, 21);;
     }
 }

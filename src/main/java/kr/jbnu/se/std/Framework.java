@@ -71,6 +71,9 @@ public class Framework extends Canvas {
     // It is used for calculating elapsed time.
     private long lastTime;
 
+    private long storeTime;
+    private long lastStoreTime;
+
     // The actual game
     private Game game;
     private boolean normalmode = false;
@@ -124,6 +127,7 @@ public class Framework extends Canvas {
     private void Initialize()
     {
 
+
     }
 
     /**
@@ -164,6 +168,10 @@ public class Framework extends Canvas {
                     //...
                     break;
                 case STORE:
+                    storeTime += System.nanoTime() - lastStoreTime;
+                    lastStoreTime = System.nanoTime();
+
+                    store.PurchaseItem(storeTime, mousePosition());
                     backgroundMusic.stop();
                     break;
                 case PLAYING:
@@ -180,7 +188,6 @@ public class Framework extends Canvas {
                     }
                     break;
                 case GAMEOVER:
-                    //...
                     break;
                 case MAIN_MENU:
                     //...
@@ -358,6 +365,7 @@ public class Framework extends Canvas {
         }
     }
 
+
     /**
      * Levelup is changing a game stage
      */
@@ -379,8 +387,14 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+            case STORE_CONTENT_LOADING:
+                break;
             case STORE:
-                //....
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    store.StoreAudio.stop();
+                    backgroundMusic.start();
+                    gameState = GameState.MAIN_MENU;
+                }
                 break;
             case PAUSED: // 일시정지
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
@@ -390,8 +404,10 @@ public class Framework extends Canvas {
             case GAMEOVER:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
-                if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
+                else if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     restartGame();
+
+                }
                 break;
             case PLAYING:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -432,7 +448,7 @@ public class Framework extends Canvas {
         {
             case MAIN_MENU:
                 if(e.getButton() == MouseEvent.BUTTON1)
-                    newGame();
+                    //newGame();
                 break;
         }
     }

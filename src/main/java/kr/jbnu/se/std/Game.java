@@ -108,6 +108,10 @@ public class Game {
      * check hill is true?
      */
     private boolean hpadd =false;
+    /**
+     * coin use to buy item in store.
+     */
+    protected static int coin;
 
     private Audio hitSound;
     protected Audio background;
@@ -153,6 +157,7 @@ public class Game {
         reverseDuck = new ArrayList<Duck>();
         killedDucks = 0;
         score = 0;
+        coin = 0;
         shoots = 0;
         playerhp= 200;
         consecutivekills = 0;
@@ -291,14 +296,17 @@ public class Game {
                         killedDucks++;
                         hitSound.start();
                         score += ducks.get(i).score;
+                        coin = score / 5;
                         consecutivekills++;
 
                         // Remove the duck from the array list.
                         ducks.remove(i);
 
+
                         // We found the duck that player shoot so we can leave the for loop.
                         break;
                     }
+
                 }
 
                 for(int i = 0; i < reverseDuck.size(); i++)
@@ -310,6 +318,7 @@ public class Game {
                         killedDucks++;
                         hitSound.start();
                         score += reverseDuck.get(i).score;
+                        coin = score/5;
                         consecutivekills++;
 
                         // Remove the duck from the array list.
@@ -318,6 +327,7 @@ public class Game {
                         // We found the duck that player shoot so we can leave the for loop.
                         break;
                     }
+
                 }
 
                 lastTimeShoot = System.nanoTime();
@@ -332,8 +342,9 @@ public class Game {
             hpadd = false;
         }
         // When 200 ducks runaway, the game ends.
-        if(playerhp<=0)
+        if(playerhp<=0){
             Framework.gameState = Framework.GameState.GAMEOVER;
+        }
     }
 
     /**
@@ -342,6 +353,10 @@ public class Game {
      */
     public int setkillducks(){
         return killedDucks;
+    }
+
+    public int setCoin(){
+        return coin;
     }
 
 
@@ -377,6 +392,7 @@ public class Game {
         g2d.drawString("KILLS: " + killedDucks, 160, 21);
         g2d.drawString("SHOOTS: " + shoots, 299, 21);
         g2d.drawString("SCORE: " + score, 440, 21);
+        g2d.drawString("Coin: " + coin, Framework.frameWidth / 2 + 200, 21 );
 
     }
 
