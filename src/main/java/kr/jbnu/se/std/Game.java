@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -89,6 +90,9 @@ public class Game {
      */
     private BufferedImage sightImg;
 
+    private BufferedImage blueItem;
+    private BufferedImage redItem;
+
     /**
      * Middle width of the sight image.
      */
@@ -116,6 +120,8 @@ public class Game {
     private Audio hitSound;
     protected Audio background;
 
+    private BlueItem BlueItem;
+
     private boolean isPaused;
     private JButton startButton;
     private JButton resetButton;
@@ -124,18 +130,17 @@ public class Game {
 
     public Game()
     {
+        BlueItem = new BlueItem(this);
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 
         Thread threadForInitGame = new Thread() {
             @Override
             public void run(){
-                hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
-                background = new Audio("src/main/resources/audio/background.wav", true);
 
-                // Sets variables and objects for the game.
-                Initialize();
                 // Load game files (images, sounds, ...)
                 LoadContent();
+                // Sets variables and objects for the game.
+                Initialize();
 
                 Framework.gameState = Framework.GameState.PLAYING;
             }
@@ -190,6 +195,16 @@ public class Game {
             sightImg = ImageIO.read(sightImgUrl);
             sightImgMiddleWidth = sightImg.getWidth() / 2;
             sightImgMiddleHeight = sightImg.getHeight() / 2;
+
+            URL blueItemUrl = this.getClass().getClassLoader().getResource("images/bluepotion.png");
+            blueItem = ImageIO.read(blueItemUrl);
+
+            URL redItemUrl = this.getClass().getClassLoader().getResource("images/redpotion.png");
+            redItem = ImageIO.read(redItemUrl);
+
+            hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
+            background = new Audio("src/main/resources/audio/background.wav", true);
+
 
 
         }
@@ -278,6 +293,7 @@ public class Game {
             }
         }
 
+
         // Does player shoots?
         if(Canvas.mouseButtonState(MouseEvent.BUTTON1))
         {
@@ -329,6 +345,15 @@ public class Game {
                     }
 
                 }
+                if(new Rectangle(Framework.frameWidth -50, Framework.frameHeight -50, blueItem.getWidth() /10, blueItem.getHeight() /10).contains(mousePosition)){
+                    if(Store.Potionofnum > 0){
+                        BlueItem.Using(mousePosition);
+                    }
+                    else{
+                        System.out.println("정지 아이템이 없습니다.");
+                    }
+
+                }
 
                 lastTimeShoot = System.nanoTime();
             }
@@ -345,6 +370,7 @@ public class Game {
         if(playerhp<=0){
             Framework.gameState = Framework.GameState.GAMEOVER;
         }
+
     }
 
     /**
@@ -360,7 +386,7 @@ public class Game {
     }
 
 
-    /**
+   /**
      * Draw the game to the screen.
      *
      * @param g2d Graphics2D
@@ -382,8 +408,11 @@ public class Game {
         }
 
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
+        g2d.drawImage(blueItem, Framework.frameWidth -50, Framework.frameHeight -50, blueItem.getWidth() /10, blueItem.getHeight() /10, null);
+        g2d.drawImage(redItem, Framework.frameWidth - 100, Framework.frameHeight -50, redItem.getWidth() /10, redItem.getHeight() /10, null);
 
         g2d.drawImage(sightImg, mousePosition.x - sightImgMiddleWidth, mousePosition.y - sightImgMiddleHeight, null);
+
 
         g2d.setFont(font);
         g2d.setColor(Color.darkGray);
@@ -393,6 +422,7 @@ public class Game {
         g2d.drawString("SHOOTS: " + shoots, 299, 21);
         g2d.drawString("SCORE: " + score, 440, 21);
         g2d.drawString("Coin: " + coin, Framework.frameWidth / 2 + 200, 21 );
+        g2d.drawString("Item: " + Store.Potionofnum, 10, 45);
 
     }
 

@@ -76,8 +76,6 @@ public class Store  {
             URL RedPotionImgURL = this.getClass().getClassLoader().getResource("images/redPotion.png");
             RedPotionImg = ImageIO.read(RedPotionImgURL);
 
-
-
             URL BluePotionImgURL = this.getClass().getClassLoader().getResource("images/bluePotion.png");
             BluePotionImg = ImageIO.read(BluePotionImgURL);
 

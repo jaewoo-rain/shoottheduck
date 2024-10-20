@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,6 +20,8 @@ public class Boss extends Game {
     private boolean bossappearance;
     private int x;
     private int speed;
+
+    private BlueItem blueItem;
 
 
     public Boss() {
@@ -60,8 +63,7 @@ public class Boss extends Game {
     }
 
 
-    public void UpdateGame(long gameTime, Point mousePosition) {
-
+    public void UpdateGame(long gameTime, Point mousePosition){
         setBossappearance();
         if(!bossappearance){
             super.UpdateGame(gameTime,mousePosition);
