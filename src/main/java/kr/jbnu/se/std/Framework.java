@@ -101,6 +101,13 @@ public class Framework extends Canvas {
         }
     }
 
+    private void getCoin(){
+
+        if(game != null){
+            store.Coin = game.setCoin();
+        }
+    }
+
     public Framework ()
     {
         super();
@@ -111,8 +118,12 @@ public class Framework extends Canvas {
         Thread gameThread = new Thread() {
             @Override
             public void run(){
-                backgroundMusic = new Audio("src/main/resources/audio/GameSound.wav", true);
+
+                LoadContent();
+                Initialize();
+
                 GameLoop();
+
             }
         };
         gameThread.start();
@@ -126,8 +137,7 @@ public class Framework extends Canvas {
      */
     private void Initialize()
     {
-
-
+        backgroundMusic.start();
     }
 
     /**
@@ -140,7 +150,10 @@ public class Framework extends Canvas {
         {
             URL shootTheDuckMenuImgUrl = this.getClass().getResource("/images/menu.jpg");
             shootTheDuckMenuImg = ImageIO.read(shootTheDuckMenuImgUrl);
-            backgroundMusic.start();
+
+            backgroundMusic = new Audio("src/main/resources/audio/GameSound.wav", true);
+
+
         }
         catch (IOException ex) {
             Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,6 +188,7 @@ public class Framework extends Canvas {
                     backgroundMusic.stop();
                     break;
                 case PLAYING:
+                    getCoin();
                     getkillDucks();
                     gameTime += System.nanoTime() - lastTime;
 
@@ -190,7 +204,7 @@ public class Framework extends Canvas {
                 case GAMEOVER:
                     break;
                 case MAIN_MENU:
-                    //...
+
                     break;
                 case OPTIONS:
                     //...
@@ -200,10 +214,7 @@ public class Framework extends Canvas {
                     break;
                 case STARTING:
                     // Sets variables and objects.
-                    Initialize();
                     // Load files - images, sounds, ...
-                    LoadContent();
-
                     // When all things that are called above finished, we change game status to main menu.
                     gameState = GameState.MAIN_MENU;
                     break;
@@ -335,6 +346,9 @@ public class Framework extends Canvas {
         level = 1;
         gameTime = 0;
         lastTime = System.nanoTime();
+        Duck.lastDuckTime = 0;
+
+
 
         game.RestartGame();
 
@@ -377,6 +391,7 @@ public class Framework extends Canvas {
 
         backgroundMusic.start();
     }
+
     /**
      * This method is called when keyboard key is released.
      *
@@ -392,7 +407,6 @@ public class Framework extends Canvas {
             case STORE:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     store.StoreAudio.stop();
-                    backgroundMusic.start();
                     gameState = GameState.MAIN_MENU;
                 }
                 break;
@@ -405,8 +419,10 @@ public class Framework extends Canvas {
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
                 else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    restartGame();
-
+                    game.hitSound.stop();
+                    game.background.stop();
+                    backgroundMusic.start();
+                    Framework.gameState = GameState.MAIN_MENU;
                 }
                 break;
             case PLAYING:
