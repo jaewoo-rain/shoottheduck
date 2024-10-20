@@ -25,9 +25,9 @@ public class Store  {
     protected Audio StoreAudio;
 
     private Game game;
-    protected static int NumberofBlueItem;
-    protected static int NumberofRedItem;
-    protected static int Potionofnum;
+    protected static int NumberofBlueItem =0;
+    protected static int NumberofRedItem =0;
+    protected static int Potionofnum =0;
 
 
     private static int Coin = 0;
@@ -54,9 +54,7 @@ public class Store  {
     // 객체 세팅
     private void Initialize()
     {
-        Potionofnum = 0;
         StoreAudio.start();
-        lastTimePurchase = 0;
         timeBetweenPurchase = Framework.secInNanosec / 3;
 
     }
