@@ -255,7 +255,7 @@ public class Game {
             // Move the duck.
             ducks.get(i).Update();
 
-            // Checks if the duck leaves the screen and remove it if it does.
+            // Checks if the duck leaves the screen and remove it if it does .
             if(ducks.get(i).x < 0 - duckImg.getWidth())
             {
                 ducks.remove(i);
