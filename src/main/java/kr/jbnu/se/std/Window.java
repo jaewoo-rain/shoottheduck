@@ -11,10 +11,12 @@ import javax.swing.SwingUtilities;
 
 public class Window extends JFrame{
 
-    public Window()
+    public Window(String id)
     {
         // Sets the title for this frame.
         this.setTitle("Shoot the duck");
+
+        new User(id);
 
         // Sets size of the frame.
         if(false) // Full screen mode
@@ -48,7 +50,6 @@ public class Window extends JFrame{
             MainFrame mainFrame = new MainFrame();
             mainFrame.setVisible(true);
         });
-
 
     }
 }
