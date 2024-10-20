@@ -96,6 +96,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     public abstract void keyReleasedFramework(KeyEvent e);
 
 
+
     // Mouse
     /**
      * Is mouse button "button" down?
