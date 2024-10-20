@@ -281,7 +281,7 @@ public class Game {
         // Does player shoots?
         if(Canvas.mouseButtonState(MouseEvent.BUTTON1))
         {
-            // Checks if it can shoot again.
+            // Checks if it can shoot again .
             if(System.nanoTime() - lastTimeShoot >= timeBetweenShots)
             {
                 shoots++;
