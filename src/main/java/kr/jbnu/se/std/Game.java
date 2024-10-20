@@ -117,10 +117,13 @@ public class Game {
      */
     protected static int coin;
 
-    private Audio hitSound;
+    protected Audio hitSound;
     protected Audio background;
-
+    /**
+     * 능력
+     */
     private BlueItem BlueItem;
+    private RedItem RedItem;
 
     private boolean isPaused;
     private JButton startButton;
@@ -131,6 +134,7 @@ public class Game {
     public Game()
     {
         BlueItem = new BlueItem(this);
+        RedItem = new RedItem(this);
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 
         Thread threadForInitGame = new Thread() {
@@ -164,7 +168,7 @@ public class Game {
         score = 0;
         coin = 0;
         shoots = 0;
-        playerhp= 200;
+        playerhp= 100;
         consecutivekills = 0;
         hpadd = false;
 
@@ -312,7 +316,6 @@ public class Game {
                         killedDucks++;
                         hitSound.start();
                         score += ducks.get(i).score;
-                        coin = score / 5;
                         consecutivekills++;
 
                         // Remove the duck from the array list.
@@ -334,7 +337,6 @@ public class Game {
                         killedDucks++;
                         hitSound.start();
                         score += reverseDuck.get(i).score;
-                        coin = score/5;
                         consecutivekills++;
 
                         // Remove the duck from the array list.
@@ -345,14 +347,25 @@ public class Game {
                     }
 
                 }
+                coin = score/2;
                 if(new Rectangle(Framework.frameWidth -50, Framework.frameHeight -50, blueItem.getWidth() /10, blueItem.getHeight() /10).contains(mousePosition)){
-                    if(Store.Potionofnum > 0){
+                    if(Store.NumberofBlueItem > 0){
                         BlueItem.Using(mousePosition);
+                        Store.NumberofBlueItem--;
                     }
                     else{
-                        System.out.println("정지 아이템이 없습니다.");
+                        System.out.println("아이템이 부족합니다.");
                     }
 
+                }
+                if(new Rectangle(Framework.frameWidth - 100, Framework.frameHeight -50, redItem.getWidth() /10, redItem.getHeight() /10).contains(mousePosition)) {
+                    if (Store.NumberofRedItem > 0) {
+                        RedItem.Using(mousePosition);
+                        Store.NumberofRedItem--;
+
+                    }else{
+                        System.out.println("아이템이 부족합니다.");
+                    }
                 }
 
                 lastTimeShoot = System.nanoTime();
@@ -422,7 +435,8 @@ public class Game {
         g2d.drawString("SHOOTS: " + shoots, 299, 21);
         g2d.drawString("SCORE: " + score, 440, 21);
         g2d.drawString("Coin: " + coin, Framework.frameWidth / 2 + 200, 21 );
-        g2d.drawString("Item: " + Store.Potionofnum, 10, 45);
+        g2d.drawString("Blue potion: " + Store.NumberofBlueItem, 10, 45);
+        g2d.drawString("Red potion: "+ Store.NumberofRedItem, 10, 65);
 
     }
 

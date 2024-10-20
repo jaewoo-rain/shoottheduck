@@ -30,7 +30,7 @@ public class Store  {
     protected static int Potionofnum =0;
 
 
-    private static int Coin = 0;
+    protected static int Coin = 0;
 
     public Store()
     {
@@ -56,12 +56,9 @@ public class Store  {
     {
         StoreAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
-
     }
 
-    private void getCoin(){
-        Coin = game.setCoin();
-    }
+
 
     //이미지나 음악 추가
     private void LoadContent()
@@ -97,12 +94,24 @@ public class Store  {
         if(System.nanoTime() - lastTimePurchase > timeBetweenPurchase){
             if(Canvas.mouseButtonState(MouseEvent.BUTTON1)){
                 if(new Rectangle(Framework.frameWidth / 2 - 250, Framework.frameHeight / 2 -120, RedPotionImg.getWidth()/ 3 + 50, RedPotionImg.getHeight() / 3 + 50).contains(mousePosition)){
-                    NumberofRedItem += 1;
+                    if(Coin > 300){
+                        System.out.println("Red potion 구매 완료");
+                        NumberofRedItem += 1;
+                        Coin -= 300;
+                    }else{
+                        System.out.println("돈이 부족합니다.");
+                    }
                     Potionofnum += 1;
 
                 }
                 if(new Rectangle(Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50).contains(mousePosition)){
-                    NumberofBlueItem += 1;
+                    if(Coin >= 300){
+                        System.out.println("Blue potion 구매 완료");
+                        NumberofBlueItem += 1;
+                        Coin -= 300;
+                    }else{
+                        System.out.println("돈이 부족합니다.");
+                    }
                     Potionofnum += 1;
 
                 }
@@ -119,6 +128,10 @@ public class Store  {
         g2d.drawImage(SightImg, mousePosition.x -sightImgMiddleWidth, mousePosition.y-sightImgMiddleHeight , null);
         g2d.setColor(Color.GREEN);
         g2d.drawString("Coin: " + Coin, 10, 21);;
-        g2d.drawString("Num of Potion: " + Potionofnum, 160, 21);;
+        g2d.drawString("Blue potion: " + NumberofBlueItem, 10, 41);
+        g2d.drawString("Red potion: " + NumberofRedItem, 10, 61);
+        g2d.setColor(Color.BLACK);
+        g2d.drawString("시간 정지", Framework.frameWidth / 2 + 165, Framework.frameHeight / 2 + 100);
+        g2d.drawString("오리 전체 삭제", Framework.frameWidth / 2 - 200, Framework.frameHeight / 2 + 100);
     }
 }
