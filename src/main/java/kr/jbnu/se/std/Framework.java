@@ -25,6 +25,8 @@ public class Framework extends Canvas {
      * Width of the frame.
      */
     public static int frameWidth;
+
+    public static int previouslevel=1;
     /**
      * Height of the frame.
      */
@@ -55,7 +57,8 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, BOSS, TIMEATTACK}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, STORE_CONTENT_LOADING, STORE, BOSS, TIMAATACK}
+
     /**
      * Current state of the game
      */
@@ -68,9 +71,12 @@ public class Framework extends Canvas {
     // It is used for calculating elapsed time.
     private long lastTime;
 
+    private long storeTime;
+    private long lastStoreTime;
+
     // The actual game
     private Game game;
-    private boolean gamemode = false;
+    private boolean normalmode = false;
     private int level;
 
     private int killducks;
@@ -80,6 +86,9 @@ public class Framework extends Canvas {
     private BufferedImage shootTheDuckMenuImg;
 
     private Audio backgroundMusic;
+
+    private Store store;
+
 
     /**
      * getkillDucks get Game class's killduks score;
@@ -118,6 +127,7 @@ public class Framework extends Canvas {
     private void Initialize()
     {
 
+
     }
 
     /**
@@ -154,6 +164,16 @@ public class Framework extends Canvas {
 
             switch (gameState)
             {
+                case STORE_CONTENT_LOADING:
+                    //...
+                    break;
+                case STORE:
+                    storeTime += System.nanoTime() - lastStoreTime;
+                    lastStoreTime = System.nanoTime();
+
+                    store.PurchaseItem(storeTime, mousePosition());
+                    backgroundMusic.stop();
+                    break;
                 case PLAYING:
                     getkillDucks();
                     gameTime += System.nanoTime() - lastTime;
@@ -161,14 +181,13 @@ public class Framework extends Canvas {
                     game.UpdateGame(gameTime, mousePosition());
                     backgroundMusic.stop();
                     lastTime = System.nanoTime();
-                    if(true == gamemode){
+                    if(true == normalmode){
                         if(killducks >= level *10){
                             Levelup();
                         }
                     }
                     break;
                 case GAMEOVER:
-                    //...
                     break;
                 case MAIN_MENU:
                     //...
@@ -233,6 +252,13 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+            case STORE_CONTENT_LOADING:
+                g2d.setColor(Color.WHITE);
+                g2d.drawString("STORE is LOADING", frameWidth / 2 - 50, frameHeight / 2);
+                break;
+            case STORE:
+                store.Draw(g2d, mousePosition());
+                break;
             case PAUSED:
                 game.Draw(g2d, mousePosition()); // 현재 게임 화면 보여줌
                 g2d.setColor(Color.RED);
@@ -240,9 +266,9 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
-                if(gamemode == true){
+                if(normalmode == true){
                     g2d.setColor(Color.GREEN);{
-                    g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
+                        g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
                     }
                 }
                 break;
@@ -269,7 +295,17 @@ public class Framework extends Canvas {
 
     /**
      * Starts new game.
+     *
      */
+    private void continueGame()
+    {
+        // We set gameTime to zero and lastTime to current time for later calculations.
+        level = previouslevel;
+        gameTime = 0;
+        lastTime = System.nanoTime();
+
+        game = new Normal();
+    }
     private void newGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
@@ -277,7 +313,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game = new Game();
+        game = new Normal();
     }
     private void BossMode(){
         game=new Boss();
@@ -287,6 +323,9 @@ public class Framework extends Canvas {
         game=new Timeattack();
     }
 
+    private void StoRe(){
+        store = new Store();
+    }
     /**
      *  Restart game - reset game time and call RestartGame() method of game object so that reset some variables.
      */
@@ -326,6 +365,7 @@ public class Framework extends Canvas {
         }
     }
 
+
     /**
      * Levelup is changing a game stage
      */
@@ -347,6 +387,15 @@ public class Framework extends Canvas {
     {
         switch (gameState)
         {
+            case STORE_CONTENT_LOADING:
+                break;
+            case STORE:
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    store.StoreAudio.stop();
+                    backgroundMusic.start();
+                    gameState = GameState.MAIN_MENU;
+                }
+                break;
             case PAUSED: // 일시정지
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     gameState = GameState.PLAYING;
@@ -355,8 +404,10 @@ public class Framework extends Canvas {
             case GAMEOVER:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
-                if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER)
+                else if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     restartGame();
+
+                }
                 break;
             case PLAYING:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -367,13 +418,20 @@ public class Framework extends Canvas {
             case MAIN_MENU:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     System.exit(0);}
-                else if(e.getKeyCode() == KeyEvent.VK_1){
+                else if(e.getKeyCode() == KeyEvent.VK_0){
                     newGame();
-                    gamemode = true;}
+                    normalmode = true;}
+                else if(e.getKeyCode() == KeyEvent.VK_1){
+                    continueGame();
+                    normalmode = true;}
                 else if(e.getKeyCode() == KeyEvent.VK_2){
                     BossMode();}
                 else if(e.getKeyCode() == KeyEvent.VK_3){
                     Timeattack();}
+                else if(e.getKeyCode() == KeyEvent.VK_4){
+                    gameState = GameState.STORE;
+                    StoRe();
+                }
                 break;
         }
     }
@@ -390,7 +448,7 @@ public class Framework extends Canvas {
         {
             case MAIN_MENU:
                 if(e.getButton() == MouseEvent.BUTTON1)
-                    newGame();
+                    //newGame();
                 break;
         }
     }
