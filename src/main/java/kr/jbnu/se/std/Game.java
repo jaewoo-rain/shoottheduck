@@ -383,6 +383,7 @@ public class Game {
         // When 200 ducks runaway, the game ends.
         if(playerhp<=0){
             Framework.gameState = Framework.GameState.GAMEOVER;
+
         }
 
     }
