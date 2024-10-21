@@ -96,6 +96,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     public abstract void keyReleasedFramework(KeyEvent e);
 
 
+
     // Mouse
     /**
      * Is mouse button "button" down?
@@ -105,7 +106,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
      * @param button Number of mouse button for which you want to check the state.
      * @return true if the button is down, false if the button is not down.
      */
-    public static boolean mouseButtonState(int button)
+    public static boolean mouseButtonState  (int button)
     {
         return mouseState[button - 1];
     }

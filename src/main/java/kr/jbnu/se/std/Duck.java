@@ -91,6 +91,14 @@ public class Duck {
         this.duckImg = duckImg;
     }
 
+    public int getDuckspeed(){
+        return speed;
+    }
+
+    public void setDuckspeed(int speed){
+        this.speed = speed;
+    }
+
 
     /**
      * Move the duck.
