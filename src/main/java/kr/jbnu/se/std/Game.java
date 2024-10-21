@@ -173,7 +173,7 @@ public class Game {
         hpadd = false;
 
         lastTimeShoot = 0;
-        timeBetweenShots = Framework.secInNanosec / 5;
+        timeBetweenShots = Framework.secInNanosec / 5; // 총 쏘기 속도
     }
 
     /**
@@ -318,6 +318,7 @@ public class Game {
                         score += ducks.get(i).score;
                         consecutivekills++;
 
+                        User.getTopScores();
                         // Remove the duck from the array list.
                         ducks.remove(i);
 
