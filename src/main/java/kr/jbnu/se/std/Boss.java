@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
+import static kr.jbnu.se.std.Duck.timeBetweenDucks;
+
 
 public class Boss extends Game {
 
@@ -26,6 +28,13 @@ public class Boss extends Game {
 
     public Boss() {
         super();
+        timeBetweenDucks = Framework.secInNanosec / 2;
+
+        // 속도 조절
+        for(int i=0; i <4; i++){
+            Duck.duckLines[i][2] = -3;
+            Duck.reverseDuckLines[i][2] = 3;
+        }
 
         this.bossHp = 50;
         this.bossappearance = false;
@@ -117,11 +126,15 @@ public class Boss extends Game {
             }
             else g2d.drawImage(FlippedbossImg, x, Framework.frameHeight/2 , null);
             g2d.setColor(Color.RED);
-            g2d.drawString("Boss HP: " + bossHp, 10, 50);
+            String timeText = "Boss HP: " + bossHp;
+            // 텍스트의 너비를 계산
+            int textWidth = g2d.getFontMetrics().stringWidth(timeText);
+            // 화면의 너비에서 텍스트 너비만큼 뺀 위치에 텍스트를 그린다 (오른쪽 끝 정렬)
+            g2d.drawString(timeText, Framework.frameWidth - textWidth - 10, 50);
         }
     }
     public void setBossappearance() {
-        if(!bossappearance&&setkillducks()>=20) {
+        if(!bossappearance&&setkillducks()>=5) {
         bossappearance = true;
     }
 }

@@ -15,6 +15,11 @@ public class Timeattack extends Game {
         super();
         startTime = System.nanoTime();
         timeBetweenDucks = Framework.secInNanosec / 2;
+
+        for(int i=0; i <4; i++){
+            Duck.duckLines[i][2] = -3;
+            Duck.reverseDuckLines[i][2] = 3;
+        }
     }
 
     @Override

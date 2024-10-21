@@ -9,6 +9,7 @@ import kr.jbnu.se.std.firebase.FirebaseUtil;
 
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 public class User {
     private  static String id;
@@ -99,4 +100,32 @@ public class User {
         public String getId() {
             return id;
         }
-    }
+
+
+        public static void getTopScores() {
+            // "users" 컬렉션에서 score가 가장 높은 3개의 문서를 가져오는 쿼리
+            CollectionReference usersRef = db.collection("users");
+            Query query = usersRef.orderBy("Score", Query.Direction.DESCENDING).limit(5);
+
+            // Firestore에서 데이터를 비동기적으로 가져옴
+            ApiFuture<QuerySnapshot> querySnapshotFuture = query.get();
+
+            try {
+                // 결과가 완료되면 가져오기
+                QuerySnapshot querySnapshot = querySnapshotFuture.get();
+                List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+
+                // 문서 처리
+                for (QueryDocumentSnapshot document : documents) {
+                    String userId = document.getId();
+                    Long score = document.getLong("Score");
+
+                    // 사용자 ID와 점수 출력
+                    System.out.println("UserID: " + userId + " | Score: " + score);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+}

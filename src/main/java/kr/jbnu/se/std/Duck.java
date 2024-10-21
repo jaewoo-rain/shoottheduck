@@ -28,17 +28,17 @@ public class Duck {
      * How many points is a duck worth?
      */
     public static int[][] duckLines = {
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.60), -1, 20},
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.65), -1, 30},
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.70), -1, 40},
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -1, 50},
+            {Framework.frameWidth, (int)(Framework.frameHeight * 0.60), -1, 10},
+            {Framework.frameWidth, (int)(Framework.frameHeight * 0.65), -1, 10},
+            {Framework.frameWidth, (int)(Framework.frameHeight * 0.70), -1, 10},
+            {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -1, 10},
     };
 
     public static int[][] reverseDuckLines = { // 반대편에서 나오는 오리
-            {0, (int)(Framework.frameHeight * 0.60), 1, 20},
-            {0, (int)(Framework.frameHeight * 0.65), 1, 30},
-            {0, (int)(Framework.frameHeight * 0.70), 1, 40},
-            {0, (int)(Framework.frameHeight * 0.78), 1, 50}
+            {0, (int)(Framework.frameHeight * 0.60), 1, 10},
+            {0, (int)(Framework.frameHeight * 0.65), 1, 10},
+            {0, (int)(Framework.frameHeight * 0.70), 1, 10},
+            {0, (int)(Framework.frameHeight * 0.78), 1, 10}
     };
     /**
      * Indicate which is next duck line.
@@ -58,7 +58,7 @@ public class Duck {
     /**
      * How fast the duck should move? And to which direction?
      */
-    protected static int speed;
+    protected int speed;
 
     /**
      * How many points this duck is worth?

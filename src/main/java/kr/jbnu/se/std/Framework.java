@@ -43,6 +43,7 @@ public class Framework extends Canvas {
      * 1 millisecond = 1 000 000 nanoseconds
      */
     public static final long milisecInNanosec = 1000000L;
+    public static long level;
 
     /**
      * FPS - Frames per second
@@ -77,7 +78,6 @@ public class Framework extends Canvas {
     // The actual game
     private Game game;
     private boolean normalmode = false;
-    private long level;
 
 
 
@@ -106,7 +106,7 @@ public class Framework extends Canvas {
     private void getCoin(){
 
         if(game != null){
-            store.Coin = game.setCoin();
+            store.Coin += game.setCoin();
         }
     }
 
@@ -198,11 +198,13 @@ public class Framework extends Canvas {
                     game.UpdateGame(gameTime, mousePosition());
                     backgroundMusic.stop();
                     lastTime = System.nanoTime();
-                    if(true == normalmode){
-                        if(killducks >= level *10){
-                            Levelup();
-                        }
-                    }
+                    
+//                    if(true == normalmode){
+//                        if(killducks >= level *10){
+//                            Levelup();
+//                        }
+//                    }
+                    
                     break;
                 case GAMEOVER:
                     if(this.level > previouslevel){
@@ -320,10 +322,11 @@ public class Framework extends Canvas {
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
         level = previouslevel;
+
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game = new Normal();
+        game = new Normal(previouslevel);
     }
     private void newGame()
     {
@@ -332,7 +335,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game = new Normal();
+        game = new Normal(level);
     }
     private void BossMode(){
         game=new Boss();
@@ -389,14 +392,21 @@ public class Framework extends Canvas {
     /**
      * Levelup is changing a game stage
      */
-    private void Levelup(){
-        level++;
-        Duck.speed =1 + (1 * (int)level) ;
+    // Normal 코드로 이동
+//    private void Levelup(){
+//        level++;
+////        Duck.speed = 1+(0.1 * (int)level);
+//        // 속도 조절
+//        for(int i=0; i <4; i++){
+//            Duck.duckLines[i][2] = -1 * (int)level;
+//            Duck.reverseDuckLines[i][2] = 1 * (int)level;
+//        }
+//
 //        Duck.timeBetweenDucks = Duck.timeBetweenDucks - 100000000L;
-        Duck.lastDuckTime += 1;
-
-        backgroundMusic.start();
-    }
+//        Duck.lastDuckTime += 1;
+//
+//        backgroundMusic.start();
+//    }
 
     /**
      * This method is called when keyboard key is released.
@@ -438,6 +448,7 @@ public class Framework extends Canvas {
                 }
                 break;
             case MAIN_MENU:
+                normalmode = false;
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     System.exit(0);}
                 else if(e.getKeyCode() == KeyEvent.VK_0){
