@@ -35,11 +35,11 @@ public class User {
 
     }
 
-    public static Long getLevel() {
+        public static Long getLevel() {
         return level;
     }
 
-        public void setLevel(Long level) {
+        public static void setLevel(Long level) {
             User.level = level;
             DocumentReference docRef = db.collection("users").document(id);
             Map<String, Object> user = new HashMap<>();

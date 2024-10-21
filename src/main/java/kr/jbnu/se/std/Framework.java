@@ -26,7 +26,7 @@ public class Framework extends Canvas {
      */
     public static int frameWidth;
 
-    public static int previouslevel=1;
+    public static long previouslevel;
     /**
      * Height of the frame.
      */
@@ -77,7 +77,9 @@ public class Framework extends Canvas {
     // The actual game
     private Game game;
     private boolean normalmode = false;
-    private int level;
+    private long level;
+
+
 
     private int killducks;
     /**
@@ -111,6 +113,7 @@ public class Framework extends Canvas {
     public Framework ()
     {
         super();
+        previouslevel = User.getLevel();
 
         gameState = GameState.VISUALIZING;
 
@@ -202,6 +205,11 @@ public class Framework extends Canvas {
                     }
                     break;
                 case GAMEOVER:
+                    if(this.level > previouslevel){
+                        User.setLevel(this.level);
+                        previouslevel = this.level;
+//                        System.out.println('level Up');
+                    };
                     break;
                 case MAIN_MENU:
 
@@ -348,8 +356,6 @@ public class Framework extends Canvas {
         lastTime = System.nanoTime();
         Duck.lastDuckTime = 0;
 
-
-
         game.RestartGame();
 
         // We change game status so that the game can start.
@@ -385,8 +391,8 @@ public class Framework extends Canvas {
      */
     private void Levelup(){
         level++;
-
-        Duck.timeBetweenDucks = Duck.timeBetweenDucks - 100000000L;
+        Duck.speed =1 + (1 * (int)level) ;
+//        Duck.timeBetweenDucks = Duck.timeBetweenDucks - 100000000L;
         Duck.lastDuckTime += 1;
 
         backgroundMusic.start();
@@ -438,6 +444,7 @@ public class Framework extends Canvas {
                     newGame();
                     normalmode = true;}
                 else if(e.getKeyCode() == KeyEvent.VK_1){
+                    level = previouslevel;
                     continueGame();
                     normalmode = true;}
                 else if(e.getKeyCode() == KeyEvent.VK_2){

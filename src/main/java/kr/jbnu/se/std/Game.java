@@ -168,12 +168,12 @@ public class Game {
         score = 0;
         coin = 0;
         shoots = 0;
-        playerhp= 100;
+        playerhp= 10;
         consecutivekills = 0;
         hpadd = false;
 
         lastTimeShoot = 0;
-        timeBetweenShots = Framework.secInNanosec / 3;
+        timeBetweenShots = Framework.secInNanosec / 5;
     }
 
     /**
@@ -339,7 +339,6 @@ public class Game {
                         score += reverseDuck.get(i).score;
                         consecutivekills++;
 
-
                         // Remove the duck from the array list.
                         reverseDuck.remove(i);
 
@@ -400,7 +399,7 @@ public class Game {
     }
 
 
-   /**
+    /**
      * Draw the game to the screen.
      *
      * @param g2d Graphics2D

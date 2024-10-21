@@ -14,7 +14,8 @@ public class Duck {
     /**
      * How much time must pass in order to create a new duck?
      */
-    public static long timeBetweenDucks = Framework.secInNanosec / 2;
+
+    public static long timeBetweenDucks = Framework.secInNanosec * 2; // 오리 속도 조절
     /**
      * Last time when the duck was created.
      */
@@ -57,7 +58,7 @@ public class Duck {
     /**
      * How fast the duck should move? And to which direction?
      */
-    protected int speed;
+    protected static int speed;
 
     /**
      * How many points this duck is worth?
