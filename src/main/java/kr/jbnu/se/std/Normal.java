@@ -1,13 +1,15 @@
 package kr.jbnu.se.std;
 
 import java.awt.*;
+import static kr.jbnu.se.std.Duck.timeBetweenDucks;
+
 
 public class Normal extends Game{
     private int level;
 
     public Normal() {
         super();
-
+        timeBetweenDucks = Framework.secInNanosec;
 
     }
     @Override

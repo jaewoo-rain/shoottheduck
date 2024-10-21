@@ -3,6 +3,8 @@ package kr.jbnu.se.std;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import static kr.jbnu.se.std.Duck.timeBetweenDucks;
+
 
 public class Timeattack extends Game {
 
@@ -12,6 +14,7 @@ public class Timeattack extends Game {
     public Timeattack() {
         super();
         startTime = System.nanoTime();
+        timeBetweenDucks = Framework.secInNanosec / 2;
     }
 
     @Override
@@ -32,7 +35,12 @@ public class Timeattack extends Game {
 
         long currentTime = System.nanoTime();
         long remainingTime = (timeLimit - (currentTime - startTime)) / 1000000000L;
-        if(remainingTime>0)
-        g2d.drawString("Time Left: " + remainingTime + " seconds", 10, 50);
+        if (remainingTime > 0) {
+            String timeText = "Time Left: " + remainingTime + " seconds";
+            // 텍스트의 너비를 계산
+            int textWidth = g2d.getFontMetrics().stringWidth(timeText);
+            // 화면의 너비에서 텍스트 너비만큼 뺀 위치에 텍스트를 그린다 (오른쪽 끝 정렬)
+            g2d.drawString(timeText, Framework.frameWidth - textWidth - 10, 50);
+        }
     }
 }
