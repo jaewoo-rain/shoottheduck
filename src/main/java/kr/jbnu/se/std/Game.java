@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -89,6 +90,9 @@ public class Game {
      */
     private BufferedImage sightImg;
 
+    private BufferedImage blueItem;
+    private BufferedImage redItem;
+
     /**
      * Middle width of the sight image.
      */
@@ -108,9 +112,18 @@ public class Game {
      * check hill is true?
      */
     private boolean hpadd =false;
+    /**
+     * coin use to buy item in store.
+     */
+    protected static int coin;
 
-    private Audio hitSound;
+    protected Audio hitSound;
     protected Audio background;
+    /**
+     * 능력
+     */
+    private BlueItem BlueItem;
+    private RedItem RedItem;
 
     private boolean isPaused;
     private JButton startButton;
@@ -120,18 +133,18 @@ public class Game {
 
     public Game()
     {
+        BlueItem = new BlueItem(this);
+        RedItem = new RedItem(this);
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 
         Thread threadForInitGame = new Thread() {
             @Override
             public void run(){
-                hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
-                background = new Audio("src/main/resources/audio/background.wav", true);
 
-                // Sets variables and objects for the game.
-                Initialize();
                 // Load game files (images, sounds, ...)
                 LoadContent();
+                // Sets variables and objects for the game.
+                Initialize();
 
                 Framework.gameState = Framework.GameState.PLAYING;
             }
@@ -153,8 +166,9 @@ public class Game {
         reverseDuck = new ArrayList<Duck>();
         killedDucks = 0;
         score = 0;
+        coin = 0;
         shoots = 0;
-        playerhp= 200;
+        playerhp= 100;
         consecutivekills = 0;
         hpadd = false;
 
@@ -185,6 +199,16 @@ public class Game {
             sightImg = ImageIO.read(sightImgUrl);
             sightImgMiddleWidth = sightImg.getWidth() / 2;
             sightImgMiddleHeight = sightImg.getHeight() / 2;
+
+            URL blueItemUrl = this.getClass().getClassLoader().getResource("images/bluepotion.png");
+            blueItem = ImageIO.read(blueItemUrl);
+
+            URL redItemUrl = this.getClass().getClassLoader().getResource("images/redpotion.png");
+            redItem = ImageIO.read(redItemUrl);
+
+            hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
+            background = new Audio("src/main/resources/audio/background.wav", true);
+
 
 
         }
@@ -250,7 +274,7 @@ public class Game {
             // Move the duck.
             ducks.get(i).Update();
 
-            // Checks if the duck leaves the screen and remove it if it does.
+            // Checks if the duck leaves the screen and remove it if it does .
             if(ducks.get(i).x < 0 - duckImg.getWidth())
             {
                 ducks.remove(i);
@@ -273,10 +297,11 @@ public class Game {
             }
         }
 
+
         // Does player shoots?
         if(Canvas.mouseButtonState(MouseEvent.BUTTON1))
         {
-            // Checks if it can shoot again.
+            // Checks if it can shoot again .
             if(System.nanoTime() - lastTimeShoot >= timeBetweenShots)
             {
                 shoots++;
@@ -296,9 +321,11 @@ public class Game {
                         // Remove the duck from the array list.
                         ducks.remove(i);
 
+
                         // We found the duck that player shoot so we can leave the for loop.
                         break;
                     }
+
                 }
 
                 for(int i = 0; i < reverseDuck.size(); i++)
@@ -319,6 +346,27 @@ public class Game {
                         // We found the duck that player shoot so we can leave the for loop.
                         break;
                     }
+
+                }
+                coin = score/2;
+                if(new Rectangle(Framework.frameWidth -50, Framework.frameHeight -50, blueItem.getWidth() /10, blueItem.getHeight() /10).contains(mousePosition)){
+                    if(Store.NumberofBlueItem > 0){
+                        BlueItem.Using(mousePosition);
+                        Store.NumberofBlueItem--;
+                    }
+                    else{
+                        System.out.println("아이템이 부족합니다.");
+                    }
+
+                }
+                if(new Rectangle(Framework.frameWidth - 100, Framework.frameHeight -50, redItem.getWidth() /10, redItem.getHeight() /10).contains(mousePosition)) {
+                    if (Store.NumberofRedItem > 0) {
+                        RedItem.Using(mousePosition);
+                        Store.NumberofRedItem--;
+
+                    }else{
+                        System.out.println("아이템이 부족합니다.");
+                    }
                 }
 
                 lastTimeShoot = System.nanoTime();
@@ -333,8 +381,10 @@ public class Game {
             hpadd = false;
         }
         // When 200 ducks runaway, the game ends.
-        if(playerhp<=0)
+        if(playerhp<=0){
             Framework.gameState = Framework.GameState.GAMEOVER;
+        }
+
     }
 
     /**
@@ -345,8 +395,12 @@ public class Game {
         return killedDucks;
     }
 
+    public int setCoin(){
+        return coin;
+    }
 
-    /**
+
+   /**
      * Draw the game to the screen.
      *
      * @param g2d Graphics2D
@@ -368,8 +422,11 @@ public class Game {
         }
 
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
+        g2d.drawImage(blueItem, Framework.frameWidth -50, Framework.frameHeight -50, blueItem.getWidth() /10, blueItem.getHeight() /10, null);
+        g2d.drawImage(redItem, Framework.frameWidth - 100, Framework.frameHeight -50, redItem.getWidth() /10, redItem.getHeight() /10, null);
 
         g2d.drawImage(sightImg, mousePosition.x - sightImgMiddleWidth, mousePosition.y - sightImgMiddleHeight, null);
+
 
         g2d.setFont(font);
         g2d.setColor(Color.darkGray);
@@ -378,6 +435,9 @@ public class Game {
         g2d.drawString("KILLS: " + killedDucks, 160, 21);
         g2d.drawString("SHOOTS: " + shoots, 299, 21);
         g2d.drawString("SCORE: " + score, 440, 21);
+        g2d.drawString("Coin: " + coin, Framework.frameWidth / 2 + 200, 21 );
+        g2d.drawString("Blue potion: " + Store.NumberofBlueItem, 10, 45);
+        g2d.drawString("Red potion: "+ Store.NumberofRedItem, 10, 65);
 
     }
 
@@ -399,4 +459,5 @@ public class Game {
         g2d.drawString("kr.jbnu.se.std.Game Over", Framework.frameWidth / 2 - 40, (int)(Framework.frameHeight * 0.65));
         g2d.drawString("Press space or enter to restart.", Framework.frameWidth / 2 - 150, (int)(Framework.frameHeight * 0.70));
     }
+
 }
