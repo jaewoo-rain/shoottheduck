@@ -99,7 +99,7 @@ public class Store  {
                         NumberofRedItem += 1;
                         Coin -= 300;
                     }else{
-                        System.out.println("돈이 부족합니다.");
+                        System.out.println("돈이 부족합니다. " + (300 - Coin) + "더 모아오세요.");
                     }
 
                 }
@@ -109,7 +109,7 @@ public class Store  {
                         NumberofBlueItem += 1;
                         Coin -= 300;
                     }else{
-                        System.out.println("돈이 부족합니다.");
+                        System.out.println("돈이 부족합니다."+ (300 - Coin) + "더 모아오세요.");
                     }
 
                 }
