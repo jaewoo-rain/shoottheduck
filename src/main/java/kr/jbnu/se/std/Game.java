@@ -383,9 +383,11 @@ public class Game {
         }
         // When 200 ducks runaway, the game ends.
         if(playerhp<=0){
+            Store.Coin += coin;
             Framework.gameState = Framework.GameState.GAMEOVER;
 
         }
+
 
     }
 
