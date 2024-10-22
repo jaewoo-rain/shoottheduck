@@ -9,9 +9,11 @@ public class Normal extends Game{
 //    private int level;
     private int nextLevelScore;
     private long level;
+    public static boolean isContinue = true;
 
-    public Normal(long level) {
+    public Normal(long level, boolean isContinue) {
         super();
+        this.isContinue = isContinue;
         Framework.level = (int) level;
         level = Framework.level;
         timeBetweenDucks = Framework.secInNanosec;
@@ -26,6 +28,12 @@ public class Normal extends Game{
         }
 
     }
+
+    public static boolean getIsContinue() {
+        return isContinue;
+
+    }
+
     @Override
     public void Initialize(){
         super.Initialize();
@@ -65,9 +73,15 @@ public class Normal extends Game{
         reverseDuck.clear();
 
     }
-
-
+    @Override
+    public void Draw(Graphics2D g2d, Point mousePosition) {
+        super.Draw(g2d, mousePosition);
+        if(!isContinue){
+            String timeText = "Best Score: " + User.getScore();
+            g2d.drawString(timeText, Framework.frameWidth / 2 + 200, 50);
+        }
     }
+}
 
 
 

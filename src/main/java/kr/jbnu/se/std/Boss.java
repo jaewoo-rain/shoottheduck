@@ -136,7 +136,7 @@ public class Boss extends Game {
     public void setBossappearance() {
         if(!bossappearance&&setkillducks()>=5) {
         bossappearance = true;
+        }
     }
-}
 
 }
