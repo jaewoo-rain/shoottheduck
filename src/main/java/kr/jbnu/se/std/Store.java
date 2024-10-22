@@ -27,8 +27,6 @@ public class Store  {
     private Game game;
     protected static int NumberofBlueItem =0;
     protected static int NumberofRedItem =0;
-    protected static int Potionofnum =0;
-
 
     protected static int Coin = 0;
 
@@ -56,6 +54,7 @@ public class Store  {
     {
         StoreAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
+        Coin += game.coin;
     }
 
 
@@ -101,7 +100,6 @@ public class Store  {
                     }else{
                         System.out.println("돈이 부족합니다.");
                     }
-                    Potionofnum += 1;
 
                 }
                 if(new Rectangle(Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50).contains(mousePosition)){
@@ -112,7 +110,6 @@ public class Store  {
                     }else{
                         System.out.println("돈이 부족합니다.");
                     }
-                    Potionofnum += 1;
 
                 }
                 lastTimePurchase = System.nanoTime();
