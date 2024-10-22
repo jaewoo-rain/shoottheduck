@@ -48,7 +48,7 @@ public class Store  {
 
                 LoadContent();
 
-                Initialize();
+                initialize();
 
                 Framework.gameState = Framework.GameState.STORE;
             }
@@ -57,7 +57,7 @@ public class Store  {
     }
 
     // 객체 세팅
-    private void Initialize()
+    private void initialize()
     {
         StoreAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
@@ -133,7 +133,7 @@ public class Store  {
 
     }
 
-    public void Draw(Graphics g2d, Point mousePosition){
+    public void draw(Graphics g2d, Point mousePosition){
         g2d.drawImage(StoreBackgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
         g2d.drawImage(RedPotionImg, Framework.frameWidth /2 - 250, Framework.frameHeight / 2 - 120, RedPotionImg.getWidth() /3 + 50, RedPotionImg.getHeight() / 3 + 50, null);
         g2d.drawImage(BluePotionImg, Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50, null);

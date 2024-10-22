@@ -35,8 +35,8 @@ public class Normal extends Game{
     }
 
     @Override
-    public void Initialize(){
-        super.Initialize();
+    public void initialize(){
+        super.initialize();
 
     }
     @Override
@@ -70,12 +70,12 @@ public class Normal extends Game{
         Duck.lastDuckTime += 1;
 
         ducks.clear();
-        reverseDuck.clear();
+        reverseDucks.clear();
 
     }
     @Override
-    public void Draw(Graphics2D g2d, Point mousePosition) {
-        super.Draw(g2d, mousePosition);
+    public void draw(Graphics2D g2d, Point mousePosition) {
+        super.draw(g2d, mousePosition);
         if(!isContinue){
             String timeText = "Best Score: " + User.getScore();
             g2d.drawString(timeText, Framework.frameWidth / 2 + 200, 50);

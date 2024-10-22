@@ -104,7 +104,7 @@ public class Duck {
     /**
      * Move the duck.
      */
-    public void Update()
+    public void update()
     {
         x += speed;
     }
@@ -113,7 +113,7 @@ public class Duck {
      * Draw the duck to the screen.
      * @param g2d Graphics2D
      */
-    public void Draw(Graphics2D g2d)
+    public void draw(Graphics2D g2d)
     {
         g2d.drawImage(duckImg, x, y, null);
     }
