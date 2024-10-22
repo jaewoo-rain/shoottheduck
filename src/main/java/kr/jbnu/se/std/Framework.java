@@ -103,13 +103,6 @@ public class Framework extends Canvas {
         }
     }
 
-    private void getCoin(){
-
-        if(game != null){
-            store.Coin += game.setCoin();
-        }
-    }
-
     public Framework ()
     {
         super();
@@ -191,7 +184,6 @@ public class Framework extends Canvas {
                     backgroundMusic.stop();
                     break;
                 case PLAYING:
-                    getCoin();
                     getkillDucks();
                     gameTime += System.nanoTime() - lastTime;
 

@@ -317,6 +317,7 @@ public class Game {
                         hitSound.start();
                         score += ducks.get(i).score;
                         consecutivekills++;
+                        coin += score/3;
 
                         User.getTopScores();
                         // Remove the duck from the array list.
@@ -339,6 +340,7 @@ public class Game {
                         hitSound.start();
                         score += reverseDuck.get(i).score;
                         consecutivekills++;
+                        coin += score/3;
 
                         // Remove the duck from the array list.
                         reverseDuck.remove(i);
@@ -348,7 +350,6 @@ public class Game {
                     }
 
                 }
-                coin = score/2;
                 if(new Rectangle(Framework.frameWidth -50, Framework.frameHeight -50, blueItem.getWidth() /10, blueItem.getHeight() /10).contains(mousePosition)){
                     if(Store.NumberofBlueItem > 0){
                         BlueItem.Using(mousePosition);
@@ -394,10 +395,6 @@ public class Game {
      */
     public int setkillducks(){
         return killedDucks;
-    }
-
-    public int setCoin(){
-        return coin;
     }
 
 
