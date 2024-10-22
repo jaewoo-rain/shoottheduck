@@ -52,8 +52,8 @@ public class Boss extends Game {
     }
 
     @Override
-    protected void Initialize() {
-        super.Initialize();
+    protected void initialize() {
+        super.initialize();
         bossappearance = false;
         bossHp = 30;
         x=Framework.frameWidth-200;
@@ -79,7 +79,7 @@ public class Boss extends Game {
         }
        else {
             ducks.clear();
-            reverseDuck.clear();
+            reverseDucks.clear();
 
         x += speed;
 
@@ -116,8 +116,8 @@ public class Boss extends Game {
     }
 
     @Override
-    public void Draw(Graphics2D g2d, Point mousePosition) {
-        super.Draw(g2d, mousePosition);
+    public void draw(Graphics2D g2d, Point mousePosition) {
+        super.draw(g2d, mousePosition);
 
 
         if (bossappearance) {
@@ -134,7 +134,7 @@ public class Boss extends Game {
         }
     }
     public void setBossappearance() {
-        if(!bossappearance&&setkillducks()>=5) {
+        if(!bossappearance&&Game.getKilledDucks()>=5) {
         bossappearance = true;
         }
     }

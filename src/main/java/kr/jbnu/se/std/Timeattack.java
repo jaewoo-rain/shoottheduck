@@ -35,8 +35,8 @@ public class Timeattack extends Game {
     }
 
     @Override
-    public void Draw(Graphics2D g2d, Point mousePosition) {
-        super.Draw(g2d, mousePosition);
+    public void draw(Graphics2D g2d, Point mousePosition) {
+        super.draw(g2d, mousePosition);
 
         long currentTime = System.nanoTime();
         long remainingTime = (timeLimit - (currentTime - startTime)) / 1000000000L;

@@ -99,7 +99,7 @@ public class Framework extends Canvas {
      */
     private void getkillDucks(){
         if(game != null){
-            this.killducks = game.setkillducks();
+            this.killducks = game.getKilledDucks();
         }else {
             System.out.println("Game is null!");
         }
@@ -119,7 +119,7 @@ public class Framework extends Canvas {
             public void run(){
 
                 LoadContent();
-                Initialize();
+                initialize();
 
                 GameLoop();
 
@@ -134,7 +134,7 @@ public class Framework extends Canvas {
      * Set variables and objects.
      * This method is intended to set the variables and objects for this class, variables and objects for the actual game can be set in kr.jbnu.se.std.Game.java.
      */
-    private void Initialize()
+    private void initialize()
     {
         backgroundMusic.start();
     }
@@ -277,7 +277,7 @@ public class Framework extends Canvas {
      * Draw the game to the screen. It is called through repaint() method in GameLoop() method.
      */
     @Override
-    public void Draw(Graphics2D g2d)
+    public void draw(Graphics2D g2d)
     {
         switch (gameState)
         {
@@ -286,15 +286,15 @@ public class Framework extends Canvas {
                 g2d.drawString("STORE is LOADING", frameWidth / 2 - 50, frameHeight / 2);
                 break;
             case STORE:
-                store.Draw(g2d, mousePosition());
+                store.draw(g2d, mousePosition());
                 break;
             case PAUSED:
-                game.Draw(g2d, mousePosition()); // 현재 게임 화면 보여줌
+                game.draw(g2d, mousePosition()); // 현재 게임 화면 보여줌
                 g2d.setColor(Color.RED);
                 g2d.drawString("PAUSED", frameWidth / 2, frameHeight / 2);
                 break;
             case PLAYING:
-                game.Draw(g2d, mousePosition());
+                game.draw(g2d, mousePosition());
                 if(normalmode == true){
                     g2d.setColor(Color.GREEN);{
                         g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
@@ -302,7 +302,7 @@ public class Framework extends Canvas {
                 }
                 break;
             case GAMEOVER:
-                game.DrawGameOver(g2d, mousePosition());
+                game.drawGameOver(g2d, mousePosition());
                 break;
             case MAIN_MENU:
                 g2d.drawImage(shootTheDuckMenuImg, 0, 0, frameWidth, frameHeight, null);
@@ -451,6 +451,8 @@ public class Framework extends Canvas {
                     game.background.stop();
                     backgroundMusic.start();
                     Framework.gameState = GameState.MAIN_MENU;
+                }else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+                    restartGame();
                 }
                 break;
             case PLAYING:
