@@ -54,7 +54,8 @@ public class Store  {
     {
         StoreAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
-        Coin += game.coin;
+
+
     }
 
 
