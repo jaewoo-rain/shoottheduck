@@ -207,6 +207,7 @@ public class Framework extends Canvas {
 
                     break;
                 case MAIN_MENU:
+
                     break;
                 case OPTIONS:
                     //...

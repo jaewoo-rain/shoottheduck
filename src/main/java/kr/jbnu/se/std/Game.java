@@ -53,7 +53,7 @@ public class Game {
     /**
      * For each killed duck, the player gets points.
      */
-    protected static int score;
+    protected static long score;
 
     /**
      * How many times a player is shot?
@@ -115,7 +115,7 @@ public class Game {
     /**
      * coin use to buy item in store.
      */
-    protected static int coin;
+    protected static long coin;
 
     protected Audio hitSound;
     protected Audio background;
@@ -135,6 +135,9 @@ public class Game {
     {
         BlueItem = new BlueItem(this);
         RedItem = new RedItem(this);
+
+
+
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 
         Thread threadForInitGame = new Thread() {
@@ -172,8 +175,14 @@ public class Game {
         consecutivekills = 0;
         hpadd = false;
 
+//        Store.Coin = User.getMoney();
+        Store.NumberofBlueItem = User.getBlueItemNum();
+        Store.NumberofRedItem = User.getRedItemNum();
+
         lastTimeShoot = 0;
         timeBetweenShots = Framework.secInNanosec / 5; // 총 쏘기 속도
+
+
     }
 
     /**
@@ -319,7 +328,6 @@ public class Game {
                         consecutivekills++;
                         coin += score/3;
 
-                        User.getTopScores();
                         // Remove the duck from the array list.
                         ducks.remove(i);
 
@@ -342,6 +350,7 @@ public class Game {
                         consecutivekills++;
                         coin += score/3;
 
+
                         // Remove the duck from the array list.
                         reverseDuck.remove(i);
 
@@ -350,6 +359,7 @@ public class Game {
                     }
 
                 }
+
                 if(new Rectangle(Framework.frameWidth -50, Framework.frameHeight -50, blueItem.getWidth() /10, blueItem.getHeight() /10).contains(mousePosition)){
                     if(Store.NumberofBlueItem > 0){
                         BlueItem.Using(mousePosition);
@@ -386,6 +396,11 @@ public class Game {
             Store.Coin += coin;
             Framework.gameState = Framework.GameState.GAMEOVER;
 
+            Store.Coin += Game.coin;
+            User.setMoney(Store.Coin);
+            User.setBlueItemNum(Store.NumberofBlueItem);
+            User.setRedItemNum(Store.NumberofRedItem);
+
         }
 
 
@@ -398,6 +413,7 @@ public class Game {
     public int setkillducks(){
         return killedDucks;
     }
+
 
 
     /**
