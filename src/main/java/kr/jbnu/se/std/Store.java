@@ -54,8 +54,7 @@ public class Store  {
     {
         StoreAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
-
-
+        Coin += game.coin;
     }
 
 
@@ -99,7 +98,7 @@ public class Store  {
                         NumberofRedItem += 1;
                         Coin -= 300;
                     }else{
-                        System.out.println("돈이 부족합니다. " + (300 - Coin) + "원 더 모아오세요.");
+                        System.out.println("돈이 부족합니다.");
                     }
 
                 }
@@ -109,7 +108,7 @@ public class Store  {
                         NumberofBlueItem += 1;
                         Coin -= 300;
                     }else{
-                        System.out.println("돈이 부족합니다. "+ (300 - Coin) + "원 더 모아오세요.");
+                        System.out.println("돈이 부족합니다.");
                     }
 
                 }
