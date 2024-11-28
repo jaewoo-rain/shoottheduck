@@ -54,7 +54,6 @@ public class Store  {
         storeAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
 
-
     }
 
 
@@ -79,9 +78,6 @@ public class Store  {
             sightImg = ImageIO.read(sightImgURL);
             sightImgMiddleWidth = sightImg.getWidth()/2;
             sightImgMiddleHeight = sightImg.getHeight()/2;
-
-
-
 
         }
         catch (IOException ex) {
