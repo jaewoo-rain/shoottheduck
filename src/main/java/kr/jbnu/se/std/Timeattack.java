@@ -9,7 +9,7 @@ import static kr.jbnu.se.std.Duck.timeBetweenDucks;
 public class Timeattack extends Game {
 
     private final long timeLimit = 2 * 60 * 1000000000L;
-    private long startTime;
+    private final long startTime;
 
     public Timeattack() {
         super();
