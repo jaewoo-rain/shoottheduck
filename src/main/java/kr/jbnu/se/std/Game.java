@@ -59,10 +59,10 @@ public class Game {
         });
         threadForInitGame.start();
     }
+
     public static int getKilledDucks() {
         return killedDucks;
     }
-
 
     protected void initialize() {
         random = new Random();
@@ -130,7 +130,7 @@ public class Game {
         if (Framework.gameState == Framework.GameState.PAUSED)
             return;
 
-        updateDucks();
+        missDuck();
         shoot(mousePosition);
         healPlayerHp();
 
@@ -140,58 +140,35 @@ public class Game {
     }
 
     private void spawnDuck() {
-        ducks.add(new Duck(Duck.duckLines[Duck.nextDuckLines][0] + random.nextInt(200),
-                Duck.duckLines[Duck.nextDuckLines][1],
-                Duck.duckLines[Duck.nextDuckLines][2],
-                Duck.duckLines[Duck.nextDuckLines][3],
-                duckImg));
-        reverseDucks.add(new Duck(Duck.reverseDuckLines[Duck.nextDuckLines][0] - random.nextInt(200),
-                Duck.reverseDuckLines[Duck.nextDuckLines][1],
-                Duck.reverseDuckLines[Duck.nextDuckLines][2],
-                Duck.reverseDuckLines[Duck.nextDuckLines][3],
-                reverseDuckImg));
-
-        Duck.nextDuckLines++;
-        if (Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length) {
-            Duck.nextDuckLines = 0;
-        }
-        Duck.lastDuckTime = System.nanoTime();
+        Duck.spawnDucks(duckImg, reverseDuckImg);
     }
 
-    private void updateDucks() {
-        updateDuckList(ducks, -1);
-        updateDuckList(reverseDucks, 1);
-    }
 
-    private void updateDuckList(ArrayList<Duck> duckList, int direction) {
-        for (int i = 0; i < duckList.size(); i++) {
-            Duck duck = duckList.get(i);
-            duck.update();
-            if ((direction < 0 && duck.x < 0 - duckImg.getWidth()) ||
-                    (direction > 0 && duck.x > Framework.frameWidth + reverseDuckImg.getWidth())) {
-                duckList.remove(i);
+
+    private void missDuck() {
+        Duck.updateAllDucks();
+        for (Duck duck : Duck.allDucks) {
+            if (duck.x < -100 || duck.x > Framework.frameWidth + 100) {
                 playerhp--;
                 consecutivekills = 0;
             }
         }
     }
 
+
+
     private void shoot(Point mousePosition) {
-        if ((Canvas.mouseButtonState(MouseEvent.BUTTON1))&&System.nanoTime() - lastTimeShoot >= timeBetweenShots)
-        {
-            {
-                shoots++;
-                hit(mousePosition, ducks);
-                hit(mousePosition, reverseDucks);
-                useItem(mousePosition);
-                lastTimeShoot = System.nanoTime();
-            }
+        if ((Canvas.mouseButtonState(MouseEvent.BUTTON1)) && System.nanoTime() - lastTimeShoot >= timeBetweenShots) {
+            shoots++;
+            hit(mousePosition);
+            useItem(mousePosition);
+            lastTimeShoot = System.nanoTime();
         }
     }
 
-    private void hit(Point mousePosition, ArrayList<Duck> duckList) {
-        for (int i = 0; i < duckList.size(); i++) {
-            Duck duck = duckList.get(i);
+    private void hit(Point mousePosition) {
+        for (int i = 0; i < Duck.allDucks.size(); i++) {
+            Duck duck = Duck.allDucks.get(i);
             if (new Rectangle(duck.x + 18, duck.y, 27, 30).contains(mousePosition) ||
                     new Rectangle(duck.x + 30, duck.y + 30, 88, 25).contains(mousePosition)) {
                 killedDucks++;
@@ -199,11 +176,12 @@ public class Game {
                 score += duck.score;
                 consecutivekills++;
                 coin += score / 3;
-                duckList.remove(i);
+                Duck.allDucks.remove(i);
                 break;
             }
         }
     }
+
 
     private void useItem(Point mousePosition) {
         if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)) {
@@ -235,7 +213,6 @@ public class Game {
         }
     }
 
-
     private void endGame() {
         Framework.gameState = Framework.GameState.GAMEOVER;
         Store.Coin += Game.coin;
@@ -247,13 +224,7 @@ public class Game {
     public void draw(Graphics2D g2d, Point mousePosition) {
         g2d.drawImage(backgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
 
-        for (Duck duck : ducks) {
-            duck.draw(g2d);
-        }
-
-        for (Duck duck : reverseDucks) {
-            duck.draw(g2d);
-        }
+        Duck.drawAllDucks(g2d);
 
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
         g2d.drawImage(blueItem, Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10, null);
