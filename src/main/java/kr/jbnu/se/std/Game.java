@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -44,12 +43,12 @@ public class Game {
     protected Audio hitSound;
     protected Audio background;
 
-    private BlueItem BlueItem;
-    private RedItem RedItem;
+    private BlueItem stopItem;
+    private RedItem clearItem;
 
     public Game() {
-        BlueItem = new BlueItem(this);
-        RedItem = new RedItem(this);
+        stopItem = new BlueItem(this);
+        clearItem = new RedItem(this);
 
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 
@@ -132,7 +131,7 @@ public class Game {
             return;
 
         updateDucks();
-        shooting(mousePosition);
+        shoot(mousePosition);
         healPlayerHp();
 
         if (playerhp <= 0) {
@@ -177,9 +176,10 @@ public class Game {
         }
     }
 
-    private void shooting(Point mousePosition) {
-        if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
-            if (System.nanoTime() - lastTimeShoot >= timeBetweenShots) {
+    private void shoot(Point mousePosition) {
+        if ((Canvas.mouseButtonState(MouseEvent.BUTTON1))&&System.nanoTime() - lastTimeShoot >= timeBetweenShots)
+        {
+            {
                 shoots++;
                 hit(mousePosition, ducks);
                 hit(mousePosition, reverseDucks);
@@ -208,16 +208,15 @@ public class Game {
     private void useItem(Point mousePosition) {
         if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)) {
             if (Store.NumberofBlueItem > 0) {
-                BlueItem.Using(mousePosition);
+                stopItem.Using(mousePosition);
                 Store.NumberofBlueItem--;
             } else {
                 System.out.println("아이템이 부족합니다.");
             }
         }
-
         if (new Rectangle(Framework.frameWidth - 100, Framework.frameHeight - 50, redItem.getWidth() / 10, redItem.getHeight() / 10).contains(mousePosition)) {
             if (Store.NumberofRedItem > 0) {
-                RedItem.Using(mousePosition);
+                clearItem.Using(mousePosition);
                 Store.NumberofRedItem--;
             } else {
                 System.out.println("아이템이 부족합니다.");
@@ -278,9 +277,9 @@ public class Game {
 
         g2d.setColor(Color.black);
         g2d.drawString("Game Over", Framework.frameWidth / 2 - 39, (int) (Framework.frameHeight * 0.65) + 1);
-        g2d.drawString("Press space or enter to restart.", Framework.frameWidth / 2 - 149, (int) (Framework.frameHeight * 0.70) + 1);
+        g2d.drawString("Press space to restart or press enter to return to main menu.", Framework.frameWidth / 2 - 149, (int) (Framework.frameHeight * 0.70) + 1);
         g2d.setColor(Color.red);
         g2d.drawString("Game Over", Framework.frameWidth / 2 - 40, (int) (Framework.frameHeight * 0.65));
-        g2d.drawString("Press space or enter to restart.", Framework.frameWidth / 2 - 150, (int) (Framework.frameHeight * 0.70));
+        g2d.drawString("Press space to restart or press enter to return to main menu.", Framework.frameWidth / 2 - 150, (int) (Framework.frameHeight * 0.70));
     }
 }
