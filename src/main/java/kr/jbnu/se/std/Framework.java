@@ -1,3 +1,4 @@
+
 package kr.jbnu.se.std;
 
 import java.awt.Color;
@@ -81,7 +82,7 @@ public class Framework extends Canvas {
 
 
 
-    private int killducks;
+    private int kills;
     /**
      * Image for menu.
      */
@@ -95,9 +96,9 @@ public class Framework extends Canvas {
     /**
      * getkillDucks get Game class's killduks score;
      */
-    private void getkillDucks(){
+    private void getKills(){
         if(game != null){
-            this.killducks = game.setkillducks();
+            this.kills = game.getKilledDucks();
         }else {
             System.out.println("Game is null!");
         }
@@ -184,19 +185,19 @@ public class Framework extends Canvas {
                     backgroundMusic.stop();
                     break;
                 case PLAYING:
-                    getkillDucks();
+                    getKills();
                     gameTime += System.nanoTime() - lastTime;
 
                     game.UpdateGame(gameTime, mousePosition());
                     backgroundMusic.stop();
                     lastTime = System.nanoTime();
-                    
+
 //                    if(true == normalmode){
-//                        if(killducks >= level *10){
+//                        if(kills >= level *10){
 //                            Levelup();
 //                        }
 //                    }
-                    
+
                     break;
                 case GAMEOVER:
                     if(this.level > previouslevel){
@@ -261,7 +262,7 @@ public class Framework extends Canvas {
      * Draw the game to the screen. It is called through repaint() method in GameLoop() method.
      */
     @Override
-    public void Draw(Graphics2D g2d)
+    public void draw(Graphics2D g2d)
     {
         switch (gameState)
         {
@@ -270,15 +271,15 @@ public class Framework extends Canvas {
                 g2d.drawString("STORE is LOADING", frameWidth / 2 - 50, frameHeight / 2);
                 break;
             case STORE:
-                store.Draw(g2d, mousePosition());
+                store.draw(g2d, mousePosition());
                 break;
             case PAUSED:
-                game.Draw(g2d, mousePosition()); // 현재 게임 화면 보여줌
+                game.draw(g2d, mousePosition()); // 현재 게임 화면 보여줌
                 g2d.setColor(Color.RED);
                 g2d.drawString("PAUSED", frameWidth / 2, frameHeight / 2);
                 break;
             case PLAYING:
-                game.Draw(g2d, mousePosition());
+                game.draw(g2d, mousePosition());
                 if(normalmode == true){
                     g2d.setColor(Color.GREEN);{
                         g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
@@ -286,7 +287,7 @@ public class Framework extends Canvas {
                 }
                 break;
             case GAMEOVER:
-                game.DrawGameOver(g2d, mousePosition());
+                game.drawGameOver(g2d, mousePosition());
                 break;
             case MAIN_MENU:
                 g2d.drawImage(shootTheDuckMenuImg, 0, 0, frameWidth, frameHeight, null);
@@ -429,7 +430,9 @@ public class Framework extends Canvas {
             case GAMEOVER:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
-                else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                else if (e.getKeyCode() ==KeyEvent.VK_SPACE) {
+                    restartGame();
+                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     game.hitSound.stop();
                     game.background.stop();
                     backgroundMusic.start();

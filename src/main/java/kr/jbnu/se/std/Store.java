@@ -25,10 +25,10 @@ public class Store  {
     protected Audio StoreAudio;
 
     private Game game;
-    protected static int NumberofBlueItem =0;
-    protected static int NumberofRedItem =0;
+    protected static long NumberofBlueItem =0;
+    protected static long NumberofRedItem =0;
 
-    protected static int Coin = 0;
+    protected static long Coin = 0;
 
     public Store()
     {
@@ -119,7 +119,7 @@ public class Store  {
 
     }
 
-    public void Draw(Graphics g2d, Point mousePosition){
+    public void draw(Graphics g2d, Point mousePosition){
         g2d.drawImage(StoreBackgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
         g2d.drawImage(RedPotionImg, Framework.frameWidth /2 - 250, Framework.frameHeight / 2 - 120, RedPotionImg.getWidth() /3 + 50, RedPotionImg.getHeight() / 3 + 50, null);
         g2d.drawImage(BluePotionImg, Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50, null);
