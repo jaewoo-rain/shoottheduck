@@ -98,25 +98,23 @@ public class Store  {
     public void clickItem(Point mousePosition) {
         if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
             if (new Rectangle(Framework.frameWidth / 2 - 250, Framework.frameHeight / 2 - 120, redPotionImg.getWidth() / 3 + 50, redPotionImg.getHeight() / 3 + 50).contains(mousePosition)) {
-                if (coin >= 300) {
-                    System.out.println("Red potion 구매 완료");
-                    numberofRedItem ++;
-                    coin -= 300;
-                }
-                else {
-                    System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
-                }
+                purchaseRedBlue();
             }
             if (new Rectangle(Framework.frameWidth / 2 + 100, Framework.frameHeight / 2 - 120, bluePotionImg.getWidth() / 3 + 50, bluePotionImg.getHeight() / 3 + 50).contains(mousePosition)) {
-                if (coin >= 300) {
-                    System.out.println("Blue potion 구매 완료");
-                    numberofBlueItem ++;
-                    coin -= 300;
-                } else {
-                    System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
-                }
+                purchaseRedBlue();
             }
             lastTimePurchase = System.nanoTime();
+        }
+    }
+
+    private void purchaseRedBlue(){
+        if (coin >= 300) {
+            System.out.println("potion 구매 완료");
+            numberofRedItem ++;
+            coin -= 300;
+        }
+        else {
+            System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
         }
     }
 
