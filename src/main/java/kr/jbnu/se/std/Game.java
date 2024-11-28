@@ -429,12 +429,12 @@ public class Game {
         // Here we draw all the ducks.
         for(int i = 0; i < ducks.size(); i++)
         {
-            ducks.get(i).Draw(g2d);
+            ducks.get(i).draw(g2d);
         }
 
         for(int i = 0; i < reverseDuck.size(); i++)
         {
-            reverseDuck.get(i).Draw(g2d);
+            reverseDuck.get(i).draw(g2d);
         }
 
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
