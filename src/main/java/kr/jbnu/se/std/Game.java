@@ -175,9 +175,9 @@ public class Game {
         consecutivekills = 0;
         hpadd = false;
 
-        Store.Coin = User.getMoney();
+        /* Store.Coin = User.getMoney();
         Store.NumberofBlueItem = User.getBlueItemNum();
-        Store.NumberofRedItem = User.getRedItemNum();
+        Store.NumberofRedItem = User.getRedItemNum();*/
 
         lastTimeShoot = 0;
         timeBetweenShots = Framework.secInNanosec / 5; // 총 쏘기 속도
@@ -393,14 +393,16 @@ public class Game {
         }
         // When 200 ducks runaway, the game ends.
         if(playerhp<=0){
+            Store.Coin += coin;
             Framework.gameState = Framework.GameState.GAMEOVER;
 
             Store.Coin += Game.coin;
-            User.setMoney(Store.Coin);
+            /*User.setMoney(Store.Coin);
             User.setBlueItemNum(Store.NumberofBlueItem);
-            User.setRedItemNum(Store.NumberofRedItem);
+            User.setRedItemNum(Store.NumberofRedItem);*/
 
         }
+
 
     }
 
@@ -427,12 +429,12 @@ public class Game {
         // Here we draw all the ducks.
         for(int i = 0; i < ducks.size(); i++)
         {
-            ducks.get(i).draw(g2d);
+            ducks.get(i).Draw(g2d);
         }
 
         for(int i = 0; i < reverseDuck.size(); i++)
         {
-            reverseDuck.get(i).draw(g2d);
+            reverseDuck.get(i).Draw(g2d);
         }
 
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);

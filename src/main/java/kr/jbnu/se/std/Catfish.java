@@ -68,14 +68,14 @@ public class Catfish extends Animals{
      */
     public void move()
     {
-        this.x += speed;
+        x += speed;
     }
 
     /**
      * Draw the catfish to the screen.
      * @param g2d Graphics2D
      */
-    public void draw(Graphics2D g2d)
+    public void Draw(Graphics2D g2d)
     {
         g2d.drawImage(catfishImg, x, y, null);
     }
