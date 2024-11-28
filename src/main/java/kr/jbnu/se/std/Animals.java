@@ -20,7 +20,7 @@ public abstract class Animals {
      */
     public int score;
 
-    public Animals(int x, int y, int speed, int score){
+    protected Animals(int x, int y, int speed, int score){
         this.x = x;
         this.y = y;
         this.speed = speed;
