@@ -181,7 +181,7 @@ public class Framework extends Canvas {
                     storeTime += System.nanoTime() - lastStoreTime;
                     lastStoreTime = System.nanoTime();
 
-                    store.PurchaseItem(storeTime, mousePosition());
+                    store.purchaseItem(mousePosition());
                     backgroundMusic.stop();
                     break;
                 case PLAYING:
