@@ -1,34 +1,34 @@
 package kr.jbnu.se.std;
 
-
-
 public abstract class Animals {
-
     /**
-     * X coordinate of the animals.
+     * X coordinate of the animal.
      */
     public int x;
     /**
-     * Y coordinate of the animals.
+     * Y coordinate of the animal.
      */
     public int y;
+
     /**
-     * How fast the animals should move? And to which direction?
+     * How fast the animal should move? And to which direction?
      */
-    public int speed;
+    protected int speed;
+
     /**
-     * How many points this catfish is worth?
+     * How many points this animal is worth?
      */
     public int score;
 
-    Animals(int x, int y, int speed, int score) {
+    public Animals(int x, int y, int speed, int score){
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.score = score;
     }
 
+    /**
+     * Move the animal.
+     */
     public abstract void move();
-
-
 }

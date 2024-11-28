@@ -45,6 +45,9 @@ public class Duck extends Animals{
      */
     public static int nextDuckLines = 0;
 
+    /**
+     * kr.jbnu.se.std.Duck image.
+     */
     private BufferedImage duckImg;
 
 
@@ -60,7 +63,6 @@ public class Duck extends Animals{
     public Duck(int x, int y, int speed, int score, BufferedImage duckImg)
     {
         super(x, y, speed, score);
-
         this.duckImg = duckImg;
     }
 
@@ -72,20 +74,16 @@ public class Duck extends Animals{
         this.speed = speed;
     }
 
-
-    /**
-     * Move the duck.
-     */
     public void move()
     {
-        this.x += speed;
+        x += speed;
     }
 
     /**
      * Draw the duck to the screen.
      * @param g2d Graphics2D
      */
-    public void draw(Graphics2D g2d)
+    public void Draw(Graphics2D g2d)
     {
         g2d.drawImage(duckImg, x, y, null);
     }
