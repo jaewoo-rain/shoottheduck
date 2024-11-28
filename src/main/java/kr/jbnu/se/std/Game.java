@@ -175,9 +175,9 @@ public class Game {
         consecutivekills = 0;
         hpadd = false;
 
-//        Store.Coin = User.getMoney();
+        /* Store.Coin = User.getMoney();
         Store.NumberofBlueItem = User.getBlueItemNum();
-        Store.NumberofRedItem = User.getRedItemNum();
+        Store.NumberofRedItem = User.getRedItemNum();*/
 
         lastTimeShoot = 0;
         timeBetweenShots = Framework.secInNanosec / 5; // 총 쏘기 속도
@@ -281,7 +281,7 @@ public class Game {
         for(int i = 0; i < ducks.size(); i++)
         {
             // Move the duck.
-            ducks.get(i).Update();
+            ducks.get(i).move();
 
             // Checks if the duck leaves the screen and remove it if it does .
             if(ducks.get(i).x < -duckImg.getWidth())
@@ -295,7 +295,7 @@ public class Game {
         for(int i = 0; i < reverseDuck.size(); i++)
         {
             // Move the duck.
-            reverseDuck.get(i).Update();
+            reverseDuck.get(i).move();
 
             // Checks if the duck leaves the screen and remove it if it does.
             if(reverseDuck.get(i).x > Framework.frameWidth + reverseDuckImg.getWidth())
@@ -393,14 +393,16 @@ public class Game {
         }
         // When 200 ducks runaway, the game ends.
         if(playerhp<=0){
+            Store.Coin += coin;
             Framework.gameState = Framework.GameState.GAMEOVER;
 
             Store.Coin += Game.coin;
-            User.setMoney(Store.Coin);
+            /*User.setMoney(Store.Coin);
             User.setBlueItemNum(Store.NumberofBlueItem);
-            User.setRedItemNum(Store.NumberofRedItem);
+            User.setRedItemNum(Store.NumberofRedItem);*/
 
         }
+
 
     }
 
