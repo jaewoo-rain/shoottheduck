@@ -24,7 +24,6 @@ public class Store  {
 
     protected Audio storeAudio;
 
-    private Game game;
     protected static long numberofBlueItem =0;
     protected static long numberofRedItem =0;
 
@@ -34,7 +33,7 @@ public class Store  {
     {
         Framework.gameState = Framework.GameState.STORE_CONTENT_LOADING;
 
-        Thread StoreTH = new Thread(){
+        Thread storeTH = new Thread(){
 
             @Override
             public void run(){
@@ -46,7 +45,7 @@ public class Store  {
                 Framework.gameState = Framework.GameState.STORE;
             }
         };
-        StoreTH.start();
+        storeTH.start();
     }
 
     // 객체 세팅
@@ -67,17 +66,17 @@ public class Store  {
         {
             storeAudio = new Audio("src/main/resources/audio/Storebackgrounmusic.wav", true);
 
-            URL StoreBackgroundImgURL = this.getClass().getClassLoader().getResource("images/Storebg.jpg");
-            storeBackgroundImg = ImageIO.read(StoreBackgroundImgURL);
+            URL storeBackgroundImgURL = this.getClass().getClassLoader().getResource("images/Storebg.jpg");
+            storeBackgroundImg = ImageIO.read(storeBackgroundImgURL);
 
-            URL RedPotionImgURL = this.getClass().getClassLoader().getResource("images/redPotion.png");
-            redPotionImg = ImageIO.read(RedPotionImgURL);
+            URL redPotionImgURL = this.getClass().getClassLoader().getResource("images/redPotion.png");
+            redPotionImg = ImageIO.read(redPotionImgURL);
 
-            URL BluePotionImgURL = this.getClass().getClassLoader().getResource("images/bluePotion.png");
-            bluePotionImg = ImageIO.read(BluePotionImgURL);
+            URL bluePotionImgURL = this.getClass().getClassLoader().getResource("images/bluePotion.png");
+            bluePotionImg = ImageIO.read(bluePotionImgURL);
 
-            URL SightImgURL = this.getClass().getClassLoader().getResource("images/Sight.png");
-            sightImg = ImageIO.read(SightImgURL);
+            URL sightImgURL = this.getClass().getClassLoader().getResource("images/Sight.png");
+            sightImg = ImageIO.read(sightImgURL);
             sightImgMiddleWidth = sightImg.getWidth()/2;
             sightImgMiddleHeight = sightImg.getHeight()/2;
 
@@ -90,34 +89,34 @@ public class Store  {
         }
     }
 
-    public void PurchaseItem(long storeTime, Point mousePosition){
+    public void purchaseItem(Point mousePosition){
         if(System.nanoTime() - lastTimePurchase > timeBetweenPurchase){
             clickItem(mousePosition);
         }
     }
+
     public void clickItem(Point mousePosition) {
         if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
             if (new Rectangle(Framework.frameWidth / 2 - 250, Framework.frameHeight / 2 - 120, redPotionImg.getWidth() / 3 + 50, redPotionImg.getHeight() / 3 + 50).contains(mousePosition)) {
-                if (coin > 300) {
+                if (coin >= 300) {
                     System.out.println("Red potion 구매 완료");
-                    numberofRedItem += 1;
+                    numberofRedItem ++;
+                    coin -= 300;
+                }
+                else {
+                    System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
+                }
+            }
+            if (new Rectangle(Framework.frameWidth / 2 + 100, Framework.frameHeight / 2 - 120, bluePotionImg.getWidth() / 3 + 50, bluePotionImg.getHeight() / 3 + 50).contains(mousePosition)) {
+                if (coin >= 300) {
+                    System.out.println("Blue potion 구매 완료");
+                    numberofBlueItem ++;
                     coin -= 300;
                 } else {
                     System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
                 }
-                if (new Rectangle(Framework.frameWidth / 2 + 100, Framework.frameHeight / 2 - 120, bluePotionImg.getWidth() / 3 + 50, bluePotionImg.getHeight() / 3 + 50).contains(mousePosition)) {
-                    if (coin >= 300) {
-                        System.out.println("Blue potion 구매 완료");
-                        numberofBlueItem += 1;
-                        coin -= 300;
-                    } else {
-                        System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
-                    }
-
-                }
-                lastTimePurchase = System.nanoTime();
             }
-
+            lastTimePurchase = System.nanoTime();
         }
     }
 
