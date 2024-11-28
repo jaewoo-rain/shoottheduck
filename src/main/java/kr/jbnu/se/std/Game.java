@@ -175,7 +175,7 @@ public class Game {
         consecutivekills = 0;
         hpadd = false;
 
-//        Store.Coin = User.getMoney();
+        Store.Coin = User.getMoney();
         Store.NumberofBlueItem = User.getBlueItemNum();
         Store.NumberofRedItem = User.getRedItemNum();
 
@@ -281,7 +281,7 @@ public class Game {
         for(int i = 0; i < ducks.size(); i++)
         {
             // Move the duck.
-            ducks.get(i).Update();
+            ducks.get(i).move();
 
             // Checks if the duck leaves the screen and remove it if it does .
             if(ducks.get(i).x < 0 - duckImg.getWidth())
@@ -295,7 +295,7 @@ public class Game {
         for(int i = 0; i < reverseDuck.size(); i++)
         {
             // Move the duck.
-            reverseDuck.get(i).Update();
+            reverseDuck.get(i).move();
 
             // Checks if the duck leaves the screen and remove it if it does.
             if(reverseDuck.get(i).x > Framework.frameWidth + reverseDuckImg.getWidth())
@@ -427,12 +427,12 @@ public class Game {
         // Here we draw all the ducks.
         for(int i = 0; i < ducks.size(); i++)
         {
-            ducks.get(i).Draw(g2d);
+            ducks.get(i).draw(g2d);
         }
 
         for(int i = 0; i < reverseDuck.size(); i++)
         {
-            reverseDuck.get(i).Draw(g2d);
+            reverseDuck.get(i).draw(g2d);
         }
 
         g2d.drawImage(grassImg, 0, Framework.frameHeight - grassImg.getHeight(), Framework.frameWidth, grassImg.getHeight(), null);
