@@ -58,7 +58,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, STORE_CONTENT_LOADING, STORE, BOSS, TIMAATACK}
+    public enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, STORE_CONTENT_LOADING, STORE, BOSS, TIMAATACK}
 
     /**
      * Current state of the game
@@ -202,16 +202,16 @@ public class Framework extends Canvas {
 
                     break;
                 case GAMEOVER:
-                    if(this.level > previouslevel){
-                        User.setLevel(this.level);
-                        previouslevel = this.level;
+                    if(level > previouslevel){
+                        User.setLevel(level);
+                        previouslevel = level;
 //                        System.out.println('level Up');
-                    };
+                    }
                     if(!Normal.isContinue){
                         if(Game.score > User.getScore()){
                             User.setScore(Game.score);
                         }
-                    };
+                    }
                     User.setMoney(Store.Coin);
                     User.setRedItemNum(Store.NumberofRedItem);
                     User.setBlueItemNum(Store.NumberofBlueItem);
@@ -295,7 +295,7 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.Draw(g2d, mousePosition());
-                if(normalmode == true){
+                if(normalmode){
                     g2d.setColor(Color.GREEN);{
                         g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
                     }

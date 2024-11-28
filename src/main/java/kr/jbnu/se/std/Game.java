@@ -122,8 +122,8 @@ public class Game {
     /**
      * 능력
      */
-    private BlueItem BlueItem;
-    private RedItem RedItem;
+    private final BlueItem BlueItem;
+    private final RedItem RedItem;
 
     private boolean isPaused;
     private JButton startButton;
@@ -284,7 +284,7 @@ public class Game {
             ducks.get(i).Update();
 
             // Checks if the duck leaves the screen and remove it if it does .
-            if(ducks.get(i).x < 0 - duckImg.getWidth())
+            if(ducks.get(i).x < -duckImg.getWidth())
             {
                 ducks.remove(i);
                 playerhp--;

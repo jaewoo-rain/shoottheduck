@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 
 
 public class BlueItem {
-    private Game game;
+    private final Game game;
 
     public BlueItem(Game game) {
         this.game = game;
@@ -21,10 +21,10 @@ public class BlueItem {
 
     private void StopDuck(){
         for(Duck duck : game.ducks){
-            duck.setDuckspeed(duck.getDuckspeed() * 0);
+            duck.setDuckspeed(0);
         }
         for(Duck duck : game.reverseDuck){
-            duck.setDuckspeed(duck.getDuckspeed() * 0);
+            duck.setDuckspeed(0);
         }
     }
 
