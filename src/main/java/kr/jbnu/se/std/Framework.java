@@ -418,7 +418,7 @@ public class Framework extends Canvas {
                 break;
             case STORE:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    store.StoreAudio.stop();
+                    store.storeAudio.stop();
                     gameState = GameState.MAIN_MENU;
                 }
                 break;

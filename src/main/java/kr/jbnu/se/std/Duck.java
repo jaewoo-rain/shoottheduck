@@ -9,7 +9,10 @@ public class Duck extends Animals {
     public static ArrayList<Duck> allDucks = new ArrayList<>();
 
     public static long timeBetweenDucks = Framework.secInNanosec * 2;
+
     public static long lastDuckTime = 0;
+
+    private BufferedImage duckImg;
 
     public static int[][] duckLines = {
             {Framework.frameWidth, (int) (Framework.frameHeight * 0.60), -1, 10},
@@ -27,8 +30,6 @@ public class Duck extends Animals {
 
     public static int nextDuckLines = 0;
 
-    private BufferedImage duckImg;
-
     public Duck(int x, int y, int speed, int score, BufferedImage duckImg) {
         super(x, y, speed, score);
         this.duckImg = duckImg;
@@ -41,10 +42,6 @@ public class Duck extends Animals {
 
     public void setDuckspeed(int speed) {
         this.speed = speed;
-    }
-
-    public void move() {
-        x += speed;
     }
 
     public void draw(Graphics2D g2d) {
