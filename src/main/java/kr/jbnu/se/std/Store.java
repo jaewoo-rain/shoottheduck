@@ -106,8 +106,6 @@ public class Store  {
                         NumberofRedItem += 1;
                         Coin -= 300;
 
-                        System.out.println(User.getRedItemNum());
-                        System.out.println(User.getBlueItemNum());
 
                     }else{
                         System.out.println("돈이 부족합니다.");
@@ -139,7 +137,7 @@ public class Store  {
         g2d.drawImage(BluePotionImg, Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50, null);
         g2d.drawImage(SightImg, mousePosition.x -sightImgMiddleWidth, mousePosition.y-sightImgMiddleHeight , null);
         g2d.setColor(Color.GREEN);
-        g2d.drawString("Coin: " + Coin, 10, 21);;
+        g2d.drawString("Coin: " + Coin, 10, 21);
         g2d.drawString("Blue potion: " + NumberofBlueItem, 10, 41);
         g2d.drawString("Red potion: " + NumberofRedItem, 10, 61);
         g2d.setColor(Color.BLACK);

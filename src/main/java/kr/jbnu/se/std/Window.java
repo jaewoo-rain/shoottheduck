@@ -7,6 +7,7 @@ import kr.jbnu.se.std.firebase.MainFrame;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import java.awt.*;
 
 
 public class Window extends JFrame{
@@ -19,13 +20,14 @@ public class Window extends JFrame{
         new User(id);
 
 
+
         // Sets size of the frame.
         if(false) // Full screen mode
         {
             // Disables decorations for this frame.
             this.setUndecorated(true);
             // Puts the frame to full screen.
-            this.setExtendedState(this.MAXIMIZED_BOTH);
+            this.setExtendedState(MAXIMIZED_BOTH);
         }
         else // kr.jbnu.se.std.Window mode
         {
@@ -33,7 +35,7 @@ public class Window extends JFrame{
             this.setSize(800, 600);
             // Puts frame to center of the screen.
             this.setLocationRelativeTo(null);
-            // So that frame cannot be resizable by the user.
+            // So that frame cannot be resizable by the user
             this.setResizable(false);
         }
 

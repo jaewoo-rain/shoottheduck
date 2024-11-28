@@ -13,7 +13,7 @@ public class Normal extends Game{
 
     public Normal(long level, boolean isContinue) {
         super();
-        this.isContinue = isContinue;
+        Normal.isContinue = isContinue;
         Framework.level = (int) level;
         level = Framework.level;
         timeBetweenDucks = Framework.secInNanosec;

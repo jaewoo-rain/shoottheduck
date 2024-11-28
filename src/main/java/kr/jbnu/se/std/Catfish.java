@@ -52,7 +52,7 @@ public class Catfish {
     /**
      * How fast the catfish should move? And to which direction?
      */
-    private int speed;
+    private final int speed;
 
     /**
      * How many points this catfish is worth?
@@ -62,7 +62,7 @@ public class Catfish {
     /**
      * kr.jbnu.se.std.catfish image.
      */
-    private BufferedImage catfishImg;
+    private final BufferedImage catfishImg;
 
     public int hitPoint;
     /**
