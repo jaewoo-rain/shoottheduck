@@ -1,3 +1,4 @@
+
 package kr.jbnu.se.std;
 
 import java.awt.Color;
@@ -81,7 +82,7 @@ public class Framework extends Canvas {
 
 
 
-    private int killducks;
+    private int kills;
     /**
      * Image for menu.
      */
@@ -92,19 +93,16 @@ public class Framework extends Canvas {
     private Store store;
 
 
-
-
     /**
      * getkillDucks get Game class's killduks score;
      */
-    private void getkillDucks(){
+    private void getKills(){
         if(game != null){
-            this.killducks = game.getKilledDucks();
+            this.kills = game.getKilledDucks();
         }else {
             System.out.println("Game is null!");
         }
     }
-
 
     public Framework ()
     {
@@ -119,7 +117,7 @@ public class Framework extends Canvas {
             public void run(){
 
                 LoadContent();
-                initialize();
+                Initialize();
 
                 GameLoop();
 
@@ -134,7 +132,7 @@ public class Framework extends Canvas {
      * Set variables and objects.
      * This method is intended to set the variables and objects for this class, variables and objects for the actual game can be set in kr.jbnu.se.std.Game.java.
      */
-    private void initialize()
+    private void Initialize()
     {
         backgroundMusic.start();
     }
@@ -180,25 +178,25 @@ public class Framework extends Canvas {
                     //...
                     break;
                 case STORE:
-
-                    User.setMoney(Store.Coin);
-                    User.setRedItemNum(Store.NumberofRedItem);
-                    User.setBlueItemNum(Store.NumberofBlueItem);
-
                     storeTime += System.nanoTime() - lastStoreTime;
                     lastStoreTime = System.nanoTime();
+
                     store.PurchaseItem(storeTime, mousePosition());
-
                     backgroundMusic.stop();
-
                     break;
                 case PLAYING:
-                    getkillDucks();
+                    getKills();
                     gameTime += System.nanoTime() - lastTime;
 
                     game.UpdateGame(gameTime, mousePosition());
                     backgroundMusic.stop();
                     lastTime = System.nanoTime();
+
+//                    if(true == normalmode){
+//                        if(kills >= level *10){
+//                            Levelup();
+//                        }
+//                    }
 
                     break;
                 case GAMEOVER:
@@ -207,21 +205,9 @@ public class Framework extends Canvas {
                         previouslevel = this.level;
 //                        System.out.println('level Up');
                     };
-                    if(!Normal.isContinue){
-                        if(Game.score > User.getScore()){
-                            User.setScore(Game.score);
-                        }
-                    };
-                    User.setMoney(Store.Coin);
-                    User.setRedItemNum(Store.NumberofRedItem);
-                    User.setBlueItemNum(Store.NumberofBlueItem);
 
                     break;
                 case MAIN_MENU:
-//                    User.setBlueItemNum(Store.NumberofBlueItem);
-//                    User.setRedItemNum(Store.NumberofRedItem);
-//                    User.setMoney(Store.Coin);
-
                     break;
                 case OPTIONS:
                     //...
@@ -233,7 +219,6 @@ public class Framework extends Canvas {
                     // Sets variables and objects.
                     // Load files - images, sounds, ...
                     // When all things that are called above finished, we change game status to main menu.
-
                     gameState = GameState.MAIN_MENU;
                     break;
                 case VISUALIZING:
@@ -337,7 +322,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game = new Normal(previouslevel, true);
+        game = new Normal(previouslevel);
     }
     private void newGame()
     {
@@ -346,7 +331,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
 
-        game = new Normal(level, false);
+        game = new Normal(level);
     }
     private void BossMode(){
         game=new Boss();
@@ -443,16 +428,15 @@ public class Framework extends Canvas {
                 }
                 break;
             case GAMEOVER:
-
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                     System.exit(0);
-                else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                else if (e.getKeyCode() ==KeyEvent.VK_SPACE) {
+                    restartGame();
+                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     game.hitSound.stop();
                     game.background.stop();
                     backgroundMusic.start();
                     Framework.gameState = GameState.MAIN_MENU;
-                }else if(e.getKeyCode() == KeyEvent.VK_SPACE){
-                    restartGame();
                 }
                 break;
             case PLAYING:

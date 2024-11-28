@@ -6,12 +6,12 @@ import static kr.jbnu.se.std.Duck.timeBetweenDucks;
 
 
 public class Normal extends Game{
-//    private int level;
+    //    private int level;
     private int nextLevelScore;
     private long level;
     public static boolean isContinue = true;
 
-    public Normal(long level, boolean isContinue) {
+    public Normal(long level) {
         super();
         this.isContinue = isContinue;
         Framework.level = (int) level;
@@ -48,12 +48,12 @@ public class Normal extends Game{
     @Override
     public void UpdateGame(long gameTime, Point mousePosition) {
         super.UpdateGame(gameTime, mousePosition);
-        
+
 
 
         if(score >= nextLevelScore){
-                Levelup();
-                nextLevelScore += (int) ((level+1) * 100);
+            Levelup();
+            nextLevelScore += (int) ((level+1) * 100);
         }
     }
 
@@ -82,8 +82,3 @@ public class Normal extends Game{
         }
     }
 }
-
-
-
-
-

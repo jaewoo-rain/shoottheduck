@@ -1,3 +1,4 @@
+
 package kr.jbnu.se.std;
 
 
@@ -11,7 +12,7 @@ import java.awt.image.BufferedImage;
  * @author www.gametutorial.net
  */
 
-public class Catfish {
+public class Catfish extends Animals{
 
     /**
      * How much time must pass in order to create a new catfish?
@@ -39,26 +40,6 @@ public class Catfish {
      */
     public static int nextCatfishLines = 0;
 
-
-    /**
-     * X coordinate of the catfish.
-     */
-    public int x;
-    /**
-     * Y coordinate of the catfish.
-     */
-    public int y;
-
-    /**
-     * How fast the catfish should move? And to which direction?
-     */
-    private int speed;
-
-    /**
-     * How many points this catfish is worth?
-     */
-    public int score;
-
     /**
      * kr.jbnu.se.std.catfish image.
      */
@@ -76,13 +57,7 @@ public class Catfish {
      */
     public Catfish(int x, int y, int speed, int score, BufferedImage catfishImg)
     {
-        this.x = x;
-        this.y = y;
-
-        this.speed = speed;
-
-        this.score = score;
-
+        super(x, y, speed, score);
         this.catfishImg = catfishImg;
 
         this.hitPoint = 2;
@@ -92,7 +67,7 @@ public class Catfish {
     /**
      * Move the catfish.
      */
-    public void Update()
+    public void move()
     {
         x += speed;
     }
@@ -101,7 +76,7 @@ public class Catfish {
      * Draw the catfish to the screen.
      * @param g2d Graphics2D
      */
-    public void Draw(Graphics2D g2d)
+    public void draw(Graphics2D g2d)
     {
         g2d.drawImage(catfishImg, x, y, null);
     }
