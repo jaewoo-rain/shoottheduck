@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * @author www.gametutorial.net
  */
 
-public class Duck {
+public class Duck extends Animals{
 
     /**
      * How much time must pass in order to create a new duck?
@@ -45,29 +45,6 @@ public class Duck {
      */
     public static int nextDuckLines = 0;
 
-
-    /**
-     * X coordinate of the duck.
-     */
-    public int x;
-    /**
-     * Y coordinate of the duck.
-     */
-    public int y;
-
-    /**
-     * How fast the duck should move? And to which direction?
-     */
-    protected int speed;
-
-    /**
-     * How many points this duck is worth?
-     */
-    public int score;
-
-    /**
-     * kr.jbnu.se.std.Duck image.
-     */
     private BufferedImage duckImg;
 
 
@@ -82,12 +59,7 @@ public class Duck {
      */
     public Duck(int x, int y, int speed, int score, BufferedImage duckImg)
     {
-        this.x = x;
-        this.y = y;
-
-        this.speed = speed;
-
-        this.score = score;
+        super(x, y, speed, score);
 
         this.duckImg = duckImg;
     }
@@ -104,16 +76,16 @@ public class Duck {
     /**
      * Move the duck.
      */
-    public void Update()
+    public void move()
     {
-        x += speed;
+        this.x += speed;
     }
 
     /**
      * Draw the duck to the screen.
      * @param g2d Graphics2D
      */
-    public void Draw(Graphics2D g2d)
+    public void draw(Graphics2D g2d)
     {
         g2d.drawImage(duckImg, x, y, null);
     }
