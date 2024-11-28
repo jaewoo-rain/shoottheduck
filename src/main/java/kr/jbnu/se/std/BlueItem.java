@@ -23,7 +23,7 @@ public class BlueItem {
         for(Duck duck : game.ducks){
             duck.setDuckspeed(duck.getDuckspeed() * 0);
         }
-        for(Duck duck : game.reverseDuck){
+        for(Duck duck : game.reverseDucks){
             duck.setDuckspeed(duck.getDuckspeed() * 0);
         }
     }

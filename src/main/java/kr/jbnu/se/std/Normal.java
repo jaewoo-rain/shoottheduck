@@ -6,7 +6,7 @@ import static kr.jbnu.se.std.Duck.timeBetweenDucks;
 
 
 public class Normal extends Game{
-//    private int level;
+    //    private int level;
     private int nextLevelScore;
     private long level;
     public static boolean isContinue = true;
@@ -35,8 +35,8 @@ public class Normal extends Game{
     }
 
     @Override
-    public void Initialize(){
-        super.Initialize();
+    public void initialize(){
+        super.initialize();
 
     }
     @Override
@@ -48,12 +48,12 @@ public class Normal extends Game{
     @Override
     public void UpdateGame(long gameTime, Point mousePosition) {
         super.UpdateGame(gameTime, mousePosition);
-        
+
 
 
         if(score >= nextLevelScore){
-                Levelup();
-                nextLevelScore += (int) ((level+1) * 100);
+            Levelup();
+            nextLevelScore += (int) ((level+1) * 100);
         }
     }
 
@@ -70,20 +70,15 @@ public class Normal extends Game{
         Duck.lastDuckTime += 1;
 
         ducks.clear();
-        reverseDuck.clear();
+        reverseDucks.clear();
 
     }
     @Override
-    public void Draw(Graphics2D g2d, Point mousePosition) {
-        super.Draw(g2d, mousePosition);
+    public void draw(Graphics2D g2d, Point mousePosition) {
+        super.draw(g2d, mousePosition);
         if(!isContinue){
             String timeText = "Best Score: " + User.getScore();
             g2d.drawString(timeText, Framework.frameWidth / 2 + 200, 50);
         }
     }
 }
-
-
-
-
-
