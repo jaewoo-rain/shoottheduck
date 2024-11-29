@@ -6,7 +6,6 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.*;
 import kr.jbnu.se.std.firebase.FirebaseUtil;
-
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;

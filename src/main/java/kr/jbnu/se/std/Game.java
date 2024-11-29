@@ -16,6 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.sound.sampled.*;
+import java.io.File;
+
 
 
 /**
@@ -118,7 +121,7 @@ public class Game {
     protected static long coin;
 
     protected Audio hitSound;
-    protected Audio background;
+    protected Audio backGround;
     /**
      * 능력
      */
@@ -163,7 +166,7 @@ public class Game {
     {
         random = new Random();
         font = new Font("monospaced", Font.BOLD, 18);
-        background.start();
+        backGround.start();
 
         ducks = new ArrayList<Duck>();
         reverseDuck = new ArrayList<Duck>();
@@ -175,9 +178,9 @@ public class Game {
         consecutivekills = 0;
         hpadd = false;
 
-//        Store.Coin = User.getMoney();
+        /*Store.Coin = User.getMoney();
         Store.NumberofBlueItem = User.getBlueItemNum();
-        Store.NumberofRedItem = User.getRedItemNum();
+        Store.NumberofRedItem = User.getRedItemNum();*/
 
         lastTimeShoot = 0;
         timeBetweenShots = Framework.secInNanosec / 5; // 총 쏘기 속도
@@ -216,7 +219,7 @@ public class Game {
             redItem = ImageIO.read(redItemUrl);
 
             hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
-            background = new Audio("src/main/resources/audio/background.wav", true);
+            backGround = new Audio("src/main/resources/audio/background.wav", true);
 
 
 
@@ -281,7 +284,7 @@ public class Game {
         for(int i = 0; i < ducks.size(); i++)
         {
             // Move the duck.
-            ducks.get(i).Update();
+            ducks.get(i).move();
 
             // Checks if the duck leaves the screen and remove it if it does .
             if(ducks.get(i).x < 0 - duckImg.getWidth())
@@ -295,7 +298,7 @@ public class Game {
         for(int i = 0; i < reverseDuck.size(); i++)
         {
             // Move the duck.
-            reverseDuck.get(i).Update();
+            reverseDuck.get(i).move();
 
             // Checks if the duck leaves the screen and remove it if it does.
             if(reverseDuck.get(i).x > Framework.frameWidth + reverseDuckImg.getWidth())
@@ -397,9 +400,9 @@ public class Game {
             Framework.gameState = Framework.GameState.GAMEOVER;
 
             Store.Coin += Game.coin;
-            User.setMoney(Store.Coin);
+            /*User.setMoney(Store.Coin);
             User.setBlueItemNum(Store.NumberofBlueItem);
-            User.setRedItemNum(Store.NumberofRedItem);
+            User.setRedItemNum(Store.NumberofRedItem);*/
 
         }
 
