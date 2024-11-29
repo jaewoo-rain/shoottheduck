@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * @author www.gametutorial.net
  */
 
-public class Catfish extends Animals{
+public class Catfish {
 
     /**
      * How much time must pass in order to create a new catfish?
@@ -39,6 +39,26 @@ public class Catfish extends Animals{
      */
     public static int nextCatfishLines = 0;
 
+
+    /**
+     * X coordinate of the catfish.
+     */
+    public int x;
+    /**
+     * Y coordinate of the catfish.
+     */
+    public int y;
+
+    /**
+     * How fast the catfish should move? And to which direction?
+     */
+    private int speed;
+
+    /**
+     * How many points this catfish is worth?
+     */
+    public int score;
+
     /**
      * kr.jbnu.se.std.catfish image.
      */
@@ -56,7 +76,13 @@ public class Catfish extends Animals{
      */
     public Catfish(int x, int y, int speed, int score, BufferedImage catfishImg)
     {
-        super(x, y, speed, score);
+        this.x = x;
+        this.y = y;
+
+        this.speed = speed;
+
+        this.score = score;
+
         this.catfishImg = catfishImg;
 
         this.hitPoint = 2;
@@ -66,7 +92,7 @@ public class Catfish extends Animals{
     /**
      * Move the catfish.
      */
-    public void move()
+    public void Update()
     {
         x += speed;
     }
