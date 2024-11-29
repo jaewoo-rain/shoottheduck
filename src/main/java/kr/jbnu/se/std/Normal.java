@@ -34,30 +34,28 @@ public class Normal extends Game{
 
     }
 
+//    @Override 변경 : 상속받으면 자연스럽게 사용됨
+//    public void initialize(){
+//        super.initialize();
+//
+//    }
+//    @Override
+//    public void RestartGame(){
+//        super.RestartGame();
+//
+//    } 변경 : 상속받아서 없어도 작동가능
+
     @Override
-    public void initialize(){
-        super.initialize();
-
-    }
-    @Override
-    public void RestartGame(){
-        super.RestartGame();
-
-
-    }
-    @Override
-    public void UpdateGame(long gameTime, Point mousePosition) {
-        super.UpdateGame(gameTime, mousePosition);
-        
-
+    public void updateGame( Point mousePosition) {
+        super.updateGame( mousePosition);
 
         if(score >= nextLevelScore){
-                Levelup();
+                levelup();
                 nextLevelScore += (int) ((level+1) * 100);
         }
     }
 
-    private void Levelup(){
+    private void levelup(){ // 소문자로시작
         Framework.level++;
         level++;
         // 속도 조절

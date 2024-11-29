@@ -25,10 +25,10 @@ public class Store  {
     protected Audio StoreAudio;
 
     private Game game;
-    protected static int NumberofBlueItem =0;
-    protected static int NumberofRedItem =0;
+    protected static long NumberofBlueItem =0;
+    protected static long NumberofRedItem =0;
 
-    protected static int Coin = 0;
+    protected static long Coin;
 
     public Store()
     {
@@ -90,7 +90,7 @@ public class Store  {
         }
     }
 
-    public void PurchaseItem(long storeTime, Point mousePosition){
+    public void PurchaseItem(Point mousePosition){ // storeTime없앰
         if(System.nanoTime() - lastTimePurchase > timeBetweenPurchase){
             if(Canvas.mouseButtonState(MouseEvent.BUTTON1)){
                 if(new Rectangle(Framework.frameWidth / 2 - 250, Framework.frameHeight / 2 -120, RedPotionImg.getWidth()/ 3 + 50, RedPotionImg.getHeight() / 3 + 50).contains(mousePosition)){
