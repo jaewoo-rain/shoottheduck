@@ -105,6 +105,7 @@ public class Store  {
             lastTimePurchase = System.nanoTime();
         }
     }
+    
     private void purchaseRedBlue(){
         if (coin >= 300) {
             System.out.println("potion 구매 완료");
