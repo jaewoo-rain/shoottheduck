@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterFrame extends JFrame {
-    private final JTextField idField;
-    private final JPasswordField passwordField;
-    private final Firestore db;
+    private JTextField idField;
+    private JPasswordField passwordField;
+    private Firestore db;
 
     public RegisterFrame() {
         db = FirebaseUtil.getFirestore();

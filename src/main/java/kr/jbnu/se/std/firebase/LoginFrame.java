@@ -7,9 +7,9 @@ import com.google.cloud.firestore.*;
 import kr.jbnu.se.std.Window;
 
 public class LoginFrame extends JFrame {
-    private final JTextField idField;
-    private final JPasswordField passwordField;
-    private final Firestore db;
+    private JTextField idField;
+    private JPasswordField passwordField;
+    private Firestore db;
 
     public LoginFrame() {
         db = FirebaseUtil.getFirestore();
