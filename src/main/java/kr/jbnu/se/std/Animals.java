@@ -1,32 +1,36 @@
 package kr.jbnu.se.std;
 
-public abstract class Animals {
+import java.awt.image.BufferedImage;
 
+public class Animals {
     /**
-     * X coordinate of the animals.
+     * X coordinate of the animal.
      */
     public int x;
     /**
-     * Y coordinate of the animals.
+     * Y coordinate of the animal.
      */
     public int y;
 
     /**
-     * How fast the animals should move? And to which direction?
+     * How fast the animal should move? And to which direction?
      */
     protected int speed;
 
     /**
-     * How many points this animals is worth?
+     * How many points this animal is worth?
      */
     public int score;
 
-    Animals(int x, int y, int speed, int score) {
+    protected Animals(int x, int y, int speed, int score) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.score = score;
     }
 
-    public abstract void move();
+    /**
+     * Move the animal.
+     */
+    public void move(){x += speed;}
 }

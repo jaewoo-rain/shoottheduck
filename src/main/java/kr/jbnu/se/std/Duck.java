@@ -2,93 +2,91 @@ package kr.jbnu.se.std;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
-/**
- * The duck class.
- *
- * @author www.gametutorial.net
- */
+import java.util.ArrayList;
 
 public class Duck extends Animals {
 
-    /**
-     * How much time must pass in order to create a new duck?
-     */
+    public static ArrayList<Duck> allDucks = new ArrayList<>();
 
-    public static long timeBetweenDucks = Framework.secInNanosec * 2; // 오리 속도 조절
-    /**
-     * Last time when the duck was created.
-     */
+    public static long timeBetweenDucks = Framework.secInNanosec * 2;
+
     public static long lastDuckTime = 0;
 
-    /**
-     * kr.jbnu.se.std.Duck lines.
-     * Where is starting location for the duck?
-     * Speed of the duck?
-     * How many points is a duck worth?
-     */
-    public static int[][] duckLines = {
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.60), -1, 10},
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.65), -1, 10},
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.70), -1, 10},
-            {Framework.frameWidth, (int)(Framework.frameHeight * 0.78), -1, 10},
-    };
-
-    public static int[][] reverseDuckLines = { // 반대편에서 나오는 오리
-            {0, (int)(Framework.frameHeight * 0.60), 1, 10},
-            {0, (int)(Framework.frameHeight * 0.65), 1, 10},
-            {0, (int)(Framework.frameHeight * 0.70), 1, 10},
-            {0, (int)(Framework.frameHeight * 0.78), 1, 10}
-    };
-    /**
-     * Indicate which is next duck line.
-     */
-    public static int nextDuckLines = 0;
-
-    /**
-     * kr.jbnu.se.std.Duck image.
-     */
     private BufferedImage duckImg;
 
+    public static int[][] duckLines = {
+            {Framework.frameWidth, (int) (Framework.frameHeight * 0.60), -1, 10},
+            {Framework.frameWidth, (int) (Framework.frameHeight * 0.65), -1, 10},
+            {Framework.frameWidth, (int) (Framework.frameHeight * 0.70), -1, 10},
+            {Framework.frameWidth, (int) (Framework.frameHeight * 0.78), -1, 10},
+    };
 
-    /**
-     * Creates new duck.
-     *
-     * @param x Starting x coordinate.
-     * @param y Starting y coordinate.
-     * @param speed The speed of this duck.
-     * @param score How many points this duck is worth?
-     * @param duckImg Image of the duck.
-     */
-    public Duck(int x, int y, int speed, int score, BufferedImage duckImg)
-    {
-       super(x, y, speed, score);
-       this.duckImg = duckImg;
+    public static int[][] reverseDuckLines = {
+            {0, (int) (Framework.frameHeight * 0.60), 1, 10},
+            {0, (int) (Framework.frameHeight * 0.65), 1, 10},
+            {0, (int) (Framework.frameHeight * 0.70), 1, 10},
+            {0, (int) (Framework.frameHeight * 0.78), 1, 10}
+    };
+
+    public static int nextDuckLines = 0;
+
+    public Duck(int x, int y, int speed, int score, BufferedImage duckImg) {
+        super(x, y, speed, score);
+        this.duckImg = duckImg;
+        allDucks.add(this);
     }
 
-    public int getDuckspeed(){
+    public int getDuckspeed() {
         return speed;
     }
 
-    public void setDuckspeed(int speed){
+    public void setDuckspeed(int speed) {
         this.speed = speed;
     }
 
-
-    /**
-     * Move the duck.
-     */
-    public void move()
-    {
-        x += speed;
+    public void draw(Graphics2D g2d) {
+        g2d.drawImage(duckImg, x, y, null);
     }
 
-    /**
-     * Draw the duck to the screen.
-     * @param g2d Graphics2D
-     */
-    public void Draw(Graphics2D g2d)
-    {
-        g2d.drawImage(duckImg, x, y, null);
+    public static void spawnDucks(BufferedImage duckImg, BufferedImage reverseDuckImg) {
+        new Duck(
+                duckLines[nextDuckLines][0],
+                duckLines[nextDuckLines][1],
+                duckLines[nextDuckLines][2],
+                duckLines[nextDuckLines][3],
+                duckImg
+        );
+
+        new Duck(
+                reverseDuckLines[nextDuckLines][0],
+                reverseDuckLines[nextDuckLines][1],
+                reverseDuckLines[nextDuckLines][2],
+                reverseDuckLines[nextDuckLines][3],
+                reverseDuckImg
+        );
+
+        nextDuckLines++;
+        if (nextDuckLines >= duckLines.length || nextDuckLines >= reverseDuckLines.length) {
+            nextDuckLines = 0;
+        }
+
+        lastDuckTime = System.nanoTime();
+    }
+
+    public static void updateAllDucks() {
+        for (int i = 0; i < allDucks.size(); i++) {
+            Duck duck = allDucks.get(i);
+            duck.move();
+            if (duck.x < -100 || duck.x > Framework.frameWidth + 100) {
+                allDucks.remove(i);
+                i--;
+            }
+        }
+    }
+
+    public static void drawAllDucks(Graphics2D g2d) {
+        for (Duck duck : allDucks) {
+            duck.draw(g2d);
+        }
     }
 }

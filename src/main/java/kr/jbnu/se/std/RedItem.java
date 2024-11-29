@@ -22,8 +22,8 @@ public class RedItem {
         if(!game.ducks.isEmpty()){
             game.ducks.clear();
         }
-        if(!game.reverseDuck.isEmpty()){
-            game.reverseDuck.clear();
+        if(!game.reverseDucks.isEmpty()){
+            game.reverseDucks.clear();
         }
     }
 }
