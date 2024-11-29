@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 
-public class BlueItem {
+public class BlueItem{
     private Game game;
 
     public BlueItem(Game game) {

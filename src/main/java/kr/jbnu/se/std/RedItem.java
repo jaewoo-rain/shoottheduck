@@ -3,7 +3,7 @@ package kr.jbnu.se.std;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class RedItem {
+public class RedItem{
 
     private Game game;
 
