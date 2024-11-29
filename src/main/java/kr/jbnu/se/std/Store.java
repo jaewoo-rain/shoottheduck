@@ -97,18 +97,17 @@ public class Store  {
     public void clickItem(Point mousePosition) {
         if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
             if (new Rectangle(Framework.frameWidth / 2 - 250, Framework.frameHeight / 2 - 120, redPotionImg.getWidth() / 3 + 50, redPotionImg.getHeight() / 3 + 50).contains(mousePosition)) {
-                purchaseRedBlue();
+                purchaseRed();
             }
             if (new Rectangle(Framework.frameWidth / 2 + 100, Framework.frameHeight / 2 - 120, bluePotionImg.getWidth() / 3 + 50, bluePotionImg.getHeight() / 3 + 50).contains(mousePosition)) {
-                purchaseRedBlue();
+                purchaseBlue();
             }
             lastTimePurchase = System.nanoTime();
         }
     }
-    
-    private void purchaseRedBlue(){
+    private void purchaseRed(){
         if (coin >= 300) {
-            System.out.println("potion 구매 완료");
+            System.out.println("Red potion 구매 완료");
             numberofRedItem++;
             coin -= 300;
         }
@@ -116,6 +115,18 @@ public class Store  {
             System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
         }
     }
+
+    private void purchaseBlue(){
+        if (coin >= 300) {
+            System.out.println("Blue potion 구매 완료");
+            numberofBlueItem++;
+            coin -= 300;
+        }
+        else {
+            System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
+        }
+    }
+
 
     public void draw(Graphics g2d, Point mousePosition){
         g2d.drawImage(storeBackgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
