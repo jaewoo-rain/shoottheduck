@@ -1,8 +1,6 @@
-//package kr.jbnu.se.std.firebase;
 package kr.jbnu.se.std;
 
 
-import kr.jbnu.se.std.Framework;
 import kr.jbnu.se.std.firebase.MainFrame;
 
 import javax.swing.JFrame;
