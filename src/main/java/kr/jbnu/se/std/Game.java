@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
-import static java.lang.System.out;
+//import static java.lang.System.out;
 import static kr.jbnu.se.std.Canvas.mouseButtonState;
 
 public class Game {
@@ -210,23 +210,19 @@ public class Game {
     }
 
     private void useItem(Point mousePosition) {
-        if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)) {
-            if (Store.numberofBlueItem > 0) {
+        if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)
+                && Store.numberofBlueItem > 0) {
                 blueItems.using(mousePosition);
                 Store.numberofBlueItem--;
-            } else {
-                out.println("아이템이 부족합니다.");
             }
-        }
 
-        if (new Rectangle(Framework.frameWidth - 100, Framework.frameHeight - 50, redItem.getWidth() / 10, redItem.getHeight() / 10).contains(mousePosition)) {
-            if (Store.numberofRedItem > 0) {
+
+        if (new Rectangle(Framework.frameWidth - 100, Framework.frameHeight - 50, redItem.getWidth() / 10, redItem.getHeight() / 10).contains(mousePosition)
+                && Store.numberofRedItem > 0) {
                 redItems.using(mousePosition);
                 Store.numberofRedItem--;
-            } else {
-                out.println("아이템이 부족합니다.");
             }
-        }
+
     }
 
     protected void healPlayerHp() {
