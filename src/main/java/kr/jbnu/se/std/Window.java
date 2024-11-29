@@ -22,12 +22,12 @@ public class Window extends JFrame{
         {
             // Disables decorations for this frame.
             this.setUndecorated(true);
-            // Puts the frame to full screen
+            // Puts the frame to full screen.
             this.setExtendedState(this.MAXIMIZED_BOTH);
         }
         else // kr.jbnu.se.std.Window mode
         {
-            // Size of the frame
+            // Size of the frame.
             this.setSize(800, 600);
             // Puts frame to center of the screen.
             this.setLocationRelativeTo(null);
