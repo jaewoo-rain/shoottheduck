@@ -9,9 +9,11 @@ public class Normal extends Game{
 //    private int level;
     private int nextLevelScore;
     private long level;
+    public static boolean isContinue = true;
 
     public Normal(long level) {
         super();
+        Normal.isContinue = isContinue;
         Framework.level = (int) level;
         level = Framework.level;
         timeBetweenDucks = Framework.secInNanosec;
@@ -26,30 +28,34 @@ public class Normal extends Game{
         }
 
     }
-    @Override
-    public void Initialize(){
-        super.Initialize();
+
+    public static boolean getIsContinue() {
+        return isContinue;
 
     }
+
+//    @Override 변경 : 상속받으면 자연스럽게 사용됨
+//    public void initialize(){
+//        super.initialize();
+//
+//    }
+//    @Override
+//    public void RestartGame(){
+//        super.RestartGame();
+//
+//    } 변경 : 상속받아서 없어도 작동가능
+
     @Override
-    public void RestartGame(){
-        super.RestartGame();
-
-
-    }
-    @Override
-    public void UpdateGame(long gameTime, Point mousePosition) {
-        super.UpdateGame(gameTime, mousePosition);
-        
-
+    public void updateGame( Point mousePosition) {
+        super.updateGame( mousePosition);
 
         if(score >= nextLevelScore){
-                Levelup();
+                levelup();
                 nextLevelScore += (int) ((level+1) * 100);
         }
     }
 
-    private void Levelup(){
+    private void levelup(){ // 소문자로시작
         Framework.level++;
         level++;
         // 속도 조절
@@ -62,12 +68,18 @@ public class Normal extends Game{
         Duck.lastDuckTime += 1;
 
         ducks.clear();
-        reverseDuck.clear();
+        reverseDucks.clear();
 
     }
-
-
+    @Override
+    public void draw(Graphics2D g2d, Point mousePosition) {
+        super.draw(g2d, mousePosition);
+        if(!isContinue){
+            String timeText = "Best Score: " + User.getScore();
+            g2d.drawString(timeText, Framework.frameWidth / 2 + 200, 50);
+        }
     }
+}
 
 
 

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -16,11 +15,11 @@ import static kr.jbnu.se.std.Duck.timeBetweenDucks;
 
 public class Boss extends Game {
 
-    private int bossHp;
+    private static int bossHp; // 변경 : restart위해
     private BufferedImage bossImg;
     private BufferedImage FlippedbossImg;
     private boolean bossappearance;
-    private int x;
+    private int bossPosition;
     private int speed;
 
     private BlueItem blueItem;
@@ -38,7 +37,7 @@ public class Boss extends Game {
 
         this.bossHp = 50;
         this.bossappearance = false;
-        this.x=Framework.frameWidth-200;
+        this.bossPosition=Framework.frameWidth-200;
         this.speed= -2;
         try {
             URL bossImgUrl = this.getClass().getResource("/images/catfish.png");
@@ -52,79 +51,85 @@ public class Boss extends Game {
     }
 
     @Override
-    protected void Initialize() {
-        super.Initialize();
+    protected void initialize() {
+        super.initialize();
         bossappearance = false;
         bossHp = 30;
-        x=Framework.frameWidth-200;
+        bossPosition=Framework.frameWidth-200;
         speed= -2;
 
     }
 
     @Override
-    public void RestartGame(){
-        super.RestartGame();
-        bossappearance = false;
-        bossHp = 30;
-        x=Framework.frameWidth-200;
-        speed= -2;
+    public void gameRestart(){
+//        super.RestartGame();
+        ducks.clear();
+        reverseDucks.clear();
+        new Boss();
+//        ducks.clear();
+//        reverseDucks.clear();
+//        bossappearance = false;
+//        bossHp = 30;
+//        x=Framework.frameWidth-200;
+//        speed= -2;
 
     }
 
 
-    public void UpdateGame(long gameTime, Point mousePosition){
-        setBossappearance();
+    @Override
+    public void updateGame(Point mousePosition){
+//        setBossappearance(); 변경 직접 작성 왜 함수로?
+        if(!bossappearance&&killedDucks>=5) {
+            bossappearance = true;
+        }
+
         if(!bossappearance){
-            super.UpdateGame(gameTime,mousePosition);
+            super.updateGame(mousePosition);
         }
        else {
-            ducks.clear();
-            reverseDuck.clear();
-
-        x += speed;
-
-            if (x < 0 || x > Framework.frameWidth - bossImg.getWidth()) {
-                speed = -speed;
-                playerhp-=20;
-            }
-            if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
-                if (System.nanoTime() - lastTimeShoot >= timeBetweenShots) {
-                    if (bossImg!=null || FlippedbossImg!=null) {
-                        if(new Rectangle(x, Framework.frameHeight/2, 200,
-                                188).contains(mousePosition)) {
-                            bossHp --;
-                            System.out.println(bossHp);
-                        }
-                    }
-                }
-                    lastTimeShoot = System.nanoTime();
-
-            }
-
-
-
-        if (bossHp <= 0) {
-            score=score+1000;
-            bossappearance = false;
-            Framework.gameState = Framework.GameState.GAMEOVER;
-        }
-        if(playerhp<=0){
-            Framework.gameState = Framework.GameState.GAMEOVER;
-        }
+            bossAppear(mousePosition); // 변경 : 함수로 빼서 복잡도 줄임
        }
 
     }
 
-    @Override
-    public void Draw(Graphics2D g2d, Point mousePosition) {
-        super.Draw(g2d, mousePosition);
+    private void bossAppear(Point mousePosition){
+        ducks.clear();
+        reverseDucks.clear();
+        bossPosition += speed;
 
+        if (bossPosition < 0 || bossPosition > Framework.frameWidth - bossImg.getWidth()) {
+            speed = -speed;
+            playerhp-=20;
+        }
+        if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) { // 변경 코드의 구조적 복잡성을 줄임
+            if (System.nanoTime() - lastTimeShoot >= timeBetweenShots && bossImg!=null || FlippedbossImg!=null &&
+                    new Rectangle(bossPosition, Framework.frameHeight/2, 200,
+                            188).contains(mousePosition)) {
+                bossHp --;
+            }
+            lastTimeShoot = System.nanoTime();
+        }
+
+        if (bossHp <= 0) {
+            score=score+1000;
+            bossappearance = false;
+            endGame();
+        }
+        if(playerhp<=0){
+            endGame();
+        }
+
+    }
+
+    @Override
+    public void draw(Graphics2D g2d, Point mousePosition) {
+        super.draw(g2d, mousePosition);
 
         if (bossappearance) {
             if(speed<0){
-            g2d.drawImage(bossImg, x, Framework.frameHeight/2, null);
+            g2d.drawImage(bossImg, bossPosition, Framework.frameHeight/2, null);
             }
-            else g2d.drawImage(FlippedbossImg, x, Framework.frameHeight/2 , null);
+            else g2d.drawImage(FlippedbossImg, bossPosition, Framework.frameHeight/2 , null);
             g2d.setColor(Color.RED);
             String timeText = "Boss HP: " + bossHp;
             // 텍스트의 너비를 계산
@@ -133,10 +138,10 @@ public class Boss extends Game {
             g2d.drawString(timeText, Framework.frameWidth - textWidth - 10, 50);
         }
     }
-    public void setBossappearance() {
-        if(!bossappearance&&setkillducks()>=5) {
-        bossappearance = true;
-    }
-}
+//    public void setBossappearance() {
+//        if(!bossappearance&&killedDucks>=5) {
+//        bossappearance = true;
+//        }
+//    } 변경 : 직접 사용해
 
 }
