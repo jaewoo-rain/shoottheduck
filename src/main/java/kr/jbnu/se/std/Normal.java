@@ -33,17 +33,9 @@ public class Normal extends Game{
         return isContinue;
 
     }
-
-//    @Override 변경 : 상속받으면 자연스럽게 사용됨
-//    public void initialize(){
-//        super.initialize();
-//
-//    }
-//    @Override
-//    public void RestartGame(){
-//        super.RestartGame();
-//
-//    } 변경 : 상속받아서 없어도 작동가능
+    public Game gameRestart(){
+        return new Normal(Framework.level, true);
+    }
 
     @Override
     public void updateGame( Point mousePosition) {

@@ -9,11 +9,9 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-
-//import static java.lang.System.out;
 import static kr.jbnu.se.std.Canvas.mouseButtonState;
 
-public class Game {
+public abstract class Game {
     protected Random random;
     private Font font;
 
@@ -63,11 +61,6 @@ public class Game {
         threadForInitGame.start();
     }
 
-//    public static int getKilledDucks() {
-//        return killedDucks;
-//    } 변경 : 없애기, 불필요
-
-
     protected void initialize() {
         random = new Random();
         font = new Font("monospaced", Font.BOLD, 18);
@@ -110,25 +103,14 @@ public class Game {
         }
     }
 
-    public void gameRestart() { // 변경 이름바꿈, 바꾸래
-        ducks.clear();
-        reverseDucks.clear();
-
-        new Game();
-// 변경 : 필요없음
-//        Duck.lastDuckTime = 0;
-//        killedDucks = 0;
-//        score = 0;
-//        shoots = 0;
-//        playerhp = 200;
-//        consecutivekills = 0;
-//        hpadd = false;
-//
-//        lastTimeShoot = 0;
-//        LoadContent();
-    }
+    public abstract Game gameRestart();
 
     public void updateGame( Point mousePosition) { // 변경: 이름규칙 소문자로 시작
+
+        if (playerhp <= 0) {
+            endGame();
+        }
+
         if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
             spawnDuck(); // 오리 생성
         }
@@ -139,10 +121,6 @@ public class Game {
         moveDucks(); // 오리움직이기
         shooting(mousePosition);
         healPlayerHp();
-
-        if (playerhp <= 0) {
-            endGame();
-        }
     }
 
     private void spawnDuck() {
@@ -243,6 +221,8 @@ public class Game {
         User.setMoney(Store.coin);
         User.setBlueItemNum(Store.numberofBlueItem);
         User.setRedItemNum(Store.numberofRedItem);
+        hitSound.stop();
+        background.stop();
     }
 
     public void draw(Graphics2D g2d, Point mousePosition) {

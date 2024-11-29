@@ -21,13 +21,9 @@ public class Timeattack extends Game {
             Duck.reverseDuckLines[i][2] = 3;
         }
     }
-    
-    @Override
-    public void gameRestart() { // 변경 restart없길래 만듦
-//        super.RestartGame();
-        ducks.clear();
-        reverseDucks.clear();
-        new Timeattack();
+
+    public Game gameRestart() {// 변경 restart없길래 만듦
+        return new Timeattack();
     }
 
     @Override

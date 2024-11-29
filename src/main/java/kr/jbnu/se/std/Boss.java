@@ -59,19 +59,8 @@ public class Boss extends Game {
 
     }
 
-    @Override
-    public void gameRestart(){
-//        super.RestartGame();
-        ducks.clear();
-        reverseDucks.clear();
-        new Boss();
-//        ducks.clear();
-//        reverseDucks.clear();
-//        bossappearance = false;
-//        bossHp = 30;
-//        x=Framework.frameWidth-200;
-//        speed= -2;
-
+    public Game gameRestart(){
+        return new Boss();
     }
 
 

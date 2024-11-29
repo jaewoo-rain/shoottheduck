@@ -21,11 +21,14 @@ public class Audio {
             audioInputStream = AudioSystem.getAudioInputStream(audioFile);
             clip.open(audioInputStream);
 
-        } catch (UnsupportedAudioFileException e) {
+        }
+        catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
-        } catch (LineUnavailableException e) {
+        }
+        catch (LineUnavailableException e) {
             e.printStackTrace();
         }
     }

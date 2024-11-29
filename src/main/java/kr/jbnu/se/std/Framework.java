@@ -57,30 +57,17 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, PAUSED, STORE_CONTENT_LOADING, STORE}
+    public static enum GameState{VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, PAUSED, STORE_CONTENT_LOADING, STORE}
 
     /**
      * Current state of the game
      */
     public static GameState gameState;
 
-    /**
-     * Elapsed game time in nanoseconds.
-     */
-//    private long gameTime; 변경 : 없어도될듯
-    // It is used for calculating elapsed time.
-//    private long lastTime; 변경 : 없어도될듯
-
-//    private long storeTime; 변경 : 없어도될듯
-//    private long lastStoreTime; 변경 : 없어도 될듯
-
-    // The actual game
     private Game game;
     private boolean normalmode = false;
 
 
-
-    private int killducks;
     /**
      * Image for menu.
      */
@@ -90,20 +77,6 @@ public class Framework extends Canvas {
 
     private Store store;
     private boolean isRunning = true;
-
-
-
-
-    /**
-     * getkillDucks get Game class's killduks score;
-     */
-//    private void getkillDucks(){
-//        if(game != null){
-//            this.killducks = game.getKilledDucks();
-//        }else {
-//            System.out.println("Game is null!");
-//        }
-//    } 변경 : 없어도될듯
 
 
     public Framework ()
@@ -180,47 +153,30 @@ public class Framework extends Canvas {
                     //...
                     break;
                 case STORE:
-
-//                    User.setMoney(Store.Coin); 변경 : 스토어에 들어있는동안 계속 작동함, 밑에 클릭이벤트로 옮김
-//                    User.setRedItemNum(Store.NumberofRedItem);
-//                    User.setBlueItemNum(Store.NumberofBlueItem);
-
-//                    storeTime += System.nanoTime() - lastStoreTime;
-//                    lastStoreTime = System.nanoTime();
                     store.purchaseItem(mousePosition());
-
                     backgroundMusic.stop();
 
                     break;
                 case PLAYING:
-//                    getkillDucks(); 변경 : 없어도 될듯
-//                    gameTime += System.nanoTime() - lastTime;
-
                     game.updateGame(mousePosition());
                     backgroundMusic.stop();
-//                    lastTime = System.nanoTime();
-
                     break;
                 case GAMEOVER:
                     if(this.level > previouslevel){
                         User.setLevel(this.level);
                         previouslevel = this.level;
-//                        System.out.println('level Up');
-                    };
+                    }
                     if(!Normal.isContinue){
                         if(Game.score > User.getScore()){
                             User.setScore(Game.score);
                         }
-                    };
+                    }
                     User.setMoney(Store.coin);
                     User.setRedItemNum(Store.numberofRedItem);
                     User.setBlueItemNum(Store.numberofBlueItem);
 
                     break;
                 case MAIN_MENU:
-//                    User.setBlueItemNum(Store.NumberofBlueItem);
-//                    User.setRedItemNum(Store.NumberofRedItem);
-//                    User.setMoney(Store.Coin);
 
                     break;
                 case OPTIONS:
@@ -228,13 +184,6 @@ public class Framework extends Canvas {
                     break;
                 case GAME_CONTENT_LOADING:
                     //...
-                    break;
-                case STARTING:
-                    // Sets variables and objects.
-                    // Load files - images, sounds, ...
-                    // When all things that are called above finished, we change game status to main menu.
-
-                    gameState = GameState.MAIN_MENU;
                     break;
                 case VISUALIZING:
                     // On Ubuntu OS (when I tested on my old computer) this.getWidth() method doesn't return the correct value immediately (eg. for frame that should be 800px width, returns 0 than 790 and at last 798px).
@@ -247,7 +196,7 @@ public class Framework extends Canvas {
                         frameHeight = this.getHeight();
 
                         // When we get size of frame we change status.
-                        gameState = GameState.STARTING;
+                        gameState = GameState.MAIN_MENU;
                     }
                     else
                     {
@@ -311,7 +260,6 @@ public class Framework extends Canvas {
                 g2d.drawString("2번 : 보스모드", frameWidth / 2 - 30, (int)(frameHeight * 0.73));
                 g2d.drawString("3번 : 타임어택", frameWidth / 2 - 30, (int)(frameHeight * 0.77));
                 g2d.drawString("4번 : 상점구경", frameWidth / 2 - 30, (int)(frameHeight * 0.81));
-//                g2d.drawString("Press ESC any time to exit the game.", frameWidth / 2 - 75, (int)(frameHeight * 0.75));
                 g2d.setColor(Color.white);
                 g2d.drawString("WWW.GAMETUTORIAL.NET", 7, frameHeight - 5);
                 break;
@@ -331,21 +279,11 @@ public class Framework extends Canvas {
      */
     private void continueGame()
     {
-        // We set gameTime to zero and lastTime to current time for later calculations.
-//        level = previouslevel; 변경 없어도될듯?
-
-//        gameTime = 0;
-//        lastTime = System.nanoTime();
-
         game = new Normal(previouslevel, true);
     }
     private void newGame()
     {
-        // We set gameTime to zero and lastTime to current time for later calculations.
         level = 1;
-//        gameTime = 0;
-//        lastTime = System.nanoTime();
-
         game = new Normal(level, false);
     }
     private void BossMode(){
@@ -364,22 +302,11 @@ public class Framework extends Canvas {
         gameState = GameState.GAMEOVER;
     }
     /**
-     *  Restart game - reset game time and call RestartGame() method of game object so that reset some variables.
+     * Restart game - reset game time and call RestartGame() method of game object so that reset some variables.
      */
-    private void restartGame()
-    {
-        // We set gameTime to zero and lastTime to current time for later calculations.
-        level = 1;
-//        gameTime = 0;
-//        lastTime = System.nanoTime();
-        Duck.lastDuckTime = 0;
-
-        game.gameRestart();
-
-        // We change game status so that the game can start.
-        gameState = GameState.PLAYING;
+    public Game restartGame(){
+        return game = game.gameRestart();
     }
-
     /**
      * Returns the position of the mouse pointer in game frame/window.
      * If mouse position is null than this method return 0,0 coordinate.
@@ -402,26 +329,6 @@ public class Framework extends Canvas {
             return new Point(0, 0);
         }
     }
-
-
-    /**
-     * Levelup is changing a game stage
-     */
-    // Normal 코드로 이동
-//    private void Levelup(){
-//        level++;
-////        Duck.speed = 1+(0.1 * (int)level);
-//        // 속도 조절
-//        for(int i=0; i <4; i++){
-//            Duck.duckLines[i][2] = -1 * (int)level;
-//            Duck.reverseDuckLines[i][2] = 1 * (int)level;
-//        }
-//
-//        Duck.timeBetweenDucks = Duck.timeBetweenDucks - 100000000L;
-//        Duck.lastDuckTime += 1;
-//
-//        backgroundMusic.start();
-//    }
 
     /**
      * This method is called when keyboard key is released.
@@ -446,6 +353,9 @@ public class Framework extends Canvas {
                 break;
             case PAUSED: // 일시정지
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    game.background.stop();
+                    game.hitSound.stop();
+                    backgroundMusic.start();
                     gameState = GameState.MAIN_MENU;
                 } else if (e.getKeyCode() == KeyEvent.VK_ENTER){
                     gameState = GameState.PLAYING;
@@ -457,8 +367,6 @@ public class Framework extends Canvas {
                     System.exit(0);
                 }
                 else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    game.hitSound.stop();
-                    game.background.stop();
                     backgroundMusic.start();
                     Framework.gameState = GameState.MAIN_MENU;
                 }else if(e.getKeyCode() == KeyEvent.VK_SPACE){
@@ -492,21 +400,4 @@ public class Framework extends Canvas {
                 break;
         }
     }
-
-    /**
-     * This method is called when mouse button is clicked.
-     *
-     * @param e MouseEvent
-     */
-//    @Override 변경 : 왜 있는거지?
-//    public void mouseClicked(MouseEvent e)
-//    {
-//        switch (gameState)
-//        {
-//            case MAIN_MENU:
-//                if(e.getButton() == MouseEvent.BUTTON1)
-//                    //newGame();
-//                    break;
-//        }
-//    }
 }
