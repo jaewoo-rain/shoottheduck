@@ -14,7 +14,7 @@ import static java.lang.System.out;
 import static kr.jbnu.se.std.Canvas.mouseButtonState;
 
 public class Game {
-    private Random random;
+    protected Random random;
     private Font font;
 
     protected ArrayList<Duck> ducks;
@@ -23,7 +23,7 @@ public class Game {
     protected static int killedDucks; // protected변경, 직접호출하기
     protected static long score;
 
-    private static int shoots; // 변경 : restart할때 같이 변경하기위해, 새로운 객체를 만들어도 동일한 값 나오게 만들려고
+    protected static int shoots; // 변경 : restart할때 같이 변경하기위해, 새로운 객체를 만들어도 동일한 값 나오게 만들려고
     protected long lastTimeShoot;
     protected long timeBetweenShots;
 
@@ -39,19 +39,19 @@ public class Game {
     private int sightImgMiddleHeight;
 
     protected static int playerhp = 200;
-    private int consecutivekills;
+    protected int consecutivekills;
     private boolean hpadd = false;
     protected static long coin;
 
     protected Audio hitSound;
     protected Audio background;
 
-    private BlueItem BlueItem;
-    private RedItem RedItem;
+    protected BlueItem blueItems;
+    protected RedItem redItems;
 
     public Game() {
-        BlueItem = new BlueItem(this);
-        RedItem = new RedItem(this);
+        blueItems = new BlueItem(this);
+        redItems = new RedItem(this);
 
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 
@@ -193,7 +193,7 @@ public class Game {
 
     }
 
-    private void hit(Point mousePosition, ArrayList<Duck> duckList) {
+    protected void hit(Point mousePosition, ArrayList<Duck> duckList) {
         for (int i = 0; i < duckList.size(); i++) {
             Duck duck = duckList.get(i);
             if (new Rectangle(duck.x + 18, duck.y, 27, 30).contains(mousePosition) ||
@@ -212,7 +212,7 @@ public class Game {
     private void useItem(Point mousePosition) {
         if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)) {
             if (Store.numberofBlueItem > 0) {
-                BlueItem.using(mousePosition);
+                blueItems.using(mousePosition);
                 Store.numberofBlueItem--;
             } else {
                 out.println("아이템이 부족합니다.");
@@ -221,7 +221,7 @@ public class Game {
 
         if (new Rectangle(Framework.frameWidth - 100, Framework.frameHeight - 50, redItem.getWidth() / 10, redItem.getHeight() / 10).contains(mousePosition)) {
             if (Store.numberofRedItem > 0) {
-                RedItem.Using(mousePosition);
+                redItems.using(mousePosition);
                 Store.numberofRedItem--;
             } else {
                 out.println("아이템이 부족합니다.");
@@ -229,7 +229,7 @@ public class Game {
         }
     }
 
-    private void healPlayerHp() {
+    protected void healPlayerHp() {
         if (consecutivekills == 10 && !hpadd && playerhp < 10) { // 변경 : 체력 증가 한도 10으로 맞춤
             playerhp++;
             hpadd = true;
