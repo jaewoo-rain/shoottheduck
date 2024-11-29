@@ -6,7 +6,6 @@ import kr.jbnu.se.std.firebase.MainFrame;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-
 public class Window extends JFrame{
 
     public Window(String id)
