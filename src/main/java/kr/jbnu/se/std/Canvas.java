@@ -8,9 +8,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
@@ -32,7 +29,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 
 
 
-    public Canvas()
+    protected  Canvas()
     {
         // We use double buffer to draw on the screen.
         this.setDoubleBuffered(true);
@@ -41,27 +38,9 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 
         // If you will draw your own mouse cursor or if you just want that mouse cursor disapear,
         // insert "true" into if condition and mouse cursor will be removed.
-        if(true)
-        {
-            BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(blankCursorImg, new Point(0, 0), null);
-            this.setCursor(blankCursor);
-
-//            // 현재 이미지 불러오기 부분
-//            URL sightImgUrl = this.getClass().getResource("/images/sight.png");
-//            BufferedImage sightImg = null;
-//            try {
-//                sightImg = ImageIO.read(sightImgUrl);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            int sightImgMiddleWidth = sightImg.getWidth() / 2;
-//            int sightImgMiddleHeight = sightImg.getHeight() / 2;
-//
-//// 마우스 커서로 이미지 설정
-//            Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(sightImg, new Point(sightImgMiddleWidth, sightImgMiddleHeight), "Custom Cursor");
-//            this.setCursor(customCursor);
-        }
+        BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(blankCursorImg, new Point(0, 0), null);
+        this.setCursor(blankCursor);
 
         // Adds the keyboard listener to JPanel to receive key events from this component.
         this.addKeyListener(this);

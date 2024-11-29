@@ -26,7 +26,7 @@ public class Boss extends Game {
 
     public Boss() {
         super();
-        timeBetweenDucks = Framework.secInNanosec / 2;
+        timeBetweenDucks = Framework.SEC_IN_NANOSEC / 2;
 
         // 속도 조절
         for(int i=0; i <4; i++){
@@ -59,19 +59,8 @@ public class Boss extends Game {
 
     }
 
-    @Override
-    public void gameRestart(){
-//        super.RestartGame();
-        ducks.clear();
-        reverseDucks.clear();
-        new Boss();
-//        ducks.clear();
-//        reverseDucks.clear();
-//        bossappearance = false;
-//        bossHp = 30;
-//        x=Framework.frameWidth-200;
-//        speed= -2;
-
+    public Game gameRestart(){
+        return new Boss();
     }
 
 
@@ -137,10 +126,5 @@ public class Boss extends Game {
             g2d.drawString(timeText, Framework.frameWidth - textWidth - 10, 50);
         }
     }
-//    public void setBossappearance() {
-//        if(!bossappearance&&killedDucks>=5) {
-//        bossappearance = true;
-//        }
-//    } 변경 : 직접 사용해
 
 }

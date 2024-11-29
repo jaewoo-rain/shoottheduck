@@ -1,18 +1,17 @@
 package kr.jbnu.se.std;
 
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 
 
 public class BlueItem {
-    private Game game;
+    protected Game game;
 
     public BlueItem(Game game) {
         this.game = game;
     }
 
-    public void using(Point mousePosition) {
+    public void using() {
         if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
             stopDuck();
         }

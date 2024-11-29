@@ -2,21 +2,18 @@ package kr.jbnu.se.std;
 
 import java.awt.*;
 import static kr.jbnu.se.std.Duck.timeBetweenDucks;
-//import static kr.jbnu.se.std.Framework.level;
 
 
-public class Normal extends Game{
-//    private int level;
+public class Normal extends Game {
     private int nextLevelScore;
     private long level;
-    public static boolean isContinue = true;
+    protected static boolean isContinue = true;
 
-    public Normal(long level, boolean b) {
+    public Normal(long level) {
         super();
-        Normal.isContinue = isContinue;
         Framework.level = (int) level;
         level = Framework.level;
-        timeBetweenDucks = Framework.secInNanosec;
+        timeBetweenDucks = Framework.SEC_IN_NANOSEC;
 
         nextLevelScore = (int)level * 100;
 
@@ -33,17 +30,9 @@ public class Normal extends Game{
         return isContinue;
 
     }
-
-//    @Override 변경 : 상속받으면 자연스럽게 사용됨
-//    public void initialize(){
-//        super.initialize();
-//
-//    }
-//    @Override
-//    public void RestartGame(){
-//        super.RestartGame();
-//
-//    } 변경 : 상속받아서 없어도 작동가능
+    public Game gameRestart(){
+        return new Normal(Framework.level);
+    }
 
     @Override
     public void updateGame( Point mousePosition) {

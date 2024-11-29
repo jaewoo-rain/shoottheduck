@@ -10,10 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
-//import static java.lang.System.out;
 import static kr.jbnu.se.std.Canvas.mouseButtonState;
 
-public class Game {
+public abstract class Game {
     protected Random random;
     private Font font;
 
@@ -56,16 +55,13 @@ public class Game {
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
 
         Thread threadForInitGame = new Thread(() -> {
-            LoadContent();
+            loadContent();
             initialize();
             Framework.gameState = Framework.GameState.PLAYING;
         });
         threadForInitGame.start();
     }
 
-//    public static int getKilledDucks() {
-//        return killedDucks;
-//    } 변경 : 없애기, 불필요
 
 
     protected void initialize() {
@@ -87,10 +83,10 @@ public class Game {
         Store.numberofRedItem = User.getRedItemNum();
 
         lastTimeShoot = 0;
-        timeBetweenShots = Framework.secInNanosec / 5;
+        timeBetweenShots = Framework.SEC_IN_NANOSEC / 5;
     }
 
-    protected void LoadContent() {
+    protected void loadContent() {
         try {
             backgroundImg = ImageIO.read(this.getClass().getResource("/images/background.jpg"));
             grassImg = ImageIO.read(this.getClass().getResource("/images/grass.png"));
@@ -110,25 +106,13 @@ public class Game {
         }
     }
 
-    public void gameRestart() { // 변경 이름바꿈, 바꾸래
-        ducks.clear();
-        reverseDucks.clear();
+    public abstract Game gameRestart();
 
-        new Game();
-// 변경 : 필요없음
-//        Duck.lastDuckTime = 0;
-//        killedDucks = 0;
-//        score = 0;
-//        shoots = 0;
-//        playerhp = 200;
-//        consecutivekills = 0;
-//        hpadd = false;
-//
-//        lastTimeShoot = 0;
-//        LoadContent();
-    }
 
     public void updateGame( Point mousePosition) { // 변경: 이름규칙 소문자로 시작
+        if (playerhp <= 0) {
+            endGame();
+        }
         if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
             spawnDuck(); // 오리 생성
         }
@@ -140,9 +124,6 @@ public class Game {
         shooting(mousePosition);
         healPlayerHp();
 
-        if (playerhp <= 0) {
-            endGame();
-        }
     }
 
     private void spawnDuck() {
@@ -173,8 +154,8 @@ public class Game {
         for (int i = 0; i < duckList.size(); i++) {
             Duck duck = duckList.get(i);
             duck.move();
-            if ((direction < 0 && duck.x < -duckImg.getWidth()) || // 변경 0 - ? -> -?
-                    (direction > 0 && duck.x > Framework.frameWidth + reverseDuckImg.getWidth())) {
+            if ((direction < 0 && duck.positionX < -duckImg.getWidth()) || // 변경 0 - ? -> -?
+                    (direction > 0 && duck.positionX > Framework.frameWidth + reverseDuckImg.getWidth())) {
                 duckList.remove(i);
                 playerhp--;
                 consecutivekills = 0;
@@ -196,8 +177,8 @@ public class Game {
     protected void hit(Point mousePosition, ArrayList<Duck> duckList) {
         for (int i = 0; i < duckList.size(); i++) {
             Duck duck = duckList.get(i);
-            if (new Rectangle(duck.x + 18, duck.y, 27, 30).contains(mousePosition) ||
-                    new Rectangle(duck.x + 30, duck.y + 30, 88, 25).contains(mousePosition)) {
+            if (new Rectangle(duck.positionX + 18, duck.positionY, 27, 30).contains(mousePosition) ||
+                    new Rectangle(duck.positionX + 30, duck.positionY + 30, 88, 25).contains(mousePosition)) {
                 killedDucks++;
                 hitSound.start();
                 score += duck.score;
@@ -212,7 +193,7 @@ public class Game {
     private void useItem(Point mousePosition) {
         if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)
                 && Store.numberofBlueItem > 0) {
-                blueItems.using(mousePosition);
+                blueItems.using();
                 Store.numberofBlueItem--;
             }
 
@@ -238,11 +219,23 @@ public class Game {
 
 
     protected void endGame() {
+
+        if(Framework.level > Framework.previouslevel){
+            User.setLevel(Framework.level);
+            Framework.previouslevel = Framework.level;
+        }
+        if(!Normal.isContinue && Game.score > User.getScore()){
+                User.setScore(Game.score);
+            }
+
+
         Framework.gameOver();
         Store.coin += Game.coin;
         User.setMoney(Store.coin);
         User.setBlueItemNum(Store.numberofBlueItem);
         User.setRedItemNum(Store.numberofRedItem);
+        hitSound.stop();
+        background.stop();
     }
 
     public void draw(Graphics2D g2d, Point mousePosition) {

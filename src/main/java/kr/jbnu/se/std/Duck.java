@@ -8,7 +8,7 @@ public class Duck extends Animals {
 
     public static ArrayList<Duck> allDucks = new ArrayList<>();
 
-    public static long timeBetweenDucks = Framework.secInNanosec * 2;
+    public static long timeBetweenDucks = Framework.SEC_IN_NANOSEC * 2;
 
     public static long lastDuckTime = 0;
 
@@ -36,57 +36,14 @@ public class Duck extends Animals {
         allDucks.add(this);
     }
 
-    public int getDuckspeed() {
-        return speed;
-    }
 
     public void setDuckspeed(int speed) {
         this.speed = speed;
     }
 
     public void draw(Graphics2D g2d) {
-        g2d.drawImage(duckImg, x, y, null);
+        g2d.drawImage(duckImg, positionX, positionY, null);
     }
 
-    public static void spawnDucks(BufferedImage duckImg, BufferedImage reverseDuckImg) {
-        new Duck(
-                duckLines[nextDuckLines][0],
-                duckLines[nextDuckLines][1],
-                duckLines[nextDuckLines][2],
-                duckLines[nextDuckLines][3],
-                duckImg
-        );
 
-        new Duck(
-                reverseDuckLines[nextDuckLines][0],
-                reverseDuckLines[nextDuckLines][1],
-                reverseDuckLines[nextDuckLines][2],
-                reverseDuckLines[nextDuckLines][3],
-                reverseDuckImg
-        );
-
-        nextDuckLines++;
-        if (nextDuckLines >= duckLines.length || nextDuckLines >= reverseDuckLines.length) {
-            nextDuckLines = 0;
-        }
-
-        lastDuckTime = System.nanoTime();
-    }
-
-    public static void updateAllDucks() {
-        for (int i = 0; i < allDucks.size(); i++) {
-            Duck duck = allDucks.get(i);
-            duck.move();
-            if (duck.x < -100 || duck.x > Framework.frameWidth + 100) {
-                allDucks.remove(i);
-                i--;
-            }
-        }
-    }
-
-    public static void drawAllDucks(Graphics2D g2d) {
-        for (Duck duck : allDucks) {
-            duck.draw(g2d);
-        }
-    }
 }

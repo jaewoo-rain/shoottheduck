@@ -8,13 +8,13 @@ import static kr.jbnu.se.std.Duck.timeBetweenDucks;
 
 public class Timeattack extends Game {
 
-    private final long TIME_LIMIT =  60 * 1000000000L; // 상수라 대문자로 변경, static추가 restart위해
+    private static final long TIME_LIMIT =  60 * 1000000000L; // 상수라 대문자로 변경, static추가 restart위해
     private static long startTime;
 
     public Timeattack() {
         super();
         startTime = System.nanoTime();
-        timeBetweenDucks = Framework.secInNanosec / 2;
+        timeBetweenDucks = Framework.SEC_IN_NANOSEC / 2;
 
         for(int i=0; i <4; i++){
             Duck.duckLines[i][2] = -3;
@@ -22,13 +22,10 @@ public class Timeattack extends Game {
         }
     }
     
-    @Override
-    public void gameRestart() { // 변경 restart없길래 만듦
-//        super.RestartGame();
-        ducks.clear();
-        reverseDucks.clear();
-        new Timeattack();
+    public Game gameRestart() {// 변경 restart없길래 만듦
+        return new Timeattack();
     }
+
 
     @Override
     public void updateGame( Point mousePosition) {

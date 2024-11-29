@@ -24,13 +24,15 @@ public class Store  {
 
     protected Audio storeAudio;
 
-    protected static long numberofBlueItem =0;
-    protected static long numberofRedItem =0;
+    protected static long numberofBlueItem ;
+    protected static long numberofRedItem ;
 
     protected static long coin;
 
     public Store()
     {
+//        Store.coin = User.getMoney();
+
         Framework.gameState = Framework.GameState.STORE_CONTENT_LOADING;
 
         Thread storeTH = new Thread(){
@@ -52,7 +54,7 @@ public class Store  {
     private void initialize()
     {
         storeAudio.start();
-        timeBetweenPurchase = Framework.secInNanosec / 3;
+        timeBetweenPurchase = Framework.SEC_IN_NANOSEC / 3;
 
 
     }
@@ -105,25 +107,19 @@ public class Store  {
             lastTimePurchase = System.nanoTime();
         }
     }
+
+
     private void purchaseRed(){
         if (coin >= 300) {
-            System.out.println("Red potion 구매 완료");
             numberofRedItem++;
             coin -= 300;
-        }
-        else {
-            System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
         }
     }
 
     private void purchaseBlue(){
         if (coin >= 300) {
-            System.out.println("Blue potion 구매 완료");
             numberofBlueItem++;
             coin -= 300;
-        }
-        else {
-            System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
         }
     }
 
