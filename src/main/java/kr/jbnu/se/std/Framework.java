@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -188,7 +187,7 @@ public class Framework extends Canvas {
 
 //                    storeTime += System.nanoTime() - lastStoreTime;
 //                    lastStoreTime = System.nanoTime();
-                    store.PurchaseItem(mousePosition());
+                    store.purchaseItem(mousePosition());
 
                     backgroundMusic.stop();
 
@@ -213,9 +212,9 @@ public class Framework extends Canvas {
                             User.setScore(Game.score);
                         }
                     };
-                    User.setMoney(Store.Coin);
-                    User.setRedItemNum(Store.NumberofRedItem);
-                    User.setBlueItemNum(Store.NumberofBlueItem);
+                    User.setMoney(Store.coin);
+                    User.setRedItemNum(Store.numberofRedItem);
+                    User.setBlueItemNum(Store.numberofBlueItem);
 
                     break;
                 case MAIN_MENU:
@@ -438,10 +437,10 @@ public class Framework extends Canvas {
                 break;
             case STORE:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    store.StoreAudio.stop();
-                    User.setMoney(Store.Coin);
-                    User.setRedItemNum(Store.NumberofRedItem);
-                    User.setBlueItemNum(Store.NumberofBlueItem);
+                    store.storeAudio.stop();
+                    User.setMoney(Store.coin);
+                    User.setRedItemNum(Store.numberofRedItem);
+                    User.setBlueItemNum(Store.numberofBlueItem);
                     gameState = GameState.MAIN_MENU;
                 }
                 break;

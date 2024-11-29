@@ -21,7 +21,6 @@ public class Boss extends Game {
     private boolean bossappearance;
     private int bossPosition;
     private int speed;
-
     private BlueItem blueItem;
 
 

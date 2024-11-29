@@ -30,5 +30,7 @@ public abstract class Animals {
     /**
      * Move the animal.
      */
-    public abstract void move();
+    public void move(){
+        x += speed;
+    }
 }

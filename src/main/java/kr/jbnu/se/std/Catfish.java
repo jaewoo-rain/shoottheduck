@@ -62,15 +62,6 @@ public class Catfish extends Animals{
         this.hitPoint = 2;
     }
 
-
-    /**
-     * Move the catfish.
-     */
-    public void move()
-    {
-        x += speed;
-    }
-
     /**
      * Draw the catfish to the screen.
      * @param g2d Graphics2D
