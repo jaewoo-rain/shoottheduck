@@ -52,7 +52,6 @@ public class EntityManager {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     public void updateGame(Point mousePosition) {
         if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
             spawnDuck(); // 오리 생성
