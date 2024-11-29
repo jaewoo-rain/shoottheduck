@@ -11,7 +11,7 @@ public class Normal extends Game{
     private long level;
     public static boolean isContinue = true;
 
-    public Normal(long level) {
+    public Normal(long level, boolean b) {
         super();
         Normal.isContinue = isContinue;
         Framework.level = (int) level;

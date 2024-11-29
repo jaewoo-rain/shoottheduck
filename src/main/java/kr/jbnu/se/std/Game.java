@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -84,8 +83,8 @@ public class Game {
         consecutivekills = 0;
         hpadd = false;
 
-        Store.NumberofBlueItem = User.getBlueItemNum();
-        Store.NumberofRedItem = User.getRedItemNum();
+        Store.numberofBlueItem = User.getBlueItemNum();
+        Store.numberofRedItem = User.getRedItemNum();
 
         lastTimeShoot = 0;
         timeBetweenShots = Framework.secInNanosec / 5;
@@ -173,7 +172,7 @@ public class Game {
     private void updateDuckList(ArrayList<Duck> duckList, int direction) {
         for (int i = 0; i < duckList.size(); i++) {
             Duck duck = duckList.get(i);
-            duck.update();
+            duck.move();
             if ((direction < 0 && duck.x < -duckImg.getWidth()) || // 변경 0 - ? -> -?
                     (direction > 0 && duck.x > Framework.frameWidth + reverseDuckImg.getWidth())) {
                 duckList.remove(i);
@@ -212,18 +211,18 @@ public class Game {
 
     private void useItem(Point mousePosition) {
         if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)) {
-            if (Store.NumberofBlueItem > 0) {
+            if (Store.numberofBlueItem > 0) {
                 BlueItem.using(mousePosition);
-                Store.NumberofBlueItem--;
+                Store.numberofBlueItem--;
             } else {
                 out.println("아이템이 부족합니다.");
             }
         }
 
         if (new Rectangle(Framework.frameWidth - 100, Framework.frameHeight - 50, redItem.getWidth() / 10, redItem.getHeight() / 10).contains(mousePosition)) {
-            if (Store.NumberofRedItem > 0) {
+            if (Store.numberofRedItem > 0) {
                 RedItem.Using(mousePosition);
-                Store.NumberofRedItem--;
+                Store.numberofRedItem--;
             } else {
                 out.println("아이템이 부족합니다.");
             }
@@ -244,10 +243,10 @@ public class Game {
 
     protected void endGame() {
         Framework.gameOver();
-        Store.Coin += Game.coin;
-        User.setMoney(Store.Coin);
-        User.setBlueItemNum(Store.NumberofBlueItem);
-        User.setRedItemNum(Store.NumberofRedItem);
+        Store.coin += Game.coin;
+        User.setMoney(Store.coin);
+        User.setBlueItemNum(Store.numberofBlueItem);
+        User.setRedItemNum(Store.numberofRedItem);
     }
 
     public void draw(Graphics2D g2d, Point mousePosition) {
@@ -274,8 +273,8 @@ public class Game {
         g2d.drawString("SHOOTS: " + shoots, 299, 21);
         g2d.drawString("SCORE: " + score, 440, 21);
         g2d.drawString("Coin: " + coin, Framework.frameWidth / 2 + 200, 21);
-        g2d.drawString("Blue potion: " + Store.NumberofBlueItem, 10, 45);
-        g2d.drawString("Red potion: " + Store.NumberofRedItem, 10, 65);
+        g2d.drawString("Blue potion: " + Store.numberofBlueItem, 10, 45);
+        g2d.drawString("Red potion: " + Store.numberofRedItem, 10, 65);
     }
 
     public void drawGameOver(Graphics2D g2d, Point mousePosition) {

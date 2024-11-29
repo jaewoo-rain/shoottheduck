@@ -11,7 +11,7 @@ public class Audio {
     private Clip clip;
     private AudioInputStream audioInputStream;
     private File audioFile;
-    private boolean isLoop;
+    private boolean isLoop = false;
 
 
     public Audio(String pathName, boolean isLoop) {
