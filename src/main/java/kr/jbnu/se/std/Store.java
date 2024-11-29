@@ -27,7 +27,7 @@ public class Store  {
     protected static long numberofBlueItem =0;
     protected static long numberofRedItem =0;
 
-    protected static long coin = 0;
+    protected static long coin;
 
     public Store()
     {
@@ -40,7 +40,7 @@ public class Store  {
 
                 LoadContent();
 
-                Initialize();
+                initialize();
 
                 Framework.gameState = Framework.GameState.STORE;
             }
@@ -49,13 +49,13 @@ public class Store  {
     }
 
     // 객체 세팅
-    private void Initialize()
+    private void initialize()
     {
         storeAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
 
-    }
 
+    }
 
 
     //이미지나 음악 추가
@@ -78,6 +78,9 @@ public class Store  {
             sightImg = ImageIO.read(sightImgURL);
             sightImgMiddleWidth = sightImg.getWidth()/2;
             sightImgMiddleHeight = sightImg.getHeight()/2;
+
+
+
 
         }
         catch (IOException ex) {
@@ -106,7 +109,7 @@ public class Store  {
     private void purchaseRedBlue(){
         if (coin >= 300) {
             System.out.println("potion 구매 완료");
-            numberofRedItem ++;
+            numberofRedItem++;
             coin -= 300;
         }
         else {
@@ -120,7 +123,7 @@ public class Store  {
         g2d.drawImage(bluePotionImg, Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, bluePotionImg.getWidth() /3 +50, bluePotionImg.getHeight() /3 +50, null);
         g2d.drawImage(sightImg, mousePosition.x -sightImgMiddleWidth, mousePosition.y-sightImgMiddleHeight , null);
         g2d.setColor(Color.GREEN);
-        g2d.drawString("Coin: " + coin, 10, 21);;
+        g2d.drawString("Coin: " + coin, 10, 21);
         g2d.drawString("Blue potion: " + numberofBlueItem, 10, 41);
         g2d.drawString("Red potion: " + numberofRedItem, 10, 61);
         g2d.setColor(Color.BLACK);
