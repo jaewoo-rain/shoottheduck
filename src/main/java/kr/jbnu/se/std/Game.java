@@ -94,8 +94,7 @@ public class Game {
     }
 
     public void gameRestart() { // 변경 이름바꿈, 바꾸래
-        ducks.clear();
-        reverseDucks.clear();
+
 
         new Game();
 // 변경 : 필요없음
@@ -177,6 +176,8 @@ public class Game {
         Framework.gameOver();
         Store.Coin += Game.coin;
         User.setMoney(Store.Coin);
+        ducks.clear();
+        reverseDucks.clear();
         User.setBlueItemNum(Store.NumberofBlueItem);
         User.setRedItemNum(Store.NumberofRedItem);
         background.stop();
