@@ -8,8 +8,8 @@ import static kr.jbnu.se.std.Duck.timeBetweenDucks;
 
 public class Timeattack extends Game {
 
-    private final long timeLimit = 2 * 60 * 1000000000L;
-    private final long startTime;
+    private final long TIME_LIMIT =  60 * 1000000000L; // 상수라 대문자로 변경, static추가 restart위해
+    private static long startTime;
 
     public Timeattack() {
         super();
@@ -21,16 +21,24 @@ public class Timeattack extends Game {
             Duck.reverseDuckLines[i][2] = 3;
         }
     }
+    
+    @Override
+    public void gameRestart() { // 변경 restart없길래 만듦
+//        super.RestartGame();
+        ducks.clear();
+        reverseDucks.clear();
+        new Timeattack();
+    }
 
     @Override
-    public void UpdateGame(long gameTime, Point mousePosition) {
-        super.UpdateGame(gameTime, mousePosition);
+    public void updateGame( Point mousePosition) {
+        super.updateGame( mousePosition);
 
         long currentTime = System.nanoTime();
         long passedTime = currentTime - startTime;
 
-        if (passedTime >= timeLimit) {
-            Framework.gameState = Framework.GameState.GAMEOVER;
+        if (passedTime >= TIME_LIMIT) {
+            endGame();
         }
     }
 
@@ -39,7 +47,7 @@ public class Timeattack extends Game {
         super.draw(g2d, mousePosition);
 
         long currentTime = System.nanoTime();
-        long remainingTime = (timeLimit - (currentTime - startTime)) / 1000000000L;
+        long remainingTime = (TIME_LIMIT - (currentTime - startTime)) / 1000000000L;
         if (remainingTime > 0) {
             String timeText = "Time Left: " + remainingTime + " seconds";
             // 텍스트의 너비를 계산

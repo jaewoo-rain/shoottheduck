@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class RedItem {
 
-    private final Game game;
+    private Game game;
 
     public RedItem(Game game) {
         this.game = game;

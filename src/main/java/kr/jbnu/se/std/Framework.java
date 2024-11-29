@@ -58,7 +58,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED, PAUSED, STORE_CONTENT_LOADING, STORE, BOSS, TIMAATACK}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, PAUSED, STORE_CONTENT_LOADING, STORE}
 
     /**
      * Current state of the game
@@ -68,12 +68,12 @@ public class Framework extends Canvas {
     /**
      * Elapsed game time in nanoseconds.
      */
-    private long gameTime;
+//    private long gameTime; 변경 : 없어도될듯
     // It is used for calculating elapsed time.
-    private long lastTime;
+//    private long lastTime; 변경 : 없어도될듯
 
-    private long storeTime;
-    private long lastStoreTime;
+//    private long storeTime; 변경 : 없어도될듯
+//    private long lastStoreTime; 변경 : 없어도 될듯
 
     // The actual game
     private Game game;
@@ -90,18 +90,22 @@ public class Framework extends Canvas {
     private Audio backgroundMusic;
 
     private Store store;
+    private boolean isRunning = true;
+
+
 
 
     /**
      * getkillDucks get Game class's killduks score;
      */
-    private void getkillDucks(){
-        if(game != null){
-            this.killducks = game.getKilledDucks();
-        }else {
-            System.out.println("Game is null!");
-        }
-    }
+//    private void getkillDucks(){
+//        if(game != null){
+//            this.killducks = game.getKilledDucks();
+//        }else {
+//            System.out.println("Game is null!");
+//        }
+//    } 변경 : 없어도될듯
+
 
     public Framework ()
     {
@@ -167,7 +171,7 @@ public class Framework extends Canvas {
         // This variables are used for calculating the time that defines for how long we should put threat to sleep to meet the GAME_FPS.
         long beginTime, timeTaken, timeLeft;
 
-        while(true)
+        while(isRunning)
         {
             beginTime = System.nanoTime();
 
@@ -177,26 +181,26 @@ public class Framework extends Canvas {
                     //...
                     break;
                 case STORE:
-                    storeTime += System.nanoTime() - lastStoreTime;
-                    lastStoreTime = System.nanoTime();
 
-                    store.PurchaseItem(storeTime, mousePosition());
+                    User.setMoney(Store.Coin);
+                    User.setRedItemNum(Store.NumberofRedItem);
+                    User.setBlueItemNum(Store.NumberofBlueItem);
+
+//                    storeTime += System.nanoTime() - lastStoreTime;
+//                    lastStoreTime = System.nanoTime();
+                    store.PurchaseItem(mousePosition());
+
                     backgroundMusic.stop();
+
                     break;
                 case PLAYING:
-                    getkillDucks();
-                    gameTime += System.nanoTime() - lastTime;
+//                    getkillDucks(); 변경 : 없어도 될듯
+//                    gameTime += System.nanoTime() - lastTime;
 
-                    game.UpdateGame(gameTime, mousePosition());
+                    game.updateGame(mousePosition());
                     backgroundMusic.stop();
-                    lastTime = System.nanoTime();
-                    
-//                    if(true == normalmode){
-//                        if(killducks >= level *10){
-//                            Levelup();
-//                        }
-//                    }
-                    
+//                    lastTime = System.nanoTime();
+
                     break;
                 case GAMEOVER:
                     if(this.level > previouslevel){
@@ -204,9 +208,21 @@ public class Framework extends Canvas {
                         previouslevel = this.level;
 //                        System.out.println('level Up');
                     };
+                    if(!Normal.isContinue){
+                        if(Game.score > User.getScore()){
+                            User.setScore(Game.score);
+                        }
+                    };
+                    User.setMoney(Store.Coin);
+                    User.setRedItemNum(Store.NumberofRedItem);
+                    User.setBlueItemNum(Store.NumberofBlueItem);
 
                     break;
                 case MAIN_MENU:
+//                    User.setBlueItemNum(Store.NumberofBlueItem);
+//                    User.setRedItemNum(Store.NumberofRedItem);
+//                    User.setMoney(Store.Coin);
+
                     break;
                 case OPTIONS:
                     //...
@@ -218,6 +234,7 @@ public class Framework extends Canvas {
                     // Sets variables and objects.
                     // Load files - images, sounds, ...
                     // When all things that are called above finished, we change game status to main menu.
+
                     gameState = GameState.MAIN_MENU;
                     break;
                 case VISUALIZING:
@@ -279,7 +296,7 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.draw(g2d, mousePosition());
-                if(normalmode == true){
+                if(normalmode){ // 변경 normalmode == true
                     g2d.setColor(Color.GREEN);{
                         g2d.drawString("Level : " + level, frameWidth /2 - 60, frameHeight);
                     }
@@ -316,21 +333,21 @@ public class Framework extends Canvas {
     private void continueGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
-        level = previouslevel;
+//        level = previouslevel; 변경 없어도될듯?
 
-        gameTime = 0;
-        lastTime = System.nanoTime();
+//        gameTime = 0;
+//        lastTime = System.nanoTime();
 
-        game = new Normal(previouslevel);
+        game = new Normal(previouslevel, true);
     }
     private void newGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
         level = 1;
-        gameTime = 0;
-        lastTime = System.nanoTime();
+//        gameTime = 0;
+//        lastTime = System.nanoTime();
 
-        game = new Normal(level);
+        game = new Normal(level, false);
     }
     private void BossMode(){
         game=new Boss();
@@ -343,6 +360,10 @@ public class Framework extends Canvas {
     private void StoRe(){
         store = new Store();
     }
+    
+    public static void gameOver(){
+        gameState = GameState.GAMEOVER;
+    }
     /**
      *  Restart game - reset game time and call RestartGame() method of game object so that reset some variables.
      */
@@ -350,11 +371,11 @@ public class Framework extends Canvas {
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
         level = 1;
-        gameTime = 0;
-        lastTime = System.nanoTime();
+//        gameTime = 0;
+//        lastTime = System.nanoTime();
         Duck.lastDuckTime = 0;
 
-        game.RestartGame();
+        game.gameRestart();
 
         // We change game status so that the game can start.
         gameState = GameState.PLAYING;
@@ -423,12 +444,16 @@ public class Framework extends Canvas {
                 break;
             case PAUSED: // 일시정지
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    gameState = GameState.MAIN_MENU;
+                } else if (e.getKeyCode() == KeyEvent.VK_ENTER){
                     gameState = GameState.PLAYING;
                 }
                 break;
             case GAMEOVER:
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    isRunning = false;
                     System.exit(0);
+                }
                 else if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     game.hitSound.stop();
                     game.background.stop();
@@ -441,7 +466,6 @@ public class Framework extends Canvas {
             case PLAYING:
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     gameState = GameState.PAUSED; // 일시정지 들어가기
-                    System.out.println("멈춰");
                 }
                 break;
             case MAIN_MENU:
@@ -472,15 +496,15 @@ public class Framework extends Canvas {
      *
      * @param e MouseEvent
      */
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
-        switch (gameState)
-        {
-            case MAIN_MENU:
-                if(e.getButton() == MouseEvent.BUTTON1)
-                    //newGame();
-                    break;
-        }
-    }
+//    @Override 변경 : 왜 있는거지?
+//    public void mouseClicked(MouseEvent e)
+//    {
+//        switch (gameState)
+//        {
+//            case MAIN_MENU:
+//                if(e.getButton() == MouseEvent.BUTTON1)
+//                    //newGame();
+//                    break;
+//        }
+//    }
 }
