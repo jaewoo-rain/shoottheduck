@@ -6,14 +6,14 @@ import static kr.jbnu.se.std.Duck.timeBetweenDucks;
 
 
 public class Normal extends Game{
-    //    private int level;
+//    private int level;
     private int nextLevelScore;
     private long level;
     public static boolean isContinue = true;
 
-    public Normal(long level) {
+    public Normal(long level, boolean b) {
         super();
-        this.isContinue = isContinue;
+        Normal.isContinue = isContinue;
         Framework.level = (int) level;
         level = Framework.level;
         timeBetweenDucks = Framework.secInNanosec;
@@ -34,30 +34,28 @@ public class Normal extends Game{
 
     }
 
+//    @Override 변경 : 상속받으면 자연스럽게 사용됨
+//    public void initialize(){
+//        super.initialize();
+//
+//    }
+//    @Override
+//    public void RestartGame(){
+//        super.RestartGame();
+//
+//    } 변경 : 상속받아서 없어도 작동가능
+
     @Override
-    public void initialize(){
-        super.initialize();
-
-    }
-    @Override
-    public void RestartGame(){
-        super.RestartGame();
-
-
-    }
-    @Override
-    public void UpdateGame(long gameTime, Point mousePosition) {
-        super.UpdateGame(gameTime, mousePosition);
-
-
+    public void updateGame( Point mousePosition) {
+        super.updateGame( mousePosition);
 
         if(score >= nextLevelScore){
-            Levelup();
-            nextLevelScore += (int) ((level+1) * 100);
+                levelup();
+                nextLevelScore += (int) ((level+1) * 100);
         }
     }
 
-    private void Levelup(){
+    private void levelup(){ // 소문자로시작
         Framework.level++;
         level++;
         // 속도 조절
@@ -82,3 +80,8 @@ public class Normal extends Game{
         }
     }
 }
+
+
+
+
+

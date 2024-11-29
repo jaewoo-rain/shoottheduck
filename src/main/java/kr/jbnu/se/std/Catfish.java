@@ -1,4 +1,3 @@
-
 package kr.jbnu.se.std;
 
 
@@ -6,8 +5,18 @@ package kr.jbnu.se.std;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * The catfish class.
+ *
+ * @author www.gametutorial.net
+ */
+
 public class Catfish extends Animals{
 
+    /**
+     * How much time must pass in order to create a new catfish?
+     */
+    public static long timeBetweenCatfishs = Framework.secInNanosec * 2;
     /**
      * Last time when the catfish was created.
      */
@@ -53,12 +62,11 @@ public class Catfish extends Animals{
         this.hitPoint = 2;
     }
 
-
     /**
      * Draw the catfish to the screen.
      * @param g2d Graphics2D
      */
-    public void draw(Graphics2D g2d)
+    public void Draw(Graphics2D g2d)
     {
         g2d.drawImage(catfishImg, x, y, null);
     }

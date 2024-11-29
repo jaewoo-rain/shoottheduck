@@ -13,11 +13,11 @@ import java.util.Map;
 public class User {
     private  static String id;
     private  static Long money, level, RedItem, score, BlueItem;
-    private static Firestore db = FirebaseUtil.getFirestore();
+    private static final Firestore db = FirebaseUtil.getFirestore();
 
     public User(String id) {
 
-        this.id = id;
+        User.id = id;
         try{
             DocumentReference docRef = db.collection("users").document(id);
             ApiFuture<DocumentSnapshot> future = docRef.get();
@@ -45,11 +45,11 @@ public class User {
             Map<String, Object> user = new HashMap<>();
             user.put("Level", level);
             docRef.set(user, SetOptions.merge());
-        };
+        }
 
     public static Long getRedItemNum() {
             return RedItem;
-        };
+        }
 
     public static void setRedItemNum(Long RedItem) {
             User.RedItem = RedItem;
@@ -57,11 +57,11 @@ public class User {
             Map<String, Object> user = new HashMap<>();
             user.put("RedItem", RedItem);
             docRef.set(user, SetOptions.merge());
-    };
+    }
 
     public static Long getScore() {
             return score;
-        };
+        }
 
     public static void setScore(Long score) {
         User.score = score;
@@ -69,10 +69,11 @@ public class User {
         Map<String, Object> user = new HashMap<>();
         user.put("Score", score);
         docRef.set(user, SetOptions.merge());
-    };
+    }
+
     public static Long getBlueItemNum() {
         return BlueItem;
-    };
+    }
 
     public static void setBlueItemNum(Long slowItemNum) {
             User.BlueItem = slowItemNum;
@@ -80,12 +81,12 @@ public class User {
             Map<String, Object> user = new HashMap<>();
             user.put("BlueItem", slowItemNum);
             docRef.set(user, SetOptions.merge());
-        };
+        }
 
 
     public static Long getMoney() {
             return money;
-        };
+        }
 
     public static void setMoney(Long money) {
             User.money = money;
@@ -93,11 +94,11 @@ public class User {
             Map<String, Object> user = new HashMap<>();
             user.put("Money", money);
             docRef.set(user, SetOptions.merge());
-        };
+        }
 
     public String getId() {
             return id;
-        };
+        }
 
 
     public static void getTopScores() {
@@ -125,5 +126,5 @@ public class User {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    };
+    }
 }
