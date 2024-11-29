@@ -1,8 +1,6 @@
-//package kr.jbnu.se.std.firebase;
 package kr.jbnu.se.std;
 
 
-import kr.jbnu.se.std.Framework;
 import kr.jbnu.se.std.firebase.MainFrame;
 
 import javax.swing.JFrame;
@@ -18,17 +16,18 @@ public class Window extends JFrame{
 
         new User(id);
 
+
         // Sets size of the frame.
         if(false) // Full screen mode
         {
             // Disables decorations for this frame.
             this.setUndecorated(true);
-            // Puts the frame to full screen.
+            // Puts the frame to full screen
             this.setExtendedState(this.MAXIMIZED_BOTH);
         }
         else // kr.jbnu.se.std.Window mode
         {
-            // Size of the frame.
+            // Size of the frame
             this.setSize(800, 600);
             // Puts frame to center of the screen.
             this.setLocationRelativeTo(null);

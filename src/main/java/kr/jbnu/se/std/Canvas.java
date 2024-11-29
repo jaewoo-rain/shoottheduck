@@ -25,10 +25,10 @@ import javax.swing.JPanel;
 public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 
     // Keyboard states - Here are stored states for keyboard keys - is it down or not.
-    private static boolean[] keyboardState = new boolean[525];
+    private static final boolean[] keyboardState = new boolean[525];
 
     // Mouse states - Here are stored states for mouse keys - is it down or not.
-    private static boolean[] mouseState = new boolean[3];
+    private static final boolean[] mouseState = new boolean[3];
 
 
 
@@ -43,24 +43,24 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
         // insert "true" into if condition and mouse cursor will be removed.
         if(true)
         {
-//            BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-//            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(blankCursorImg, new Point(0, 0), null);
-//            this.setCursor(blankCursor);
+            BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(blankCursorImg, new Point(0, 0), null);
+            this.setCursor(blankCursor);
 
-            // 현재 이미지 불러오기 부분
-            URL sightImgUrl = this.getClass().getResource("/images/sight.png");
-            BufferedImage sightImg = null;
-            try {
-                sightImg = ImageIO.read(sightImgUrl);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            int sightImgMiddleWidth = sightImg.getWidth() / 2;
-            int sightImgMiddleHeight = sightImg.getHeight() / 2;
-
-// 마우스 커서로 이미지 설정
-            Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(sightImg, new Point(sightImgMiddleWidth, sightImgMiddleHeight), "Custom Cursor");
-            this.setCursor(customCursor);
+//            // 현재 이미지 불러오기 부분
+//            URL sightImgUrl = this.getClass().getResource("/images/sight.png");
+//            BufferedImage sightImg = null;
+//            try {
+//                sightImg = ImageIO.read(sightImgUrl);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            int sightImgMiddleWidth = sightImg.getWidth() / 2;
+//            int sightImgMiddleHeight = sightImg.getHeight() / 2;
+//
+//// 마우스 커서로 이미지 설정
+//            Cursor customCursor = Toolkit.getDefaultToolkit().createCustomCursor(sightImg, new Point(sightImgMiddleWidth, sightImgMiddleHeight), "Custom Cursor");
+//            this.setCursor(customCursor);
         }
 
         // Adds the keyboard listener to JPanel to receive key events from this component.
@@ -71,14 +71,14 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 
 
     // This method is overridden in kr.jbnu.se.std.Framework.java and is used for drawing to the screen.
-    public abstract void Draw(Graphics2D g2d);
+    public abstract void draw(Graphics2D g2d);
 
     @Override
     public void paintComponent(Graphics g)
     {
         Graphics2D g2d = (Graphics2D)g;
         super.paintComponent(g2d);
-        Draw(g2d);
+        draw(g2d);
     }
 
 

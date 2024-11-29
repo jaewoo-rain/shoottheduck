@@ -12,19 +12,18 @@ public class BlueItem {
         this.game = game;
     }
 
-    public void Using(Point mousePosition) {
+    public void using(Point mousePosition) {
         if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) {
-            StopDuck();
-            System.out.println("아이템을 사용하셨습니다.");
+            stopDuck();
         }
     }
 
-    private void StopDuck(){
+    private void stopDuck(){
         for(Duck duck : game.ducks){
-            duck.setDuckspeed(duck.getDuckspeed() * 0);
+            duck.setDuckspeed(0); // 변경 : duck.getDuckspeed() * 0 -> 0 아닌가?
         }
-        for(Duck duck : game.reverseDuck){
-            duck.setDuckspeed(duck.getDuckspeed() * 0);
+        for(Duck duck : game.reverseDucks){
+            duck.setDuckspeed(0); // 위랑 동일함
         }
     }
 

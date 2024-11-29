@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterFrame extends JFrame {
-    private JTextField idField;
-    private JPasswordField passwordField;
-    private Firestore db;
+    private final JTextField idField;
+    private final JPasswordField passwordField;
+    private final Firestore db;
 
     public RegisterFrame() {
         db = FirebaseUtil.getFirestore();
@@ -110,11 +110,11 @@ public class RegisterFrame extends JFrame {
         DocumentReference docRef = db.collection("users").document(id);
         Map<String, Object> user = new HashMap<>();
         user.put("password", password);
-        user.put("DoubleItemNum", 0);
+        user.put("RedItem", 0);
         user.put("Level", 1);
         user.put("Money", 0);
         user.put("Score", 0);
-        user.put("SlowItemNum", 0);
+        user.put("BlueItem", 0);
 
         ApiFuture<WriteResult> future = docRef.set(user);
         future.addListener(() -> {

@@ -25,10 +25,10 @@ public class Store  {
     protected Audio StoreAudio;
 
     private Game game;
-    protected static int NumberofBlueItem =0;
-    protected static int NumberofRedItem =0;
+    protected static long NumberofBlueItem =0;
+    protected static long NumberofRedItem =0;
 
-    protected static int Coin = 0;
+    protected static long Coin;
 
     public Store()
     {
@@ -41,7 +41,7 @@ public class Store  {
 
                 LoadContent();
 
-                Initialize();
+                initialize();
 
                 Framework.gameState = Framework.GameState.STORE;
             }
@@ -50,11 +50,12 @@ public class Store  {
     }
 
     // 객체 세팅
-    private void Initialize()
+    private void initialize()
     {
         StoreAudio.start();
         timeBetweenPurchase = Framework.secInNanosec / 3;
-        Coin += game.coin;
+
+
     }
 
 
@@ -89,7 +90,7 @@ public class Store  {
         }
     }
 
-    public void PurchaseItem(long storeTime, Point mousePosition){
+    public void PurchaseItem(Point mousePosition){ // storeTime없앰
         if(System.nanoTime() - lastTimePurchase > timeBetweenPurchase){
             if(Canvas.mouseButtonState(MouseEvent.BUTTON1)){
                 if(new Rectangle(Framework.frameWidth / 2 - 250, Framework.frameHeight / 2 -120, RedPotionImg.getWidth()/ 3 + 50, RedPotionImg.getHeight() / 3 + 50).contains(mousePosition)){
@@ -98,7 +99,7 @@ public class Store  {
                         NumberofRedItem += 1;
                         Coin -= 300;
                     }else{
-                        System.out.println("돈이 부족합니다.");
+                        System.out.println("돈이 부족합니다. " + (300 - Coin) + "원 더 모아오세요.");
                     }
 
                 }
@@ -108,7 +109,7 @@ public class Store  {
                         NumberofBlueItem += 1;
                         Coin -= 300;
                     }else{
-                        System.out.println("돈이 부족합니다.");
+                        System.out.println("돈이 부족합니다. "+ (300 - Coin) + "원 더 모아오세요.");
                     }
 
                 }
@@ -118,7 +119,7 @@ public class Store  {
 
     }
 
-    public void Draw(Graphics g2d, Point mousePosition){
+    public void draw(Graphics g2d, Point mousePosition){
         g2d.drawImage(StoreBackgroundImg, 0, 0, Framework.frameWidth, Framework.frameHeight, null);
         g2d.drawImage(RedPotionImg, Framework.frameWidth /2 - 250, Framework.frameHeight / 2 - 120, RedPotionImg.getWidth() /3 + 50, RedPotionImg.getHeight() / 3 + 50, null);
         g2d.drawImage(BluePotionImg, Framework.frameWidth /2 + 100, Framework.frameHeight /2 - 120, BluePotionImg.getWidth() /3 +50, BluePotionImg.getHeight() /3 +50, null);
