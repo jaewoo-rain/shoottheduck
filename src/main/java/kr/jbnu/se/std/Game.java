@@ -124,7 +124,7 @@ public abstract class Game {
         healPlayerHp();
     }
 
-    void spawnDuck(boolean isReverse) {
+    private void spawnDuck(boolean isReverse) {
         int[][] duckLines = isReverse ? Duck.reverseDuckLines : Duck.duckLines;
         BufferedImage duckImage = isReverse ? reverseDuckImg : duckImg;
 
