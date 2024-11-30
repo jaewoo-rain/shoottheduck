@@ -19,6 +19,7 @@ public class FirebaseUtil {
         return db;
     }
 
+
     private static void initializeFirebase() {
         try {
 //            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
