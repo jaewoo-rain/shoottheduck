@@ -80,7 +80,7 @@ public abstract class Game {
         Store.numberofRedItem = User.getRedItemNum();
 
         lastTimeShoot = 0;
-        timeBetweenShots = Framework.secInNanosec / 5;
+        timeBetweenShots = Framework.secInNanosec / 2;
     }
 
     protected void LoadContent() {
