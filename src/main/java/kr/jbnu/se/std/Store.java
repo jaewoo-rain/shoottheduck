@@ -31,7 +31,7 @@ public class Store  {
 
     public Store()
     {
-        Framework.gameState = Framework.GameState.STORE_CONTENT_LOADING;
+        GameStateManager.setCurrentState(GameStateManager.GameState.STORE_CONTENT_LOADING);
 
         Thread storeTH = new Thread(){
 
@@ -42,7 +42,7 @@ public class Store  {
 
                 initialize();
 
-                Framework.gameState = Framework.GameState.STORE;
+                GameStateManager.setCurrentState(GameStateManager.GameState.STORE);
             }
         };
         storeTH.start();

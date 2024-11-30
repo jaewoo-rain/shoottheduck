@@ -9,13 +9,13 @@ public class Normal extends Game{
 //    private int level;
     private int nextLevelScore;
     private long level;
-    public static boolean isContinue = true;
+    public static boolean isContinue = false;
 
-    public Normal(long level, boolean b) {
+    public Normal(long level, boolean isContinue) {
         super();
         Normal.isContinue = isContinue;
-        Framework.level = (int) level;
-        level = Framework.level;
+        GameStateManager.level = (int) level;
+        level = GameStateManager.level;
         timeBetweenDucks = Framework.secInNanosec;
 
         nextLevelScore = (int)level * 100;
@@ -34,7 +34,7 @@ public class Normal extends Game{
 
     }
     public Game gameRestart(){
-        return new Normal(Framework.level, true);
+        return new Normal(1, false);
     }
 
     @Override
@@ -48,12 +48,12 @@ public class Normal extends Game{
     }
 
     private void levelup(){ // 소문자로시작
-        Framework.level++;
+        GameStateManager.level++;
         level++;
         // 속도 조절
         for(int i=0; i <4; i++){
-            Duck.duckLines[i][2] = -1 * (int)Framework.level;
-            Duck.reverseDuckLines[i][2] = (int) Framework.level;
+            Duck.duckLines[i][2] = -1 * (int)GameStateManager.level;
+            Duck.reverseDuckLines[i][2] = (int)GameStateManager.level;
         }
 
         Duck.timeBetweenDucks = Duck.timeBetweenDucks - 100000000L;

@@ -51,12 +51,12 @@ public abstract class Game {
         blueItems = new BlueItem(this);
         redItems = new RedItem(this);
 
-        Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
+        GameStateManager.setCurrentState(GameStateManager.GameState.GAME_CONTENT_LOADING);
 
         Thread threadForInitGame = new Thread(() -> {
             LoadContent();
             initialize();
-            Framework.gameState = Framework.GameState.PLAYING;
+            GameStateManager.setCurrentState(GameStateManager.GameState.PLAYING);
         });
         threadForInitGame.start();
     }
@@ -115,7 +115,7 @@ public abstract class Game {
             spawnDuck(); // 오리 생성
         }
 
-        if (Framework.gameState == Framework.GameState.PAUSED)
+        if (GameStateManager.getCurrentState() == GameStateManager.GameState.PAUSED)
             return; // 정지버튼
 
         moveDucks(); // 오리움직이기
@@ -216,7 +216,7 @@ public abstract class Game {
 
 
     protected void endGame() {
-        Framework.gameOver();
+        GameStateManager.setCurrentState(GameStateManager.GameState.GAMEOVER);
         Store.coin += Game.coin;
         User.setMoney(Store.coin);
         User.setBlueItemNum(Store.numberofBlueItem);
@@ -258,9 +258,9 @@ public abstract class Game {
 
         g2d.setColor(Color.black);
         g2d.drawString("Game Over", Framework.frameWidth / 2 - 39, (int) (Framework.frameHeight * 0.65) + 1);
-        g2d.drawString("Press space or enter to restart.", Framework.frameWidth / 2 - 149, (int) (Framework.frameHeight * 0.70) + 1);
+        g2d.drawString("Space: Restart    Enter: MainMenu", Framework.frameWidth / 2 - 149, (int) (Framework.frameHeight * 0.70) + 1);
         g2d.setColor(Color.red);
         g2d.drawString("Game Over", Framework.frameWidth / 2 - 40, (int) (Framework.frameHeight * 0.65));
-        g2d.drawString("Press space or enter to restart.", Framework.frameWidth / 2 - 150, (int) (Framework.frameHeight * 0.70));
+        g2d.drawString("Space: Restart    Enter: MainMenu", Framework.frameWidth / 2 - 150, (int) (Framework.frameHeight * 0.70));
     }
 }

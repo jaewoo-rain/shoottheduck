@@ -57,7 +57,7 @@ public class EntityManager {
             spawnDuck(); // 오리 생성
         }
 
-        if (Framework.gameState == Framework.GameState.PAUSED)
+        if (GameStateManager.getCurrentState() == GameStateManager.GameState.PAUSED)
             return; // 정지버튼
 
         moveDucks(); // 오리움직이기
