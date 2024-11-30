@@ -47,7 +47,7 @@ public abstract class Game {
     protected BlueItem blueItems;
     protected RedItem redItems;
 
-    public Game() {
+    protected Game() {
         blueItems = new BlueItem(this);
         redItems = new RedItem(this);
 
@@ -112,7 +112,8 @@ public abstract class Game {
         }
 
         if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
-            spawnDuck(); // 오리 생성
+            spawnDuck(Math.random() > 0.7);
+                // 오리 7:3으로 생성
         }
 
         if (GameStateManager.getCurrentState() == GameStateManager.GameState.PAUSED)
@@ -123,17 +124,17 @@ public abstract class Game {
         healPlayerHp();
     }
 
-    private void spawnDuck() {
-        ducks.add(new Duck(Duck.duckLines[Duck.nextDuckLines][0] + random.nextInt(200),
-                Duck.duckLines[Duck.nextDuckLines][1],
-                Duck.duckLines[Duck.nextDuckLines][2],
-                Duck.duckLines[Duck.nextDuckLines][3],
-                duckImg));
-        reverseDucks.add(new Duck(Duck.reverseDuckLines[Duck.nextDuckLines][0] - random.nextInt(200),
-                Duck.reverseDuckLines[Duck.nextDuckLines][1],
-                Duck.reverseDuckLines[Duck.nextDuckLines][2],
-                Duck.reverseDuckLines[Duck.nextDuckLines][3],
-                reverseDuckImg));
+    void spawnDuck(boolean isReverse) {
+        int[][] duckLines = isReverse ? Duck.reverseDuckLines : Duck.duckLines;
+        BufferedImage duckImage = isReverse ? reverseDuckImg : duckImg;
+
+        ducks.add(new Duck(
+                duckLines[Duck.nextDuckLines][0] + (isReverse ? -random.nextInt(200) : random.nextInt(200)),
+                duckLines[Duck.nextDuckLines][1],
+                duckLines[Duck.nextDuckLines][2],
+                duckLines[Duck.nextDuckLines][3],
+                duckImage
+        ));
 
         Duck.nextDuckLines++;
         if (Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length) {
