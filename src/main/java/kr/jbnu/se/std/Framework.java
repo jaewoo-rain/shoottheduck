@@ -15,17 +15,19 @@ import javax.imageio.ImageIO;
 public class Framework extends Canvas {
     public static int frameWidth;
     public static int frameHeight;
-    public static final long secInNanosec = 1000000000L;
-    public static final long milisecInNanosec = 1000000L;
+    public static final long SEC_IN_NANO_SEC = 1000000000L;
+    public static final long MILISEC_IN_NANOSEC = 1000000L;
+
     private static final int GAME_FPS = 60;
-    private final long GAME_UPDATE_PERIOD = secInNanosec / GAME_FPS;
+    private final long GAME_UPDATE_PERIOD = SEC_IN_NANO_SEC / GAME_FPS;
 
     private Game game;
     private BufferedImage shootTheDuckMenuImg;
     private Audio backgroundMusic;
     private Store store;
     private boolean isRunning = true;
-    private GameStateManager gameStateManager;
+    private GameStateManager gameStateManagers;
+
 
     public Framework() {
         super();
@@ -34,7 +36,7 @@ public class Framework extends Canvas {
         Store.coin = User.getMoney();
         GameStateManager.previouslevel = User.getLevel();
 
-        gameStateManager = new GameStateManager();
+        gameStateManagers = new GameStateManager();
 
         Thread gameThread = new Thread() {
             @Override
@@ -55,7 +57,7 @@ public class Framework extends Canvas {
         try {
             URL shootTheDuckMenuImgUrl = this.getClass().getResource("/images/menu.jpg");
             shootTheDuckMenuImg = ImageIO.read(shootTheDuckMenuImgUrl);
-            backgroundMusic = new Audio("src/main/resources/audio/GameSound.wav", true);
+            backgroundMusic = new Audio("src/main/resources/audio/GameSound.wav");
         } catch (IOException ex) {
             Logger.getLogger(Framework.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,7 +71,7 @@ public class Framework extends Canvas {
         while (isRunning) {
             beginTime = System.nanoTime();
 
-            switch (gameStateManager.getCurrentState()) {
+            switch (gameStateManagers.getCurrentState()) {
                 case STORE_CONTENT_LOADING:
                     //...
                     break;
@@ -82,7 +84,7 @@ public class Framework extends Canvas {
                     backgroundMusic.stop();
                     break;
                 case GAMEOVER:
-                    gameStateManager.handleGameOver(game);
+                    gameStateManagers.handleGameOver();
                     break;
                 case MAIN_MENU:
                     break;
@@ -90,10 +92,10 @@ public class Framework extends Canvas {
                     //...
                     break;
                 case VISUALIZING:
-                    if (this.getWidth() > 1 && visualizingTime > secInNanosec) {
+                    if (this.getWidth() > 1 && visualizingTime > SEC_IN_NANO_SEC) {
                         frameWidth = this.getWidth();
                         frameHeight = this.getHeight();
-                        gameStateManager.setCurrentState(GameStateManager.GameState.MAIN_MENU);
+                        gameStateManagers.setCurrentState(GameStateManager.GameState.MAIN_MENU);
                     } else {
                         visualizingTime += System.nanoTime() - lastVisualizingTime;
                         lastVisualizingTime = System.nanoTime();
@@ -104,7 +106,7 @@ public class Framework extends Canvas {
             repaint();
 
             timeTaken = System.nanoTime() - beginTime;
-            timeLeft = (GAME_UPDATE_PERIOD - timeTaken) / milisecInNanosec;
+            timeLeft = (GAME_UPDATE_PERIOD - timeTaken) / MILISEC_IN_NANOSEC;
             if (timeLeft < 10)
                 timeLeft = 10;
             try {
@@ -116,7 +118,7 @@ public class Framework extends Canvas {
 
     @Override
     public void draw(Graphics2D g2d) {
-        switch (gameStateManager.getCurrentState()) {
+        switch (gameStateManagers.getCurrentState()) {
             case STORE_CONTENT_LOADING:
                 g2d.setColor(Color.WHITE);
                 g2d.drawString("STORE is LOADING", frameWidth / 2 - 50, frameHeight / 2);
@@ -131,7 +133,7 @@ public class Framework extends Canvas {
                 break;
             case PLAYING:
                 game.draw(g2d, mousePosition());
-                if (gameStateManager.isNormalMode()) {
+                if (gameStateManagers.isNormalMode()) {
                     g2d.setColor(Color.GREEN);
                     g2d.drawString("Level : " + GameStateManager.level, frameWidth / 2 - 60, frameHeight);
                 }
@@ -171,7 +173,7 @@ public class Framework extends Canvas {
 
     @Override
     public void keyReleasedFramework(KeyEvent e) {
-        gameStateManager.handleKeyReleasedFramework(e, game, store, backgroundMusic, this);
+        gameStateManagers.handleKeyReleasedFramework(e, game, store, backgroundMusic, this);
     }
 
     public void setGame(Game game) {

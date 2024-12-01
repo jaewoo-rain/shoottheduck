@@ -3,14 +3,15 @@ package kr.jbnu.se.std;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Duck extends Animals {
 
-    public static ArrayList<Duck> duckList = new ArrayList<>();
+    protected static List<Duck> duckList = new ArrayList<>();
 
-    public static long timeBetweenDucks = Framework.secInNanosec * 2;
+    protected static long timeBetweenDucks = Framework.SEC_IN_NANO_SEC * 2;
 
-    public static long lastDuckTime = 0;
+    protected static long lastDuckTime = 0;
 
     private BufferedImage duckImg;
 
@@ -21,14 +22,14 @@ public class Duck extends Animals {
             {Framework.frameWidth, (int) (Framework.frameHeight * 0.78), -1, 10},
     };
 
-    public static int[][] reverseDuckLines = {
+    protected static int[][] reverseDuckLines = {
             {0, (int) (Framework.frameHeight * 0.60), 1, 10},
             {0, (int) (Framework.frameHeight * 0.65), 1, 10},
             {0, (int) (Framework.frameHeight * 0.70), 1, 10},
             {0, (int) (Framework.frameHeight * 0.78), 1, 10}
     };
 
-    public static int nextDuckLines = 0;
+    protected static int nextDuckLines = 0;
 
     public Duck(int x, int y, int speed, int score, BufferedImage duckImg) {
         super(x, y, speed, score);

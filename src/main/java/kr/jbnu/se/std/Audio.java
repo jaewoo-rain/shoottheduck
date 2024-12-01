@@ -14,7 +14,7 @@ public class Audio {
     private boolean isLoop = false;
 
 
-    public Audio(String pathName, boolean isLoop) {
+    public Audio(String pathName) {
         try{
             clip = AudioSystem.getClip();
             audioFile = new File(pathName);
@@ -22,13 +22,7 @@ public class Audio {
             clip.open(audioInputStream);
 
         }
-        catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (LineUnavailableException e) {
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }

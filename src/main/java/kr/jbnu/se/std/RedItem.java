@@ -11,14 +11,13 @@ public class RedItem {
         this.game = game;
     }
 
-    public void using(Point mousePosition){
+    public void using(){
         if(Canvas.mouseButtonState(MouseEvent.BUTTON1)){
-            Allkillduck();
-            System.out.println("아이템을 사용하셨습니다.");
+            allkillduck();
         }
     }
 
-    public void Allkillduck(){
+    public void allkillduck(){
         if(!game.ducks.isEmpty()){
             game.ducks.clear();
         }

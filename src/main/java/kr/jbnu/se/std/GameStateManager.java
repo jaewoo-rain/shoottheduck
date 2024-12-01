@@ -11,11 +11,11 @@ public class GameStateManager {
 
     private static GameState currentState;
     private boolean normalMode;
-    public static long level;
-    public static long previouslevel;
+    protected static long level;
+    protected static long previouslevel;
 
     public GameStateManager() {
-        this.currentState = GameState.VISUALIZING;
+        currentState = GameState.VISUALIZING;
         this.normalMode = false;
     }
 
@@ -31,16 +31,15 @@ public class GameStateManager {
         return normalMode;
     }
 
-    public void handleGameOver(Game game) {
+    public void handleGameOver() {
         if (level > previouslevel) {
             User.setLevel(level);
             previouslevel = level;
         }
-        if (!Normal.isContinue) {
-            if (Game.score > User.getScore()) {
+        if (!Normal.isContinue && Game.score > User.getScore()) {
                 User.setScore(Game.score);
             }
-        }
+
         User.setMoney(Store.coin);
         User.setRedItemNum(Store.numberofRedItem);
         User.setBlueItemNum(Store.numberofBlueItem);
@@ -114,7 +113,7 @@ public class GameStateManager {
         }
     }
 
-    private void continueGame(Framework framework) {
+    public void continueGame(Framework framework) {
         framework.setGame(new Normal(previouslevel, true));
     }
 

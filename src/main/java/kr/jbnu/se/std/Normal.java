@@ -2,11 +2,9 @@ package kr.jbnu.se.std;
 
 import java.awt.*;
 import static kr.jbnu.se.std.Duck.timeBetweenDucks;
-//import static kr.jbnu.se.std.Framework.level;
 
 
 public class Normal extends Game{
-//    private int level;
     private int nextLevelScore;
     private long level;
     public static boolean isContinue = false;
@@ -16,7 +14,7 @@ public class Normal extends Game{
         Normal.isContinue = isContinue;
         GameStateManager.level = (int) level;
         level = GameStateManager.level;
-        timeBetweenDucks = Framework.secInNanosec;
+        timeBetweenDucks = Framework.SEC_IN_NANO_SEC;
 
         nextLevelScore = (int)level * 100;
 
@@ -34,6 +32,10 @@ public class Normal extends Game{
 
     }
     public Game gameRestart(){
+        if(isContinue){
+            level = User.getLevel();
+            return new Normal(level, true);
+        }
         return new Normal(1, false);
     }
 

@@ -54,7 +54,7 @@ public abstract class Game {
         GameStateManager.setCurrentState(GameStateManager.GameState.GAME_CONTENT_LOADING);
 
         Thread threadForInitGame = new Thread(() -> {
-            LoadContent();
+            loadContent();
             initialize();
             GameStateManager.setCurrentState(GameStateManager.GameState.PLAYING);
         });
@@ -80,10 +80,10 @@ public abstract class Game {
         Store.numberofRedItem = User.getRedItemNum();
 
         lastTimeShoot = 0;
-        timeBetweenShots = Framework.secInNanosec / 2;
+        timeBetweenShots = Framework.SEC_IN_NANO_SEC / 2;
     }
 
-    protected void LoadContent() {
+    protected void loadContent() {
         try {
             backgroundImg = ImageIO.read(this.getClass().getResource("/images/background.jpg"));
             grassImg = ImageIO.read(this.getClass().getResource("/images/grass.png"));
@@ -96,8 +96,8 @@ public abstract class Game {
             blueItem = ImageIO.read(this.getClass().getClassLoader().getResource("images/bluepotion.png"));
             redItem = ImageIO.read(this.getClass().getClassLoader().getResource("images/redpotion.png"));
 
-            hitSound = new Audio("src/main/resources/audio/hitsound.wav", true);
-            background = new Audio("src/main/resources/audio/background.wav", true);
+            hitSound = new Audio("src/main/resources/audio/hitsound.wav");
+            background = new Audio("src/main/resources/audio/background.wav");
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,14 +197,18 @@ public abstract class Game {
     private void useItem(Point mousePosition) {
         if (new Rectangle(Framework.frameWidth - 50, Framework.frameHeight - 50, blueItem.getWidth() / 10, blueItem.getHeight() / 10).contains(mousePosition)
                 && Store.numberofBlueItem > 0) {
-                blueItems.using(mousePosition);
+                blueItems.using();
                 Store.numberofBlueItem--;
             }
 
 
         if (new Rectangle(Framework.frameWidth - 100, Framework.frameHeight - 50, redItem.getWidth() / 10, redItem.getHeight() / 10).contains(mousePosition)
                 && Store.numberofRedItem > 0) {
-                redItems.using(mousePosition);
+                score = score + (ducks.size() + reverseDucks.size());
+                killedDucks += (ducks.size() + reverseDucks.size());
+                coin += score / 3;
+
+                redItems.using();
                 Store.numberofRedItem--;
             }
 

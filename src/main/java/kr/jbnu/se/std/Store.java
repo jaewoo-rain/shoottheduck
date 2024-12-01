@@ -52,7 +52,7 @@ public class Store  {
     private void initialize()
     {
         storeAudio.start();
-        timeBetweenPurchase = Framework.secInNanosec / 3;
+        timeBetweenPurchase = Framework.SEC_IN_NANO_SEC / 3;
 
 
     }
@@ -63,7 +63,7 @@ public class Store  {
     {
         try
         {
-            storeAudio = new Audio("src/main/resources/audio/Storebackgrounmusic.wav", true);
+            storeAudio = new Audio("src/main/resources/audio/Storebackgrounmusic.wav");
 
             URL storeBackgroundImgURL = this.getClass().getClassLoader().getResource("images/Storebg.jpg");
             storeBackgroundImg = ImageIO.read(storeBackgroundImgURL);
@@ -107,23 +107,15 @@ public class Store  {
     }
     private void purchaseRed(){
         if (coin >= 300) {
-            System.out.println("Red potion 구매 완료");
             numberofRedItem++;
             coin -= 300;
-        }
-        else {
-            System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
         }
     }
 
     private void purchaseBlue(){
         if (coin >= 300) {
-            System.out.println("Blue potion 구매 완료");
             numberofBlueItem++;
             coin -= 300;
-        }
-        else {
-            System.out.println("돈이 부족합니다. " + (300 - coin) + "원 더 모아오세요.");
         }
     }
 

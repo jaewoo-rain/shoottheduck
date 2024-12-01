@@ -17,16 +17,16 @@ public class Boss extends Game {
 
     private static int bossHp; // 변경 : restart위해
     private BufferedImage bossImg;
-    private BufferedImage FlippedbossImg;
+    private BufferedImage flippedbossImg;
+
     private boolean bossappearance;
     private int bossPosition;
     private int speed;
-    private BlueItem blueItem;
 
 
     public Boss() {
         super();
-        timeBetweenDucks = Framework.secInNanosec / 2;
+        timeBetweenDucks = Framework.SEC_IN_NANO_SEC / 2;
 
         // 속도 조절
         for(int i=0; i <4; i++){
@@ -41,8 +41,8 @@ public class Boss extends Game {
         try {
             URL bossImgUrl = this.getClass().getResource("/images/catfish.png");
             bossImg = ImageIO.read(bossImgUrl);
-            URL FlippedbossImgUrl = this.getClass().getResource("/images/flipped.png");
-            FlippedbossImg = ImageIO.read(FlippedbossImgUrl);
+            URL flippedbossImgUrl = this.getClass().getResource("/images/flipped.png");
+            flippedbossImg = ImageIO.read(flippedbossImgUrl);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +66,6 @@ public class Boss extends Game {
 
     @Override
     public void updateGame(Point mousePosition){
-//        setBossappearance(); 변경 직접 작성 왜 함수로?
         if(!bossappearance&&killedDucks>=5) {
             bossappearance = true;
         }
@@ -90,7 +89,7 @@ public class Boss extends Game {
             playerhp-=20;
         }
         if (Canvas.mouseButtonState(MouseEvent.BUTTON1)) { // 변경 코드의 구조적 복잡성을 줄임
-            if (System.nanoTime() - lastTimeShoot >= timeBetweenShots && bossImg!=null || FlippedbossImg!=null &&
+            if (System.nanoTime() - lastTimeShoot >= timeBetweenShots && bossImg!=null || flippedbossImg!=null &&
                     new Rectangle(bossPosition, Framework.frameHeight/2, 200,
                             188).contains(mousePosition)) {
                 bossHp --;
@@ -117,7 +116,7 @@ public class Boss extends Game {
             if(speed<0){
             g2d.drawImage(bossImg, bossPosition, Framework.frameHeight/2, null);
             }
-            else g2d.drawImage(FlippedbossImg, bossPosition, Framework.frameHeight/2 , null);
+            else g2d.drawImage(flippedbossImg, bossPosition, Framework.frameHeight/2 , null);
             g2d.setColor(Color.RED);
             String timeText = "Boss HP: " + bossHp;
             // 텍스트의 너비를 계산
@@ -126,10 +125,5 @@ public class Boss extends Game {
             g2d.drawString(timeText, Framework.frameWidth - textWidth - 10, 50);
         }
     }
-//    public void setBossappearance() {
-//        if(!bossappearance&&killedDucks>=5) {
-//        bossappearance = true;
-//        }
-//    } 변경 : 직접 사용해
 
 }

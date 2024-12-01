@@ -4,11 +4,11 @@ public abstract class Animals {
     /**
      * X coordinate of the animal.
      */
-    public int x;
+    protected int x;
     /**
      * Y coordinate of the animal.
      */
-    public int y;
+    protected int y;
 
     /**
      * How fast the animal should move? And to which direction?
@@ -18,9 +18,9 @@ public abstract class Animals {
     /**
      * How many points this animal is worth?
      */
-    public int score;
+    protected int score;
 
-    public Animals(int x, int y, int speed, int score){
+    protected Animals(int x, int y, int speed, int score){
         this.x = x;
         this.y = y;
         this.speed = speed;
