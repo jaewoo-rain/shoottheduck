@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Duck extends Animals {
 
-    public static ArrayList<Duck> allDucks = new ArrayList<>();
+    public static ArrayList<Duck> duckList = new ArrayList<>();
 
     public static long timeBetweenDucks = Framework.secInNanosec * 2;
 
@@ -33,7 +33,7 @@ public class Duck extends Animals {
     public Duck(int x, int y, int speed, int score, BufferedImage duckImg) {
         super(x, y, speed, score);
         this.duckImg = duckImg;
-        allDucks.add(this);
+        duckList.add(this);
     }
 
     public int getDuckspeed() {
@@ -72,21 +72,6 @@ public class Duck extends Animals {
 
         lastDuckTime = System.nanoTime();
     }
-
-    public static void updateAllDucks() {
-        for (int i = 0; i < allDucks.size(); i++) {
-            Duck duck = allDucks.get(i);
-            duck.move();
-            if (duck.x < -100 || duck.x > Framework.frameWidth + 100) {
-                allDucks.remove(i);
-                i--;
-            }
-        }
-    }
-
-    public static void drawAllDucks(Graphics2D g2d) {
-        for (Duck duck : allDucks) {
-            duck.draw(g2d);
-        }
-    }
 }
+
+
