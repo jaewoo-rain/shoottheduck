@@ -86,9 +86,6 @@ public class Framework extends Canvas {
                     break;
                 case MAIN_MENU:
                     break;
-                case OPTIONS:
-                    //...
-                    break;
                 case GAME_CONTENT_LOADING:
                     //...
                     break;
@@ -152,9 +149,7 @@ public class Framework extends Canvas {
                 g2d.setColor(Color.white);
                 g2d.drawString("WWW.GAMETUTORIAL.NET", 7, frameHeight - 5);
                 break;
-            case OPTIONS:
-                //...
-                break;
+
             case GAME_CONTENT_LOADING:
                 g2d.setColor(Color.white);
                 g2d.drawString("GAME is LOADING", frameWidth / 2 - 50, frameHeight / 2);

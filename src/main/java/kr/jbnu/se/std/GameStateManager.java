@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 public class GameStateManager {
     public enum GameState {
-        VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS,
+        VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU,
         PLAYING, GAMEOVER, PAUSED, STORE_CONTENT_LOADING, STORE
     }
 
