@@ -22,14 +22,14 @@ public class FirebaseUtil {
 
     private static void initializeFirebase() {
         try {
-//            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
+            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");
 //            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey1.json");
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/fbKey.json");
+//            FileInputStream serviceAccount = new FileInputStream("src/main/resources/fbKey.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//                    .setDatabaseUrl("https://shoottheduck-29c34.firebaseio.com") // 재우 서버
-//                    .setDatabaseUrl("https://shooooooot-409ac.firebaseio.com") // 상윤 서버
-                    .setDatabaseUrl("https://shooooooot-c4d25.firebaseio.com") // 상윤 서버
+                    .setDatabaseUrl("https://shoottheduck-29c34.firebaseio.com") // 재우 서버
+//                    .setDatabaseUrl("https://shooooooot-409ac.firebaseio.com") // 제훈 서버
+//                    .setDatabaseUrl("https://shooooooot-c4d25.firebaseio.com") // 상윤 서버
                     .build();
             FirebaseApp.initializeApp(options);
             db = FirestoreClient.getFirestore();
