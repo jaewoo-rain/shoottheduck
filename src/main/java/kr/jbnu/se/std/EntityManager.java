@@ -58,8 +58,8 @@ public class EntityManager {
     }
     public void updateGame(Point mousePosition) {
         if (System.nanoTime() - Duck.lastDuckTime >= Duck.timeBetweenDucks) {
-            spawnDuck(Math.random() > 0.7);
-            // 오리 7:3으로 생성
+            spawnDuck(Math.random() > 0.8);
+            // 오리 8:2으로 생성
         }
 
         if (GameStateManager.getCurrentState() == GameStateManager.GameState.PAUSED)
@@ -92,13 +92,19 @@ public class EntityManager {
         int[][] duckLines = isReverse ? Duck.reverseDuckLines : Duck.duckLines;
         BufferedImage duckImage = isReverse ? reverseDuckImg : duckImg;
 
-        ducks.add(new Duck(
+        Duck newDuck = new Duck(
                 duckLines[Duck.nextDuckLines][0] + (isReverse ? -random.nextInt(200) : random.nextInt(200)),
                 duckLines[Duck.nextDuckLines][1],
                 duckLines[Duck.nextDuckLines][2],
                 duckLines[Duck.nextDuckLines][3],
                 duckImage
-        ));
+        );
+
+        if (isReverse) {
+            reverseDucks.add(newDuck);
+        } else {
+            ducks.add(newDuck);
+        }
 
         Duck.nextDuckLines++;
         if (Duck.nextDuckLines >= Duck.duckLines.length || Duck.nextDuckLines >= Duck.reverseDuckLines.length) {

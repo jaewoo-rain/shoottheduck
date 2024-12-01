@@ -31,6 +31,6 @@ public abstract class Animals {
      * Move the animal.
      */
     public void move(){
-        x += speed;
+        this.x += speed;
     }
 }
